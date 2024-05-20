@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
   const supabase = createClient()
-  const { data: notes } = await supabase.from("comments").select();
+  const { data: notes } = await supabase.from("comments").select('*, profiles(*)');
 
   return (
     <main className={styles.main}>
