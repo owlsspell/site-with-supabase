@@ -1,0 +1,21 @@
+@use '_variables' as v;
+
+.header_container {
+    height: 60px;
+    padding: 10px 8px 10px 24px;
+    border-bottom: 1px solid #eeedf2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .header_logo {
+        color: v.$orange;
+        font-size: 20px;
+        font-weight: 800;
+        margin-right: 44px;
+    }
+
+    .header_input {
+        width: 100%;
+    }
+}

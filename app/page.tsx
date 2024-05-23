@@ -1,8 +1,8 @@
-import styles from "./page.module.css";
 import AuthButtonServer from "./components/auth-button/auth-button-server";
 import { createClient } from "@/utils/supabase/server";
 import NewComment from "./components/new-comment";
 import Comments from "./components/comments";
+import GrayButton from "./components/buttons/gray-button";
 
 export default async function Home() {
   const supabase = createClient()
@@ -10,10 +10,10 @@ export default async function Home() {
   const { data: { session } } = await supabase.auth.getSession()
 
   return (
-    <main className={styles.main}>
-      <AuthButtonServer />
+    <main>
+      {/* <AuthButtonServer />
       {session ? <NewComment /> : ""}
-      <Comments comments={data as CommentWithAuthor[]} />
+      <Comments comments={data as CommentWithAuthor[]} /> */}
     </main>
   );
 }
