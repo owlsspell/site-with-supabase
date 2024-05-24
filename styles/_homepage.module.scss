@@ -1,0 +1,22 @@
+//Banner
+.banner_container {
+    width: 100vw;
+    height: auto;
+    min-height: 125px;
+    overflow: hidden;
+    position: relative;
+
+
+    img {
+        -o-object-fit: cover;
+        object-fit: cover;
+        height: 100%;
+        width: 100vw;
+        -o-object-position: center;
+        object-position: center;
+    }
+
+    .banner_content {
+        padding: 0 60px;
+    }
+}

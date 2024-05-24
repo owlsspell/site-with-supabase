@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import NewComment from "./components/new-comment";
 import Comments from "./components/comments";
 import GrayButton from "./components/buttons/gray-button";
+import FullbleedBanner from "./components/homepage/fullbleed-banner"
 
 export default async function Home() {
   const supabase = createClient()
@@ -11,6 +12,7 @@ export default async function Home() {
 
   return (
     <main>
+      <FullbleedBanner />
       {/* <AuthButtonServer />
       {session ? <NewComment /> : ""}
       <Comments comments={data as CommentWithAuthor[]} /> */}
