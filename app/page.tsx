@@ -4,6 +4,7 @@ import NewComment from "./components/new-comment";
 import Comments from "./components/comments";
 import GrayButton from "./components/buttons/gray-button";
 import FullbleedBanner from "./components/homepage/fullbleed-banner"
+import IconCategories from "./components/homepage/categories/icon-categories";
 
 export default async function Home() {
   const supabase = createClient()
@@ -13,6 +14,7 @@ export default async function Home() {
   return (
     <main>
       <FullbleedBanner />
+      <IconCategories />
       {/* <AuthButtonServer />
       {session ? <NewComment /> : ""}
       <Comments comments={data as CommentWithAuthor[]} /> */}

@@ -1,4 +1,7 @@
+@use '_variables' as v;
+
 //Banner
+
 .banner_container {
     width: 100vw;
     height: auto;
@@ -18,5 +21,64 @@
 
     .banner_content {
         padding: 0 60px;
+    }
+}
+
+//Categories
+.categories_container {
+    padding: 36px 0;
+    display: flex;
+    gap: 57px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 1272px;
+    margin: 0 auto;
+
+    a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+
+        &:first-child {
+            margin-left: 25px;
+        }
+
+        &:hover {
+            .category_wrapper {
+                background: v.$light_blue;
+
+                path {
+                    fill: v.$blue;
+                }
+            }
+
+            p {
+                color: v.$blue;
+            }
+        }
+    }
+
+    p {
+        font-weight: 600;
+    }
+
+    .category_wrapper {
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 107px;
+        width: 107px;
+        border-radius: 50%;
+        background: #fff;
+        margin-bottom: 10px;
+        border: 1px solid v.$light_blue;
+
+        svg {
+            width: 48px;
+            height: 48px;
+        }
     }
 }
