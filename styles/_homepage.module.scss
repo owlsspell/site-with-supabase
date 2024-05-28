@@ -1,5 +1,9 @@
 @use '_variables' as v;
 
+@mixin section_padding {
+    padding: 0 24px
+}
+
 //Banner
 
 .banner_container {
@@ -79,6 +83,76 @@
         svg {
             width: 48px;
             height: 48px;
+        }
+    }
+}
+
+//Events
+.section_title {
+    padding: 16px 40px;
+}
+
+.events_container {
+
+    hr {
+        margin: 0;
+        border: none;
+        height: 1px;
+        background-color: v.$gray;
+        opacity: 0.2;
+
+    }
+
+    .section_title {
+        font-size: v.$font_size + 6;
+        font-weight: 600;
+        line-height: 24px;
+        margin: 10px 0;
+    }
+
+    .events_navigation {
+        display: flex;
+        position: relative;
+        margin-bottom: 0;
+        list-style: none;
+        padding: 16px 32px;
+
+        li {
+            margin: 0 8px;
+            padding: 12px 0;
+            font-weight: 600;
+            color: v.$gray;
+            letter-spacing: normal;
+            cursor: pointer;
+            font-size: v.$font_size + 2;
+
+            &.tab-active {
+                border-bottom: 2px solid v.$blue;
+                color: v.$blue;
+            }
+
+            &:hover {
+                color: v.$text_color;
+                border-bottom: 2px solid v.$text_color;
+            }
+        }
+    }
+
+    .events_list {
+        @include section_padding;
+        padding-top: 24px;
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+
+        .event_card {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            height: 100%;
+            overflow: visible;
         }
     }
 }
