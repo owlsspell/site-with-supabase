@@ -141,18 +141,57 @@
     .events_list {
         @include section_padding;
         padding-top: 24px;
-        display: flex;
         width: 100%;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
 
         .event_card {
-            padding: 16px;
+            margin: 16px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             position: relative;
-            height: 100%;
             overflow: visible;
+            border-radius: 16px;
+
+            &:hover {
+                box-shadow: 0px 2px 8px rgba(30, 10, 60, 0.06), 0px 4px 12px rgba(30, 10, 60, 0.08);
+            }
+
+            img {
+                width: 100%;
+                border-radius: 4px;
+            }
+
+            .event_details {
+                padding: 8px 8px 16px 12px;
+
+                h4,
+                div {
+                    margin-top: 10px;
+                }
+
+                h4 {
+                    font-weight: 600;
+                    font-size: v.$font_size + 4;
+                }
+
+                .event_time {
+                    font-size: v.$font_size + 1;
+                    font-weight: 600;
+                }
+            }
+
+            .event_label {
+                background-color: v.$light_blue;
+                line-height: 1.25rem;
+                font-weight: 600;
+                align-items: center;
+                padding: 8px;
+                border-radius: 8px;
+                width: -webkit-max-content;
+                width: -moz-max-content;
+                width: max-content;
+            }
         }
     }
 }

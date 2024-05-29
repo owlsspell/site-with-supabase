@@ -1,0 +1,23 @@
+.event_detail {
+    .event_hero-wrapper {
+        background: url('../images/event_bg.svg') top / 100% no-repeat;
+
+        .event_hero {
+            padding-top: 32px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+
+            img {
+                height: auto;
+                width: 100%;
+                border-radius: 24px;
+
+                @media (min-width: 960px) {
+                    height: 470px;
+                    width: auto;
+                }
+            }
+        }
+    }
+}
