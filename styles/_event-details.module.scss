@@ -1,4 +1,6 @@
-.event_detail {
+@use '_variables' as v;
+
+.event_details {
     .event_hero-wrapper {
         background: url('../images/event_bg.svg') top / 100% no-repeat;
 
@@ -17,6 +19,90 @@
                     height: 470px;
                     width: auto;
                 }
+            }
+        }
+    }
+
+    .event_details-wrapper {
+        padding-top: 50px;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+        max-width: v.$max_container;
+
+        .event_mainContent {
+            max-width: 720px;
+
+            .event_details-time {
+                font-size: v.$font_size + 4
+            }
+
+            .event_details-title {
+                margin-bottom: 32px;
+                font-size: v.$font_size * 3;
+                line-height: 4rem;
+                font-weight: 800;
+            }
+        }
+
+        .event_aside {
+            max-width: 360px;
+            margin-left: auto;
+            padding-top: 64px;
+
+            .event_ticket {
+                padding: 16px;
+                border: 3px solid v.$blue;
+                border-radius: 10px;
+                margin-bottom: 16px;
+
+                .event_ticket-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 12px;
+
+                    .event_ticket-title {
+                        font-weight: 600;
+                        font-size: v.$font_size + 4;
+                    }
+
+                    .event_ticket-counter {
+                        display: flex;
+
+                        button {
+                            background-color: v.$gray_300;
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 8px;
+                            border: none;
+                            font-size: v.$font_size + 4;
+                        }
+
+                        span {
+                            margin: auto;
+                            font-size: v.$font_size + 4;
+                            padding: 0 12px;
+                        }
+                    }
+                }
+
+                .event_price {
+                    margin-top: 16px;
+                    display: flex;
+                    gap: 12px;
+
+                    span {
+                        font-weight: 600;
+                        font-size: v.$font_size + 4;
+                    }
+                }
+            }
+
+            .reserve-button {
+                width: 100%;
+                max-width: 360px;
+                padding: 12px 0;
             }
         }
     }
