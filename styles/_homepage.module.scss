@@ -155,6 +155,8 @@
             overflow: visible;
             border-radius: 16px;
             cursor: pointer;
+            text-decoration: none;
+            color: v.$text_color;
 
             &:hover {
                 box-shadow: 0px 2px 8px rgba(30, 10, 60, 0.06), 0px 4px 12px rgba(30, 10, 60, 0.08);
@@ -163,6 +165,7 @@
             img {
                 width: 100%;
                 border-radius: 4px;
+                position: relative !important;
             }
 
             .event_details {
@@ -194,6 +197,10 @@
                 width: -webkit-max-content;
                 width: -moz-max-content;
                 width: max-content;
+            }
+
+            .event_billstatus {
+                font-weight: 600;
             }
         }
     }

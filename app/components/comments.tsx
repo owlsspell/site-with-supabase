@@ -1,5 +1,5 @@
 'use client'
-import clientSupabase from "@/utils/supabase/client-supabase";
+import supabase from "@/utils/supabase/client-supabase";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -8,7 +8,6 @@ export default function Comments({
 }: {
   comments: CommentWithAuthor[] | null;
 }) {
-  const supabase = clientSupabase()
   const router = useRouter()
 
   const deleteComment = async (id: string) => {

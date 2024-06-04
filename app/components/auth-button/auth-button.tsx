@@ -1,10 +1,9 @@
 'use client'
-import clientSupabase from "@/utils/supabase/client-supabase"
+import supabase from "@/utils/supabase/client-supabase"
 import { Session } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
 
 export default function AuthButton({ session }: { session: Session | null }) {
-    const supabase = clientSupabase()
     const router = useRouter()
 
     async function signInWithGithub() {

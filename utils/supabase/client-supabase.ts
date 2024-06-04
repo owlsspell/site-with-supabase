@@ -6,5 +6,5 @@ function clientSupabase() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 }
-
-export default clientSupabase;
+const supabase = clientSupabase();
+export default supabase;
