@@ -10,7 +10,6 @@ dayjs.extend(timezone)
 
 export default async function EventCard({ event }: { event: EventType }) {
     const supabase = createClient()
-    const time = useMemo(() => `${event.timeStart.split(':')[0]}:${event.timeStart.split(':')[1]}`, [event.timeStart])
 
     const { data: images } = await supabase
         .storage
@@ -24,7 +23,7 @@ export default async function EventCard({ event }: { event: EventType }) {
             <div className='event_details'>
                 <div className='event_label'>Just added</div>
                 <h4>{event.name}</h4>
-                <div className='event_time'>{dayjs(event.date).format(`ddd, D MMM [${time}] z`)} </div>
+                <div className='event_time'>{dayjs(event.timeStart).format('ddd, D MMM H:mm z')} </div>
                 <div className='event_billstatus'>{event.price}</div>
             </div>
         </Link>

@@ -4,7 +4,7 @@ import supabase from "@/utils/supabase/client-supabase";
 
 async function getEventData(id: string) {
   const supabase = createClient()
-  const { data, error } = await supabase.from("events").select().eq('id', id)
+  const { data, error } = await supabase.from("events").select('*,author: profiles(username,avatar_url)').eq('id', id)
   if (error) throw new Error('Could not find event')
   return data
 }

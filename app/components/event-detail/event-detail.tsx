@@ -1,11 +1,29 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Image from 'next/image'
-import info from '@/images/icons/info.svg'
-import OrangeButton from '../buttons/orange-button'
 import dayjs from 'dayjs'
+import calendar from "@/images/icons/calendar.svg"
+import location from "@/images/icons/location-event.svg"
+import eventTime from "@/images/icons/event-time.svg"
+import timezone from 'dayjs/plugin/timezone'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
+import TicketCounter from './ticket-counter'
+dayjs.extend(advancedFormat)
+dayjs.extend(timezone)
 
-export default function EventDetail({ event, images }: { event: EventType, images: string[] }) {
+export default function EventDetail({ event, images }: { event: EventWithAuthor, images: string[] }) {
     console.log('event', event);
+    const durationEvent = useMemo(() => {
+        const ms = dayjs(event.timeEnd).diff(dayjs(event.timeStart))
+        const days = dayjs(event.timeEnd).diff(dayjs(event.timeStart), "d")
+        if (days === 1) return '1 day'
+        const minutes = Math.round(ms / 1000 / 60)
+        const hours = Math.round(minutes / 60)
+        if (minutes === 60) return '1 hour'
+        if (hours >= 24) return `${days} days`
+        if (minutes < 60) return `${minutes} min`
+        return `${hours} hour ${minutes % 60} min`
+    }, [event.timeStart, event.timeEnd])
+
     return (
         <div className='event_details'>
             <div className='event_hero-wrapper'>
@@ -16,29 +34,40 @@ export default function EventDetail({ event, images }: { event: EventType, image
             <div className="event_details-wrapper">
                 <div className="event_mainContent">
                     <div className="event_details-time">
-                        {dayjs(event.date).format('dddd, D MMM')}
+                        {dayjs(event.timeStart).format('dddd, D MMM')}
                     </div>
                     <h1 className="event_details-title">{event.name}</h1>
                     <p>{event.description}</p>
-                    <p>{event.text}</p>
-                </div>
-                <div className="event_aside">
-                    <div className="event_ticket">
-                        <div className="event_ticket-container">
-                            <div className="event_ticket-title">General Admission</div>
-                            <div className="event_ticket-counter">
-                                <button type="button">-</button>
-                                <span>1</span>
-                                <button type="button">+</button>
-                            </div>
+                    {event?.author?.username &&
+                        <div className="organizer">
+                            <img src={event.author.avatar_url} alt="" />
+                            <span>By <strong>{event.author.username}</strong></span>
                         </div>
-                        <div className="event_price">
-                            <span>Free</span>
-                            <div className="event_price-icon"><Image src={info.src} width={24} height={24} alt=""></Image></div>
+                    }
+                    <div className='event_section'>
+                        <h2 className="event_section-header">Date and time</h2>
+                        <div className="event_section-content">
+                            <Image src={calendar} alt="" width={20} height={20} />
+                            {dayjs(event.timeStart).format('ddd, D MMM YYYY H:mm')} - {dayjs(event.timeEnd).format('ddd, D MMM YYYY H:mm z')}
                         </div>
                     </div>
-                    <OrangeButton text="Reserve a spot" className='reserve-button' />
+                    <div className='event_section'>
+                        <h2 className="event_section-header">Location</h2>
+                        <div className="event_section-content">
+                            <Image src={location} alt="" width={20} height={20} />
+                            {event.location}
+                        </div>
+                    </div>
+                    <div className='event_section'>
+                        <h2 className="event_section-header">About this event</h2>
+                        <div className="event_section-content">
+                            <Image src={eventTime} alt="" width={20} height={20} />
+                            {durationEvent}
+                        </div>
+                    </div>
+                    <p>{event.text}</p>
                 </div>
+                <TicketCounter />
             </div>
         </div>
     )

@@ -35,10 +35,11 @@
         .event_mainContent {
             max-width: 720px;
             white-space: pre-wrap;
+            margin-bottom: 50px;
 
             p {
                 font-size: v.$font_size + 4;
-                margin-top: 24px;
+                margin: 24px 0;
             }
 
             .event_details-time {
@@ -56,65 +57,102 @@
             }
         }
 
-        .event_aside {
-            max-width: 360px;
-            margin-left: auto;
-            padding-top: 64px;
+        .organizer {
+            padding: 16px 24px;
+            background-color: v.$gray_100;
+            display: flex;
+            align-items: center;
+            gap: 24px;
 
-            .event_ticket {
-                padding: 16px;
-                border: 3px solid v.$blue;
-                border-radius: 10px;
-                margin-bottom: 16px;
+            img {
+                width: 54px;
+                height: 54px;
+                border-radius: 50%;
+            }
 
-                .event_ticket-container {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 12px;
+            span {
+                font-size: v.$font_size + 4;
+            }
+        }
 
-                    .event_ticket-title {
-                        font-weight: 600;
-                        font-size: v.$font_size + 4;
-                    }
+        .event_section {
+            margin: 48px 0;
 
-                    .event_ticket-counter {
-                        display: flex;
+            .event_section-header {
+                font-size: v.$font_size * 2;
+                margin-bottom: 20px;
+            }
 
-                        button {
-                            background-color: v.$gray_300;
-                            width: 32px;
-                            height: 32px;
-                            border-radius: 8px;
-                            border: none;
-                            font-size: v.$font_size + 4;
-                        }
+            .event_section-content {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                font-size: v.$font_size + 2;
+                font-weight: 600;
+            }
+        }
 
-                        span {
-                            margin: auto;
-                            font-size: v.$font_size + 4;
-                            padding: 0 12px;
-                        }
-                    }
+    }
+
+    .event_aside {
+        max-width: 360px;
+        margin-left: auto;
+        padding-top: 64px;
+
+        .event_ticket {
+            padding: 16px;
+            border: 3px solid v.$blue;
+            border-radius: 10px;
+            margin-bottom: 16px;
+
+            .event_ticket-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+
+                .event_ticket-title {
+                    font-weight: 600;
+                    font-size: v.$font_size + 4;
                 }
 
-                .event_price {
-                    margin-top: 16px;
+                .event_ticket-counter {
                     display: flex;
-                    gap: 12px;
+
+                    button {
+                        background-color: v.$gray_300;
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 8px;
+                        border: none;
+                        font-size: v.$font_size + 4;
+                        cursor: pointer;
+                    }
 
                     span {
-                        font-weight: 600;
+                        margin: auto;
                         font-size: v.$font_size + 4;
+                        padding: 0 12px;
                     }
                 }
             }
 
-            .reserve-button {
-                width: 100%;
-                max-width: 360px;
-                padding: 12px 0;
+            .event_price {
+                margin-top: 16px;
+                display: flex;
+                gap: 12px;
+
+                span {
+                    font-weight: 600;
+                    font-size: v.$font_size + 4;
+                }
             }
+        }
+
+        .reserve-button {
+            width: 100%;
+            max-width: 360px;
+            padding: 12px 0;
         }
     }
 }
