@@ -44,6 +44,20 @@
 
 .header_nav {
     display: flex;
+    align-items: center;
     font-size: 14px;
     font-weight: 600;
+
+    .header_user_image {
+        -o-object-fit: cover;
+        object-fit: cover;
+        cursor: pointer;
+        padding: 0 8px;
+
+        img {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+        }
+    }
 }

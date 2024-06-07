@@ -19,13 +19,15 @@ export default async function EventCard({ event }: { event: EventType }) {
     return (
         <Link className='event_card' href={'/event/' + event.id}>
             {!images || images?.length === 0 ? "" :
-                <Image fill src={process.env.NEXT_SUPABASE_STORAGE_PUBLIC_URL + "/" + event.id + "/" + images[0].name} alt="" />}
+                <div className='event_image'>
+                    <Image fill src={process.env.NEXT_SUPABASE_STORAGE_PUBLIC_URL + event.id + "/" + images[0].name} alt="" />
+                </div>}
             <div className='event_details'>
-                <div className='event_label'>Just added</div>
+                {dayjs().diff(event.created_at, 'h') <= 12 ? "" : <div className='event_label'>Just added</div>}
                 <h4>{event.name}</h4>
                 <div className='event_time'>{dayjs(event.timeStart).format('ddd, D MMM H:mm z')} </div>
                 <div className='event_billstatus'>{event.price}</div>
             </div>
-        </Link>
+        </Link >
     )
 }

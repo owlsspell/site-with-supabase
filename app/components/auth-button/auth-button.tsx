@@ -2,6 +2,7 @@
 import supabase from "@/utils/supabase/client-supabase"
 import { Session } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
+import GrayButton from "../buttons/gray-button"
 
 export default function AuthButton({ session }: { session: Session | null }) {
     const router = useRouter()
@@ -14,7 +15,6 @@ export default function AuthButton({ session }: { session: Session | null }) {
             },
         })
     }
-    const onLogIn = () => { }
     const onLogOut = async () => {
         await supabase.auth.signOut();
         router.refresh()
@@ -22,7 +22,15 @@ export default function AuthButton({ session }: { session: Session | null }) {
 
     return (
         <>
-            {session ? <button onClick={onLogOut}>Log out</button> : <button onClick={signInWithGithub}>Log in</button>}
+            {session ?
+                <>
+                    <div className="header_user_image">
+                        <img src={session?.user?.user_metadata.avatar_url} alt="" />
+                    </div>
+                    <GrayButton text="Log out" onClick={onLogOut} />
+                </>
+                :
+                <GrayButton text="Log In" onClick={signInWithGithub} />}
         </>
     )
 }

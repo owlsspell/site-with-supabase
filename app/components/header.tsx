@@ -2,6 +2,7 @@ import React from 'react'
 import GrayButton from './buttons/gray-button'
 import searchIcon from "@/images/icons/search.svg"
 import Image from 'next/image'
+import AuthButtonServer from './auth-button/auth-button-server'
 
 export default function Header() {
     return (
@@ -14,8 +15,7 @@ export default function Header() {
                 <GrayButton text="Find Events" />
                 <GrayButton text="Create Events" />
                 <GrayButton text="Help Centre" />
-                <GrayButton text="Log In" />
-                <GrayButton text="Sign Up" />
+                <AuthButtonServer />
             </nav>
         </div>
     )

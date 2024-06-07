@@ -14,7 +14,6 @@ export default function IconCategories() {
                     <p>{category}</p>
                 </a>
             )}
-
         </section>
     )
 }
