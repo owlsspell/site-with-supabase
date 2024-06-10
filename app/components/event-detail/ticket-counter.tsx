@@ -3,8 +3,10 @@ import React, { useState } from 'react'
 import info from '@/images/icons/info.svg'
 import OrangeButton from '../buttons/orange-button'
 import Image from 'next/image'
+import supabase from '@/utils/supabase/client-supabase'
+import Swal from 'sweetalert2'
 
-export default function TicketCounter() {
+export default function TicketCounter({ eventId }: { eventId: string }) {
     const [ticketsCount, setTicketsCount] = useState(1)
 
     function changeTicketsCount(type: string) {
@@ -12,6 +14,25 @@ export default function TicketCounter() {
         if (type === 'minus') setTicketsCount(ticketsCount - 1)
         if (type === 'plus') setTicketsCount(ticketsCount + 1)
     }
+
+    async function reserveSpot() {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) return
+        const { error } = await supabase
+            .from('tickets')
+            .insert({ user_id: session.user.id, event_id: eventId, ticket_count: ticketsCount })
+        if (error) return Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong! Try again",
+        });
+        Swal.fire({
+            title: "Good job!",
+            text: "Spot at the event is reserved!",
+            icon: "success"
+        });
+    }
+
     return (
         <div className="event_aside">
             <div className="event_ticket">
@@ -28,7 +49,7 @@ export default function TicketCounter() {
                     <div className="event_price-icon"><Image src={info.src} width={24} height={24} alt=""></Image></div>
                 </div>
             </div>
-            <OrangeButton text="Reserve a spot" className='reserve-button' />
+            <OrangeButton text="Reserve a spot" className='reserve-button' onClick={reserveSpot} />
         </div>
     )
 }

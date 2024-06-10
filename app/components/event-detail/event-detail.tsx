@@ -11,7 +11,6 @@ dayjs.extend(advancedFormat)
 dayjs.extend(timezone)
 
 export default function EventDetail({ event, images }: { event: EventWithAuthor, images: string[] }) {
-    console.log('event', event);
     const durationEvent = useMemo(() => {
         const ms = dayjs(event.timeEnd).diff(dayjs(event.timeStart))
         const days = dayjs(event.timeEnd).diff(dayjs(event.timeStart), "d")
@@ -67,7 +66,7 @@ export default function EventDetail({ event, images }: { event: EventWithAuthor,
                     </div>
                     <p>{event.text}</p>
                 </div>
-                <TicketCounter />
+                <TicketCounter eventId={event.id} />
             </div>
         </div>
     )
