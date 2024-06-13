@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import eventFiltersSlice from "./features/eventFiltersSlice";
+import eventsSlice from "./features/eventsFiltersSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      eventsFilter: eventFiltersSlice,
+      events: eventsSlice,
     },
   });
 };

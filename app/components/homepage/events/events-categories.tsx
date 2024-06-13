@@ -1,12 +1,16 @@
 'use client'
-import React, { useState } from 'react'
+import { setActiveTab } from '@/lib/features/eventsFiltersSlice'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
+import { RootState } from '@/lib/store'
+import React from 'react'
 
 export default function EventsCategories() {
-    const categories = ["All", "For you", "Online", "Today", "Free"]
-    const [activeTab, setActiveTab] = useState("All")
+    const dispatch = useAppDispatch()
+    const activeTab = useAppSelector((state: RootState) => state.events.activeTab)
+    const categories = ["All", "Online", "This week", "Today", "Free"]
     return (
         <ul className='events_navigation'>
-            {categories.map(category => <li key={category} className={activeTab === category ? "tab-active" : ""} onClick={() => setActiveTab(category)}>{category}</li>)}
+            {categories.map(category => <li key={category} className={activeTab === category ? "tab-active" : ""} onClick={() => dispatch(setActiveTab(category))}>{category}</li>)}
         </ul>
     )
 }

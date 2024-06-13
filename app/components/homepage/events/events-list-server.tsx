@@ -2,10 +2,11 @@ import React from 'react'
 import EventsCategories from './events-categories'
 import EventCard from './event-card'
 import { createClient } from '@/utils/supabase/server';
+import { useAppSelector } from '@/lib/hooks';
+import { RootState } from '@/lib/store';
+import EventsList from './event-list';
 
-export default async function EventsList() {
-    const supabase = createClient()
-    const { data } = await supabase.from("events").select('*').order('created_at', { ascending: false }).limit(6);
+export default function EventsListServer() {
     return (
         <section className='events_container'>
             <hr />
@@ -14,9 +15,7 @@ export default async function EventsList() {
             </div>
             <hr />
             <EventsCategories />
-            <div className='events_list'>
-                {!data || data?.length === 0 ? "" : data.map(event => <EventCard key={event.id} event={event} />)}
-            </div>
+            <EventsList />
         </section>
     )
 }

@@ -15,7 +15,7 @@ async function getEventImages(id: string) {
     .from('event_images')
     .list(id)
   if (error) throw new Error('Could not find event')
-  return images.map(image => (process.env.NEXT_SUPABASE_STORAGE_PUBLIC_URL + "/" + id + "/" + image.name))
+  return images.map(image => (process.env.NEXT_PUBLIC_SUPABASE_STORAGE_PUBLIC_URL + "/" + id + "/" + image.name))
 }
 
 export default async function EventDetailPage({ params }: { params: { id: string } }) {
