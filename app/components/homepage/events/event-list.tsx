@@ -20,7 +20,7 @@ export default function EventsList() {
         if (activeFilter === 'Online') { query = query.eq('location', "Online") }
         if (activeFilter === 'Today') {
             let hours = dayjs().format('HH')
-            query = query.lt('timeStart', dayjs().add(24 - +hours, 'hour')).gt('timeStart', dayjs().subtract(+hours - +hours, 'hour'))
+            query = query.lt('timeStart', dayjs().add(24 - +hours, 'hour')).gt('timeStart', dayjs().subtract(+hours, 'hour'))
         }
         if (activeFilter === 'This week') {
             query = query.lt('timeStart', dayjs().add(7, 'day')).gt('timeStart', dayjs().subtract(1, 'day'))

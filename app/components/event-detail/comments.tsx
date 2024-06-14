@@ -28,23 +28,19 @@ export default function Comments({
   useEffect(() => {
     checkUser()
   }, [])
-  console.log('user', user);
-  console.log('comment', comments);
+
   return <div className="event_comments event_section">
     <h2 className="event_section-header">Discussion and Reviews</h2>
     {comments?.length === 0 || comments === null ? "" : comments.map((comment) => (
-      <>
-        <div className="comment" key={comment.id}>
-          <div className="comment_header">
-            <div>{comment.author.username}</div>
-            {!user ? "" :
-              <GrayButton onClick={() => deleteComment(comment.id)} text="Delete" />
-            }
-          </div>
-          <p>{comment.text}</p>
+      <div className="comment" key={comment.id}>
+        <div className="comment_header">
+          <div>{comment.author.username}</div>
+          {!user ? "" :
+            <GrayButton onClick={() => deleteComment(comment.id)} text="Delete" />
+          }
         </div>
-        <br />
-      </>
+        <p>{comment.text}</p>
+      </div>
     ))}
   </div>;
 }
