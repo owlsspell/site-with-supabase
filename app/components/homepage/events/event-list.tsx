@@ -19,7 +19,8 @@ export default function EventsList() {
         if (activeFilter === 'Free') { query = query.eq('price', "Free") }
         if (activeFilter === 'Online') { query = query.eq('location', "Online") }
         if (activeFilter === 'Today') {
-            query = query.lt('timeStart', dayjs().add(1, 'day')).gt('timeStart', dayjs().subtract(1, 'day'))
+            let hours = dayjs().format('HH')
+            query = query.lt('timeStart', dayjs().add(24 - +hours, 'hour')).gt('timeStart', dayjs().subtract(+hours - +hours, 'hour'))
         }
         if (activeFilter === 'This week') {
             query = query.lt('timeStart', dayjs().add(7, 'day')).gt('timeStart', dayjs().subtract(1, 'day'))
@@ -35,7 +36,9 @@ export default function EventsList() {
 
     return (
         <div className='events_list'>
-            {!eventCards || eventCards?.length === 0 ? "" : eventCards.map(event => <EventCard key={event.id} event={event} />)}
+            {!eventCards || eventCards?.length === 0 ?
+                <p className='events_notfound'>No one event found</p>
+                : eventCards.map(event => <EventCard key={event.id} event={event} />)}
         </div>
     )
 }

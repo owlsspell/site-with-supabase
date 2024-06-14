@@ -7,10 +7,12 @@ import eventTime from "@/images/icons/event-time.svg"
 import timezone from 'dayjs/plugin/timezone'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import TicketCounter from './ticket-counter'
+import { createClient } from '@/utils/supabase/server'
+import Comments from './comments'
 dayjs.extend(advancedFormat)
 dayjs.extend(timezone)
 
-export default function EventDetail({ event, images }: { event: EventWithAuthor, images: string[] }) {
+export default async function EventDetail({ event, images }: { event: EventWithAuthor, images: string[] }) {
     const durationEvent = useMemo(() => {
         const ms = dayjs(event.timeEnd).diff(dayjs(event.timeStart))
         const days = dayjs(event.timeEnd).diff(dayjs(event.timeStart), "d")
@@ -22,6 +24,9 @@ export default function EventDetail({ event, images }: { event: EventWithAuthor,
         if (minutes < 60) return `${minutes} min`
         return `${hours} hour ${minutes % 60} min`
     }, [event.timeStart, event.timeEnd])
+
+    const supabase = createClient()
+    const { data } = await supabase.from("comments").select('*, author: profiles(*)').order('created_at', { ascending: false });
 
     return (
         <div className='event_details'>
@@ -65,6 +70,8 @@ export default function EventDetail({ event, images }: { event: EventWithAuthor,
                         </div>
                     </div>
                     <p>{event.text}</p>
+
+                    <Comments comments={data as CommentWithAuthor[]} />
                 </div>
                 <TicketCounter eventId={event.id} />
             </div>

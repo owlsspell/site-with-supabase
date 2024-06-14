@@ -22,6 +22,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
   const { id } = params
   const event = await getEventData(id)
   const images = await getEventImages(id)
+
   return (
     <main>
       <EventDetail event={event[0]} images={images} />

@@ -147,6 +147,12 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
 
+        .events_notfound {
+            min-height: 150px;
+            padding: 16px 16px;
+            font-size: v.$font_size + 4;
+        }
+
         .event_card {
             margin: 16px;
             display: flex;
@@ -164,6 +170,7 @@
 
             .event_image {
                 max-height: 230px;
+                position: relative;
 
                 img {
                     border-radius: 4px;

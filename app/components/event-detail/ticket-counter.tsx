@@ -35,21 +35,23 @@ export default function TicketCounter({ eventId }: { eventId: string }) {
 
     return (
         <div className="event_aside">
-            <div className="event_ticket">
-                <div className="event_ticket-container">
-                    <div className="event_ticket-title">General Admission</div>
-                    <div className="event_ticket-counter">
-                        <button type="button" onClick={() => changeTicketsCount('minus')}>-</button>
-                        <span>{ticketsCount}</span>
-                        <button type="button" onClick={() => changeTicketsCount('plus')}>+</button>
+            <div className='event_container'>
+                <div className="event_ticket">
+                    <div className="event_ticket-container">
+                        <div className="event_ticket-title">General Admission</div>
+                        <div className="event_ticket-counter">
+                            <button type="button" onClick={() => changeTicketsCount('minus')}>-</button>
+                            <span>{ticketsCount}</span>
+                            <button type="button" onClick={() => changeTicketsCount('plus')}>+</button>
+                        </div>
+                    </div>
+                    <div className="event_price">
+                        <span>Free</span>
+                        <div className="event_price-icon"><Image src={info.src} width={24} height={24} alt=""></Image></div>
                     </div>
                 </div>
-                <div className="event_price">
-                    <span>Free</span>
-                    <div className="event_price-icon"><Image src={info.src} width={24} height={24} alt=""></Image></div>
-                </div>
+                <OrangeButton text="Reserve a spot" className='reserve-button' onClick={reserveSpot} />
             </div>
-            <OrangeButton text="Reserve a spot" className='reserve-button' onClick={reserveSpot} />
         </div>
     )
 }

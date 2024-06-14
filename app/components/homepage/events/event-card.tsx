@@ -10,7 +10,7 @@ dayjs.extend(advancedFormat)
 dayjs.extend(timezone)
 
 export default function EventCard({ event }: { event: EventType }) {
-    const [images, setImages] = useState([])
+    const [images, setImages] = useState<any>([])
     async function getImages() {
         const { data: images } = await supabase
             .storage
@@ -27,10 +27,10 @@ export default function EventCard({ event }: { event: EventType }) {
         <Link className='event_card' href={'/event/' + event.id}>
             {!images || images?.length === 0 ? "" :
                 <div className='event_image'>
-                    <Image fill src={process.env.NEXT_PUBLIC_SUPABASE_STORAGE_PUBLIC_URL + event.id + "/" + images[0].name} alt="" />
+                    <Image fill sizes="auto" src={process.env.NEXT_PUBLIC_SUPABASE_STORAGE_PUBLIC_URL + event.id + "/" + images[0].name} alt="" />
                 </div>}
             <div className='event_details'>
-                {dayjs().diff(event.created_at, 'h') <= 12 ? "" : <div className='event_label'>Just added</div>}
+                {dayjs().diff(event.created_at, 'h') >= 12 ? "" : <div className='event_label'>Just added</div>}
                 <h4>{event.name}</h4>
                 <div className='event_time'>{dayjs(event.timeStart).format('ddd, D MMM H:mm z')} </div>
                 <div className='event_billstatus'>{event.price}</div>

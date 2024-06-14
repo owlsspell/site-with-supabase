@@ -98,6 +98,13 @@
         max-width: 360px;
         margin-left: auto;
         padding-top: 64px;
+        position: -webkit-sticky;
+
+        .event_container {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 10%;
+        }
 
         .event_ticket {
             padding: 16px;
@@ -153,6 +160,21 @@
             width: 100%;
             max-width: 360px;
             padding: 12px 0;
+        }
+    }
+}
+
+//Comments
+.event_comments {
+
+    .comment {
+        box-shadow: 5px 5px 10px 0 rgba(40, 44, 53, .06), 0 2px 2px 0 rgba(40, 44, 53, .08);
+        padding: 16px;
+
+        .comment_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     }
 }
