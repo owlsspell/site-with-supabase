@@ -168,13 +168,52 @@
 .event_comments {
 
     .comment {
-        box-shadow: 5px 5px 10px 0 rgba(40, 44, 53, .06), 0 2px 2px 0 rgba(40, 44, 53, .08);
         padding: 16px;
+        margin-bottom: 10px;
+        border-radius: 24px;
+        border: 2px solid v.$gray_100;
 
         .comment_header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            .comment_author {
+                font-weight: 600;
+                font-size: v.$font_size + 4;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                img {
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+
+    .newcomment {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        gap: 20px;
+
+        textarea {
+            box-sizing: border-box;
+            padding: 16px;
+            width: 100%;
+            min-height: 100px;
+            border-radius: 10px;
+            border-color: v.$gray_300;
+            font-size: v.$font_size + 4;
+
+            &:focus {
+                border-color: v.$blue;
+                outline: none
+            }
         }
     }
 }

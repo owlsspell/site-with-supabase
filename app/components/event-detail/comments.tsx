@@ -29,12 +29,14 @@ export default function Comments({
     checkUser()
   }, [])
 
-  return <div className="event_comments event_section">
-    <h2 className="event_section-header">Discussion and Reviews</h2>
+  return <>
     {comments?.length === 0 || comments === null ? "" : comments.map((comment) => (
       <div className="comment" key={comment.id}>
         <div className="comment_header">
-          <div>{comment.author.username}</div>
+          <div className="comment_author">
+            <img src={comment.author.avatar_url} alt="" />
+            {comment.author.username}
+          </div>
           {!user ? "" :
             <GrayButton onClick={() => deleteComment(comment.id)} text="Delete" />
           }
@@ -42,5 +44,5 @@ export default function Comments({
         <p>{comment.text}</p>
       </div>
     ))}
-  </div>;
+  </>;
 }

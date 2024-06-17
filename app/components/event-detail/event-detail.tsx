@@ -9,6 +9,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat'
 import TicketCounter from './ticket-counter'
 import { createClient } from '@/utils/supabase/server'
 import Comments from './comments'
+import NewComment from './new-comment'
 dayjs.extend(advancedFormat)
 dayjs.extend(timezone)
 
@@ -26,7 +27,7 @@ export default async function EventDetail({ event, images }: { event: EventWithA
     }, [event.timeStart, event.timeEnd])
 
     const supabase = createClient()
-    const { data } = await supabase.from("comments").select('*, author: profiles(*)').order('created_at', { ascending: false });
+    const { data } = await supabase.from("comments").select('*, author: profiles(*)').eq("event_id", event.id).order('created_at', { ascending: false });
 
     return (
         <div className='event_details'>
@@ -70,8 +71,11 @@ export default async function EventDetail({ event, images }: { event: EventWithA
                         </div>
                     </div>
                     <p>{event.text}</p>
-
-                    <Comments comments={data as CommentWithAuthor[]} />
+                    <div className="event_comments event_section">
+                        <h2 className="event_section-header">Discussion and Reviews</h2>
+                        <NewComment eventId={event.id} />
+                        <Comments comments={data as CommentWithAuthor[]} />
+                    </div>
                 </div>
                 <TicketCounter eventId={event.id} />
             </div>
