@@ -33,4 +33,22 @@
     border-radius: 4px;
     padding: 12px 16px 12px 18px;
     text-align: center;
+    border-radius: 100px;
+
+}
+
+.button-dark-gray {
+    @include default-button;
+    color: v.$text_color;
+    padding: 12px 16px;
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 360px;
+    background: v.$gray_200;
+    text-align: center;
+    font-size: v.$font_size + 2;
+
+    &:hover {
+        background: v.$gray_300;
+    }
 }

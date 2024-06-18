@@ -1,0 +1,21 @@
+@use '_variables' as v;
+
+.events_page-container {
+    .categories_filter {
+        width: 90%;
+        max-width: 1440px;
+        box-shadow: 0 4px 18px 0 rgba(0, 0, 0, .1);
+        margin: auto;
+        padding: 0 16px;
+        border-radius: 40px;
+
+        .categories {
+            padding: 16px 0;
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            justify-content: flex-start;
+            align-items: center;
+        }
+    }
+}
