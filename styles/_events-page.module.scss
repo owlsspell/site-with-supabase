@@ -1,21 +1,97 @@
 @use '_variables' as v;
 
-.events_page-container {
-    .categories_filter {
-        width: 90%;
-        max-width: 1440px;
-        box-shadow: 0 4px 18px 0 rgba(0, 0, 0, .1);
-        margin: auto;
-        padding: 0 16px;
-        border-radius: 40px;
+// .events_page-container {
+//     .categories_filter {
+//         width: 90%;
+//         max-width: 1440px;
+//         box-shadow: 0 4px 18px 0 rgba(0, 0, 0, .1);
+//         margin: auto;
+//         padding: 0 16px;
+//         border-radius: 40px;
 
-        .categories {
-            padding: 16px 0;
-            display: flex;
-            gap: 4px;
-            list-style: none;
-            justify-content: flex-start;
-            align-items: center;
+//         .categories {
+//             padding: 16px 0;
+//             display: flex;
+//             gap: 4px;
+//             list-style: none;
+//             justify-content: flex-start;
+//             align-items: center;
+//         }
+//     }
+// }
+
+.search_container {
+    padding: 20px;
+
+    .search_header {
+        margin: 20px 0;
+
+        .search_header-title {
+            font-size: v.$font_size * 2 + 4;
+        }
+
+        .search_header-subtitle {
+            font-size: v.$font_size + 4;
+            padding-top: 10px;
+        }
+    }
+
+    .search_body {
+        display: flex;
+
+        .filter_panel {
+            margin-top: 24px;
+            min-width: 230px;
+
+            .filter_panel-title {
+                font-size: v.$font_size * 2 - 2;
+                font-weight: 700;
+                letter-spacing: .25px;
+            }
+        }
+
+        .filter_section {
+            margin: 20px 0;
+
+            .filter_section-title {
+                font-size: v.$font_size + 2;
+                font-weight: 600;
+                letter-spacing: .25px;
+            }
+
+            .filter-choice-items {
+                li {
+                    padding: 12px 0;
+                    list-style: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    cursor: pointer;
+
+                    a {
+                        color: v.$blue;
+                        font-size: v.$font_size + 4;
+                    }
+
+                    &:hover {
+                        a {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+
+                button {
+                    color: v.$blue;
+                    background: none;
+                    border: none;
+                    margin: 16px 0;
+                    cursor: pointer;
+
+                    &:hover {
+                        border-bottom: 2px solid v.$blue;
+                    }
+                }
+            }
         }
     }
 }

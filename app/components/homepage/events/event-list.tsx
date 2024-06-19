@@ -4,13 +4,12 @@ import { useAppSelector } from '@/lib/hooks';
 import { RootState } from '@/lib/store';
 import supabase from '@/utils/supabase/client-supabase';
 import EventCard from './event-card';
-import { EventRow } from '@/app/global';
 import dayjs from 'dayjs';
 
 
 export default function EventsList() {
     const activeFilter: string | null = useAppSelector((state: RootState) => state.events.activeTab)
-    const [eventCards, setEventCards] = useState<EventRow[] | []>([])
+    const [eventCards, setEventCards] = useState<EventType[] | []>([])
 
     async function getEvents(activeFilter: string) {
         let query = supabase.from("events").select('*').order('timeStart', { ascending: true }).limit(6)
@@ -27,7 +26,7 @@ export default function EventsList() {
         }
 
         const { data } = await query
-        setEventCards(data as EventRow[])
+        setEventCards(data as EventType[])
     }
 
     useEffect(() => {
