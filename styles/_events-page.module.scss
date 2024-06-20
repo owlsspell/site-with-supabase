@@ -57,6 +57,7 @@
                 font-size: v.$font_size + 2;
                 font-weight: 600;
                 letter-spacing: .25px;
+                margin-bottom: 5px;
             }
 
             .filter-choice-items {
@@ -78,6 +79,17 @@
                             text-decoration: underline;
                         }
                     }
+                }
+
+                input {
+                    height: 15px;
+                    width: 15px;
+                }
+
+                label {
+                    width: 100%;
+                    cursor: pointer;
+                    font-size: v.$font_size + 2;
                 }
 
                 button {

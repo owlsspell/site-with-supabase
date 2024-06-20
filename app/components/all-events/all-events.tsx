@@ -1,5 +1,5 @@
 import React from 'react'
-import Categories from './filters/categories'
+import FilterPanel from './filters/filter-panel'
 
 export default function AllEvents({ categories }: { categories: CategoryType[] }) {
 
@@ -10,13 +10,7 @@ export default function AllEvents({ categories }: { categories: CategoryType[] }
                 <p className='search_header-subtitle'>Search for something you love or check out popular events in your area</p>
             </div>
             <div className='search_body'>
-                <aside className='filter_panel'>
-                    <span className='filter_panel-title'>Filters</span>
-                    <div className="filter_section">
-                        <span className='filter_section-title'>Category</span>
-                        <Categories categories={categories} />
-                    </div>
-                </aside>
+                <FilterPanel categories={categories} />
                 <div className='search_results'></div>
             </div>
         </div>
