@@ -1,16 +1,17 @@
 import Image from 'next/image'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
-import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import supabase from '@/utils/supabase/client-supabase'
+import { usePathname } from 'next/navigation'
 dayjs.extend(advancedFormat)
 dayjs.extend(timezone)
 
 export default function EventCard({ event }: { event: EventType }) {
     const [images, setImages] = useState<any>([])
+    const pathname = usePathname()
     async function getImages() {
         const { data: images } = await supabase
             .storage
@@ -24,7 +25,7 @@ export default function EventCard({ event }: { event: EventType }) {
     }, [])
 
     return (
-        <Link className='event_card' href={'/event/' + event.id}>
+        <Link className={'event_card ' + (pathname === '/events' ? "event_card-row" : "")} href={'/event/' + event.id}>
             {!images || images?.length === 0 ? "" :
                 <div className='event_image'>
                     <Image fill sizes="auto" src={process.env.NEXT_PUBLIC_SUPABASE_STORAGE_PUBLIC_URL + event.id + "/" + images[0].name} alt="" />

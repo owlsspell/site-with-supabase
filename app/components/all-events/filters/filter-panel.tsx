@@ -1,9 +1,9 @@
 'use client'
 import React from 'react'
 import Categories from './categories'
-import RadioFilter from './radio-filter'
-import { dates } from '@/lib/constants'
+import { dates, price, format, language, currency } from '@/lib/constants'
 import { Form } from 'react-final-form'
+import RadioOrCheckboxFilter from './radio-or-checkbox-filter'
 
 export default function FilterPanel({ categories }: { categories: CategoryType[] }) {
     const onSubmit = async values => {
@@ -23,7 +23,12 @@ export default function FilterPanel({ categories }: { categories: CategoryType[]
                             <div className='filter_section-title'>Category</div>
                             <Categories categories={categories} />
                         </div>
-                        <RadioFilter title="Date" options={dates} />
+                        <RadioOrCheckboxFilter title="Date" options={dates} />
+                        <RadioOrCheckboxFilter title="Price" options={price} />
+                        <RadioOrCheckboxFilter title="Format" options={format} />
+                        <RadioOrCheckboxFilter title="Format" options={format} type="checkbox" />
+                        <RadioOrCheckboxFilter title="Language" options={language} type="checkbox" />
+                        <RadioOrCheckboxFilter title="Currency" options={currency} />
                     </form>)}
             />
         </aside>

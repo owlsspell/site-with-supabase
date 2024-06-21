@@ -51,7 +51,7 @@
         }
 
         .filter_section {
-            margin: 20px 0;
+            margin: 40px 0;
 
             .filter_section-title {
                 font-size: v.$font_size + 2;
@@ -61,12 +61,15 @@
             }
 
             .filter-choice-items {
-                li {
+                .filter-category {
                     padding: 12px 0;
-                    list-style: none;
                     display: flex;
                     align-items: center;
                     gap: 8px;
+                }
+
+                li {
+                    list-style: none;
                     cursor: pointer;
 
                     a {
@@ -82,25 +85,31 @@
                 }
 
                 input {
-                    height: 15px;
-                    width: 15px;
+                    height: 20px;
+                    width: 20px;
                 }
 
                 label {
-                    width: 100%;
+                    padding: 12px 0;
                     cursor: pointer;
-                    font-size: v.$font_size + 2;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+
+                    span {
+                        font-size: v.$font_size + 2;
+                    }
                 }
 
-                button {
+                .view_btn {
+                    display: inline-block;
+                    margin: 8px 0;
                     color: v.$blue;
-                    background: none;
-                    border: none;
-                    margin: 16px 0;
                     cursor: pointer;
+                    font-size: v.$font_size + 1;
 
                     &:hover {
-                        border-bottom: 2px solid v.$blue;
+                        text-decoration: underline;
                     }
                 }
             }

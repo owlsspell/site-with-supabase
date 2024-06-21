@@ -1,5 +1,6 @@
 import React from 'react'
 import FilterPanel from './filters/filter-panel'
+import EventsList from '../homepage/events/event-list'
 
 export default function AllEvents({ categories }: { categories: CategoryType[] }) {
 
@@ -11,7 +12,9 @@ export default function AllEvents({ categories }: { categories: CategoryType[] }
             </div>
             <div className='search_body'>
                 <FilterPanel categories={categories} />
-                <div className='search_results'></div>
+                <div className='search_results'>
+                    <EventsList />
+                </div>
             </div>
         </div>
     )
