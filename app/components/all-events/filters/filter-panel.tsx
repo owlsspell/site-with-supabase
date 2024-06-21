@@ -6,8 +6,8 @@ import { Form } from 'react-final-form'
 import RadioOrCheckboxFilter from './radio-or-checkbox-filter'
 
 export default function FilterPanel({ categories }: { categories: CategoryType[] }) {
-    const onSubmit = async values => {
-        window.alert(JSON.stringify(values, 0, 2))
+    const onSubmit = async (values: any) => {
+        window.alert(JSON.stringify(values))
     }
     const initialValues = { date: "" }
     return (
