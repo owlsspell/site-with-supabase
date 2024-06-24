@@ -14,7 +14,7 @@ export default function RadioOrCheckboxFilter({ title, options, type = "radio" }
             <ul className='filter-choice-items'>
                 {memoizedOptions.map(option =>
                     <li key={option}>
-                        <MemoizedField option={option} type={type} />
+                        <MemoizedField option={option} type={type} title={title?.toLowerCase() || 'unknown-field'} />
                     </li>)}
                 {options.length >= 4 ? <a className='view_btn' onClick={handleClick}>View more</a> : ""}
             </ul>
@@ -22,10 +22,10 @@ export default function RadioOrCheckboxFilter({ title, options, type = "radio" }
     )
 }
 
-const CustomField = ({ option, type }: { option: string, type: string }) => (
+const CustomField = ({ option, type, title }: { option: string, type: string, title: string }) => (
     <label>
         <Field
-            name="date"
+            name={title}
             type={type}
             component="input"
             value={option}

@@ -5,7 +5,7 @@ import Comments from "./components/comments";
 import GrayButton from "./components/buttons/gray-button";
 import FullbleedBanner from "./components/homepage/fullbleed-banner"
 import IconCategories from "./components/homepage/categories/icon-categories";
-import EventsList from "./components/homepage/events/events-list-server";
+import EventsList from "./components/events/events-list-server";
 
 export default async function Home() {
   const supabase = createClient()

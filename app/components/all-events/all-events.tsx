@@ -1,6 +1,6 @@
 import React from 'react'
 import FilterPanel from './filters/filter-panel'
-import EventsList from '../homepage/events/event-list'
+import EventsList from '../events/event-list'
 
 export default function AllEvents({ categories }: { categories: CategoryType[] }) {
 
