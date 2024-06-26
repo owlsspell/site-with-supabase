@@ -9,22 +9,72 @@ import dayjs from 'dayjs';
 
 export default function EventsList() {
     const activeFilter: string | null = useAppSelector((state: RootState) => state.events.activeTab)
+    const filters = useAppSelector((state: RootState) => state.events.filters)
     const [eventCards, setEventCards] = useState<EventType[] | []>([])
+    console.log('filters', filters);
+    console.log('eventCards', eventCards);
+    let query = supabase.from("events").select('*').order('timeStart', { ascending: true }).limit(6)
 
     async function getEvents(activeFilter: string) {
         let query = supabase.from("events").select('*').order('timeStart', { ascending: true }).limit(6)
+
+        const setDayStart = dayjs().set('hour', 0).set('minute', 0).set('second', 0)
+        const setDayEnd = dayjs().set('hour', 23).set('minute', 59).set('second', 59)
 
         if (activeFilter === 'All') { query = query }
         if (activeFilter === 'Free') { query = query.eq('price', "Free") }
         if (activeFilter === 'Online') { query = query.eq('location', "Online") }
         if (activeFilter === 'Today') {
-            let hours = dayjs().format('HH')
-            query = query.lt('timeStart', dayjs().add(24 - +hours, 'hour')).gt('timeStart', dayjs().subtract(+hours, 'hour'))
+            query = query.gt('timeStart', setDayStart).lt('timeStart', setDayEnd)
         }
         if (activeFilter === 'This week') {
-            query = query.lt('timeStart', dayjs().add(7, 'day')).gt('timeStart', dayjs().subtract(1, 'day'))
+            query = query.gt('timeStart', setDayStart).lt('timeStart', setDayEnd.day(7))
         }
 
+        const { data } = await query
+        setEventCards(data as EventType[])
+    }
+    async function getEventsByDate(filterName: string) {
+        const setDayStart = dayjs().set('hour', 0).set('minute', 0).set('second', 0)
+        const setDayEnd = dayjs().set('hour', 23).set('minute', 59).set('second', 59)
+        if (filterName === 'Today') {
+            query = query.gt('timeStart', setDayStart).lt('timeStart', setDayEnd)
+        }
+        if (filterName === 'Tomorrow') {
+            query = query.gt('timeStart', setDayStart.add(1, 'day')).lt('timeStart', setDayEnd.add(1, 'day'))
+        }
+        if (filterName === 'This weekend') {
+            query = query.gt('timeStart', setDayStart.day(6)).lt('timeStart', setDayEnd.day(7))
+        }
+        if (filterName === 'This week') {
+            query = query.gt('timeStart', setDayStart).lt('timeStart', setDayEnd.day(7))
+        }
+        if (filterName === 'Next week') {
+            query = query.gt('timeStart', setDayStart.day(8)).lt('timeStart', setDayEnd.day(14))
+        }
+        if (filterName === 'This month') {
+            query = query.gt('timeStart', setDayStart).lt('timeStart', setDayEnd.endOf('month'))
+        }
+        if (filterName === 'Next month') {
+            query = query.gt('timeStart', setDayStart.add(1, 'month').startOf('month')).lt('timeStart', setDayEnd.add(1, 'month').endOf('month'))
+        }
+
+        const { data } = await query
+        setEventCards(data as EventType[])
+    }
+    const getEventsByPrice = async (price: string) => {
+        if (price === 'Free') query = query.eq('price', "Free")
+        if (price === 'Paid') query = query.neq('price', "Free")
+        const { data } = await query
+        setEventCards(data as EventType[])
+    }
+    const getEventsByField = async (fieldName: string, fieldValue: string) => {
+        query = query.eq(fieldName, fieldValue)
+        const { data } = await query
+        setEventCards(data as EventType[])
+    }
+    const getEventsByContainsValueInArray = async (fieldName: string, fieldValue: string) => {
+        query = query.overlaps(fieldName, fieldValue)
         const { data } = await query
         setEventCards(data as EventType[])
     }
@@ -32,6 +82,15 @@ export default function EventsList() {
     useEffect(() => {
         getEvents(activeFilter as string)
     }, [activeFilter])
+
+    useEffect(() => {
+        if (filters.category.length > 0) getEventsByField("category", filters.category as string)
+        if (filters.date.length > 0) getEventsByDate(filters.date as string)
+        if (filters.price.length > 0) getEventsByPrice(filters.price as string)
+        if (filters.format.length > 0) getEventsByField("format", filters.format as string)
+        if (filters.currency.length > 0) getEventsByField("currency", filters.currency as string)
+        if (filters.language.length > 0) getEventsByContainsValueInArray("language", filters.language as string)
+    }, [filters])
 
     return (
         <div className='events_list'>

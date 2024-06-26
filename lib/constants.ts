@@ -4,7 +4,7 @@ export const dates = [
   "This weekend",
   "This week",
   "Next week",
-  " This month",
+  "This month",
   "Next month",
 ];
 export const price = ["Free", "Paid"];
@@ -41,5 +41,31 @@ export const language = [
   "Swedish",
 ];
 
-export const currency = ["U.S. Dollar", "Canadian Dollar", "Euro", "British Pound", "Japanese Yen", "Australian Dollar", "New Zealand Dollar", "Swiss Franc", "Hong Kong Dollar", "Singapore Dollar", "Swedish Krona", "Danish Krone", "Polish Zloty", "Norwegian Krone", "Hungarian Forint", "Czech Koruna", "Mexican Pesos", "Israeli Shekels", "Argentinian Peso", "Brazilian Real", "Chilean Peso", "Malaysian Ringgits", "Philippine Pesos", "Taiwan New Dollars", "Thai baht", "Turkish Lira"]
-
+export const currency = [
+  "U.S. Dollar",
+  "Canadian Dollar",
+  "Euro",
+  "British Pound",
+  "Japanese Yen",
+  "Australian Dollar",
+  "New Zealand Dollar",
+  "Swiss Franc",
+  "Hong Kong Dollar",
+  "Singapore Dollar",
+  "Swedish Krona",
+  "Danish Krone",
+  "Polish Zloty",
+  "Norwegian Krone",
+  "Hungarian Forint",
+  "Czech Koruna",
+  "Mexican Pesos",
+  "Israeli Shekels",
+  "Argentinian Peso",
+  "Brazilian Real",
+  "Chilean Peso",
+  "Malaysian Ringgits",
+  "Philippine Pesos",
+  "Taiwan New Dollars",
+  "Thai baht",
+  "Turkish Lira",
+];

@@ -16,7 +16,7 @@ export default function RadioOrCheckboxFilter({ title, options, type = "radio" }
                     <li key={option}>
                         <MemoizedField option={option} type={type} title={title?.toLowerCase() || 'unknown-field'} />
                     </li>)}
-                {options.length >= 4 ? <a className='view_btn' onClick={handleClick}>View more</a> : ""}
+                {options.length > 4 ? <a className='view_btn' onClick={handleClick}>{isOpen ? "View less" : "View more"}</a> : ""}
             </ul>
         </div>
     )

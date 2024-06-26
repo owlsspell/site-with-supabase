@@ -3,7 +3,7 @@ import AllEvents from "../components/all-events/all-events";
 
 async function getCategories() {
   const supabase = createClient()
-  const { data, error } = await supabase.from("categories").select('*')
+  const { data, error } = await supabase.from("categories").select('*').order('id')
   if (error) throw new Error('Could not find event')
   return data
 }

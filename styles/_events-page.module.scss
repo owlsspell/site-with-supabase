@@ -66,19 +66,27 @@
                     display: flex;
                     align-items: center;
                     gap: 8px;
+
+                    input {
+                        display: none;
+                    }
+
+                    label {
+                        padding: 0;
+                    }
                 }
 
                 li {
                     list-style: none;
                     cursor: pointer;
 
-                    a {
+                    a span {
                         color: v.$blue;
                         font-size: v.$font_size + 4;
                     }
 
                     &:hover {
-                        a {
+                        a span {
                             text-decoration: underline;
                         }
                     }
