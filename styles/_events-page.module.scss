@@ -124,3 +124,17 @@
         }
     }
 }
+
+.search_results {
+    hr {
+        opacity: 0.4;
+        margin: 32px 0;
+    }
+}
+
+.filter_header-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 32px;
+}

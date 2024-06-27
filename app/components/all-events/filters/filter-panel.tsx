@@ -19,7 +19,7 @@ export default function FilterPanel({ categories }: { categories: CategoryType[]
         window.alert(JSON.stringify(values))
     }
     const handleChange = (values: FormFields) => {
-        console.log("validate", values);
+        // console.log("validate", values);
         dispatch(changeFilters(values))
         if (values.category.length > 0) getSubcategories(values.category)
         return values

@@ -10,7 +10,7 @@ export default function Header() {
         <div className='header_container'>
             <div className='header_logo'><Link href="/">eventbrite </Link></div>
             <div className='header_input'>
-                <Image src={searchIcon} alt="" width={15} />
+                <Image src={searchIcon} alt="" height={15} width={15} />
                 <span>Search</span></div>
             <nav className='header_nav'>
                 <GrayButton text="Find Events" />
