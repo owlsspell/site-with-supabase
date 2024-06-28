@@ -1,16 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+interface FiltersType {
+  category: string;
+  date: string;
+  price: string;
+  format: string;
+  language: string[];
+  currency: string;
+}
 interface EventsState {
   activeTab: string | null;
-  filters: {
-    category: string;
-    date: string;
-    price: string;
-    format: string;
-    language: string;
-    currency: string;
-  };
+  filters: FiltersType;
 }
 
 const initialState: EventsState = {
@@ -20,12 +21,12 @@ const initialState: EventsState = {
     date: "",
     price: "",
     format: "",
-    language: "",
+    language: [],
     currency: "",
   },
 };
 
-export const bookSlice = createSlice({
+export const eventSlice = createSlice({
   name: "eventsFilter",
   initialState,
   reducers: {
@@ -35,8 +36,32 @@ export const bookSlice = createSlice({
     changeFilters: (state, data) => {
       state.filters = data.payload;
     },
+    clearFilter: (state, data) => {
+      state.filters = { ...state.filters, [data.payload]: "" };
+    },
+    changeFilter: (state, data) => {
+      state.filters = {
+        ...state.filters,
+        [data.payload.name]: data.payload.value,
+      };
+    },
+    changeFilterCheckbox: (state, data) => {
+      // const { name, value, checked } = data.payload;
+      
+      // checked
+      //   ? ([...state.filters[name]] = [...state.filters[name], value])
+      //   : (state.filters[name] = state.filters[name].filter(
+      //       (item) => item !== value
+      //     ));
+    },
   },
 });
 
-export const { setActiveTab, changeFilters } = bookSlice.actions;
-export default bookSlice.reducer;
+export const {
+  setActiveTab,
+  changeFilters,
+  clearFilter,
+  changeFilter,
+  changeFilterCheckbox,
+} = eventSlice.actions;
+export default eventSlice.reducer;
