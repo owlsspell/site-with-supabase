@@ -18,36 +18,26 @@ export default function FilterPanel({ categories }: { categories: CategoryType[]
     const onSubmit = async (values: FormFields) => {
         window.alert(JSON.stringify(values))
     }
-    const handleChange = (values: FormFields) => {
+    const handleChangeCategory = (name: FormFields) => {
         // console.log("validate", values);
-        dispatch(changeFilters(values))
-        if (values.category.length > 0) getSubcategories(values.category)
+        // dispatch(changeFilters(values))
+        console.log('name', name);
+        getSubcategories(values.category)
         // return values
     }
+    console.log('categories!', categories);
     const getSubcategories = async (category: string) => {
         const result = categories.find(item => item.name === category)
+        console.log('result', result);
         setSubcategories(result.subcategories)
     }
     const handleSubmit = (props) => { }
-    const onChange = (props) => {
-        // console.log('!!!!!', props)
-        // if (props.dirty) {
-        //     console.log('!!!!!', props)
-        //     console.log(props.form.getState());
-        // }
-    };
+
     console.log('subcategories', subcategories);
     const initialValues = { category: "", date: "", price: "", format: "", language: [], currency: "" }
     return (
         <aside className='filter_panel'>
-            {/* <Form
-                onSubmit={onSubmit}
-                initialValues={initialValues}
-                validate={handleChange}
-                subscription={{ values: true, dirty: true }}
-                render={({ handleSubmit, values, ...props }) => ( */}
             <form onSubmit={handleSubmit}>
-                {/* {console.log('props', props)} */}
                 <span className='filter_panel-title'>Filters</span>
                 <div className="filter_section">
                     {filters.category.length > 0 ?
@@ -58,7 +48,7 @@ export default function FilterPanel({ categories }: { categories: CategoryType[]
                         :
                         <>
                             <div className='filter_section-title'>Category</div>
-                            <Categories categories={categories} />
+                            <Categories categories={categories} getSubcategories={getSubcategories} />
                         </>
                     }
                 </div>
@@ -67,7 +57,6 @@ export default function FilterPanel({ categories }: { categories: CategoryType[]
                 <RadioOrCheckboxFilter title="Format" options={format} />
                 <RadioOrCheckboxFilter title="Language" options={language} type="checkbox" />
                 <RadioOrCheckboxFilter title="Currency" options={currency} />
-                {/* <FormSpy onChange={() => onChange(props)} /> */}
             </form>
             {/* )}
             /> */}

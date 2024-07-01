@@ -11,17 +11,24 @@ export default function FilterHeader() {
     const filterCounts = useMemo(() => Object.values(filters).filter((value) => value.length > 0).length, [filters])
     const filtersName = useMemo(() => Object.values(filters).filter((value) => value.length > 0), [filters])
     console.log('filtersName', filtersName);
+    console.log('filters', filters);
     const handleClick = (name: string) => {
-        const filterName = Object.keys(filters).filter(filter => filters[filter] === name)
+        const filterName = Object.keys(filters).filter(filter => filters[filter as keyof typeof filters] === name)
         dispatch(clearFilter(filterName))
     }
-    const handleCallback = useCallback((name) => handleClick(name), [filters])
+    // const handleCallback = useCallback((name) => handleClick(name), [filters])
+    const getButtonText = (text: string | string[]) => {
+        console.log('text.length', text.length);
+        if (typeof text === 'string') return text
+        if (text.length < 2) return text.join(',')
+        else return `${text.slice(0, 2)} ${text.length === 2 ? "" : `+${text.length - 2}`}`
+    }
     return (
         <>
             {filterCounts === 0 ? "" : <>
                 <div className='filter_header-container'>
                     <span>{filterCounts}  filter applied</span>
-                    {filtersName.map(name => <DarkGrayButton text={name} key={name} onClick={() => handleCallback(name)} />)}
+                    {filtersName.map(name => <DarkGrayButton text={getButtonText(name)} key={name} onClick={() => handleClick(name)} />)}
                 </div>
                 <hr />
             </>}

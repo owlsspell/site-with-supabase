@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface FiltersType {
   category: string;
+  subcategory: string[];
   date: string;
   price: string;
   format: string;
@@ -18,6 +19,7 @@ const initialState: EventsState = {
   activeTab: "All",
   filters: {
     category: "",
+    subcategory:[],
     date: "",
     price: "",
     format: "",

@@ -24,12 +24,8 @@ export default function EventsList() {
         if (activeFilter === 'All') { query = query }
         if (activeFilter === 'Free') { query = query.eq('price', "Free") }
         if (activeFilter === 'Online') { query = query.eq('location', "Online") }
-        if (activeFilter === 'Today') {
-            query = query.gt('timeStart', setDayStart).lt('timeStart', setDayEnd)
-        }
-        if (activeFilter === 'This week') {
-            query = query.gt('timeStart', setDayStart).lt('timeStart', setDayEnd.day(7))
-        }
+        if (activeFilter === 'Today') query = query.gt('timeStart', setDayStart).lt('timeStart', setDayEnd)
+        if (activeFilter === 'This week') query = query.gt('timeStart', setDayStart).lt('timeStart', setDayEnd.day(7))
 
         const { data } = await query
         setEventCards(data as EventType[])
@@ -60,6 +56,7 @@ export default function EventsList() {
         }
 
         const { data } = await query
+        console.log('data!', data);
         setEventCards(data as EventType[])
     }
     const getEventsByPrice = async (price: string) => {
@@ -73,7 +70,7 @@ export default function EventsList() {
         const { data } = await query
         setEventCards(data as EventType[])
     }
-    const getEventsByContainsValueInArray = async (fieldName: string, fieldValue: string) => {
+    const getEventsByContainsValueInArray = async (fieldName: string, fieldValue: string | string[]) => {
         query = query.overlaps(fieldName, fieldValue)
         const { data } = await query
         setEventCards(data as EventType[])
@@ -89,7 +86,9 @@ export default function EventsList() {
         if (filters.price.length > 0) getEventsByPrice(filters.price as string)
         if (filters.format.length > 0) getEventsByField("format", filters.format as string)
         if (filters.currency.length > 0) getEventsByField("currency", filters.currency as string)
-        if (filters.language.length > 0) getEventsByContainsValueInArray("language", filters.language as string)
+        if (filters.language.length > 0) getEventsByContainsValueInArray("language", filters.language as string[])
+
+        if (Object.values(filters).every(item => item.length === 0)) getEvents('All')
     }, [filters])
 
     return (

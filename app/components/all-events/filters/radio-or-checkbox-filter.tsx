@@ -3,7 +3,6 @@ import { changeFilter, changeFilterCheckbox, changeFilters } from '@/lib/feature
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { RootState } from '@/lib/store'
 import React, { useMemo, useState } from 'react'
-import { Field } from 'react-final-form'
 
 export default function RadioOrCheckboxFilter({ title, options, type = "radio" }: { title?: string, options: string[], type?: "radio" | "checkbox" }) {
     const [isOpen, toodleOpen] = useState(false)
@@ -12,6 +11,7 @@ export default function RadioOrCheckboxFilter({ title, options, type = "radio" }
         toodleOpen(!isOpen)
     }
     const memoizedOptions = useMemo(() => isOpen || options.length <= 4 ? options : options.slice(0, 4), [isOpen, options])
+
     return (
         <div className="filter_section">
             <div className='filter_section-title'>{title}</div>
@@ -30,33 +30,30 @@ const CustomField = ({ option, type, title }: { option: string, type: string, ti
     const dispatch = useAppDispatch()
     const filters = useAppSelector((state: RootState) => state.events.filters)
 
-    const handleChange = (e) => {
-        console.log('type', type);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (type === 'checkbox') {
             const { checked } = e.target;
-            const filtered = [...filters[title]] as string[]
-            console.log('filtered,', filtered);
+            let filtered = filters[title as keyof typeof filters] as string[]
+
             checked
-                ? filtered.push(option)
-                : filtered.filter(
+                ? filtered = [...filtered, option]
+                : filtered = filtered.filter(
                     (item) => item !== option
                 );
             return dispatch(changeFilter({ name: title, value: filtered }))
         }
         dispatch(changeFilter({ name: title, value: option }))
     }
+
+    const checked = type === 'checkbox' ? filters[title as keyof typeof filters].includes(option)
+        : filters[title as keyof typeof filters] === option
+
     return (
         <label>
-            {/* <Field
-            name={title}
-            type={type}
-            component="input"
-            value={option}
-            id={option}
-        /> */}
-            <input name={option}
+            <input name={title}
                 type={type}
                 value={option}
+                checked={checked}
                 id={option}
                 onChange={handleChange}
             />

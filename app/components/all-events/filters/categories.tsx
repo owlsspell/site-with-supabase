@@ -5,7 +5,7 @@ import { Field } from 'react-final-form'
 import { changeFilter } from '@/lib/features/eventsFiltersSlice'
 import { useAppDispatch } from '@/lib/hooks'
 
-export default function Categories({ categories }: { categories: CategoryType[] }) {
+export default function Categories({ categories, getSubcategories }: { categories: CategoryType[], getSubcategories: (name: string) => void }) {
     const [isOpen, toodleOpen] = useState(false)
     const dispatch = useAppDispatch()
     function handleClick() {
@@ -14,19 +14,13 @@ export default function Categories({ categories }: { categories: CategoryType[] 
     const memoizedCategories = useMemo(() => isOpen || categories.length <= 4 ? categories : categories.slice(0, 4), [isOpen, categories])
     const handleChange = (name: string) => {
         dispatch(changeFilter({ name: "category", value: name }))
+        getSubcategories(name)
     }
     return (
         <ul className='filter-choice-items'>
             {memoizedCategories.map(category =>
                 <li className='filter-category' key={category.id}>{getIconCategory(category.name)} <a>
                     <label>
-                        {/* <Field
-                        name="category"
-                        type="radio"
-                        component="input"
-                        value={category.name}
-                        id={category.name}
-                    /> */}
                         <input name="category"
                             type="radio"
                             value={category.name}
