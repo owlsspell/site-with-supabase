@@ -28,7 +28,7 @@ export default function EventCard({ event }: { event: EventType }) {
         <Link className={'event_card ' + (pathname === '/events' ? "event_card-row" : "")} href={'/event/' + event.id}>
             {!images || images?.length === 0 ? "" :
                 <div className='event_image'>
-                    <Image fill sizes="auto" src={process.env.NEXT_PUBLIC_SUPABASE_STORAGE_PUBLIC_URL + event.id + "/" + images[0].name} alt="" />
+                    <Image fill priority sizes="auto" src={process.env.NEXT_PUBLIC_SUPABASE_STORAGE_PUBLIC_URL + event.id + "/" + images[0].name} alt="" />
                 </div>}
             <div className='event_details'>
                 {dayjs().diff(event.created_at, 'h') >= 12 ? "" : <div className='event_label'>Just added</div>}

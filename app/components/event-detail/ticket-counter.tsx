@@ -47,7 +47,7 @@ export default function TicketCounter({ eventId }: { eventId: string }) {
                     </div>
                     <div className="event_price">
                         <span>Free</span>
-                        <div className="event_price-icon"><Image src={info.src} width={24} height={24} alt=""></Image></div>
+                        <div className="event_price-icon"><Image src={info} width={24} height={24} alt=""></Image></div>
                     </div>
                 </div>
                 <OrangeButton text="Reserve a spot" className='reserve-button' onClick={reserveSpot} />

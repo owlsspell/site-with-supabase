@@ -17,7 +17,6 @@ export default function FilterHeader() {
         if (filterName[0] === 'category') dispatch(changeFilter({ name: "subcategory", value: [] }))
     }
 
-    console.log('filters,', filters);
     const getButtonText = (text: string | string[]) => {
         if (typeof text === 'string') return text
         if (text.length < 2) return text.join(',')
