@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Categories from './categories'
 import { dates, price, format, language, currency } from '@/lib/constants'
 import RadioOrCheckboxFilter from './radio-or-checkbox-filter'
@@ -10,16 +10,15 @@ export default function FilterPanel({ categories }: { categories: CategoryType[]
     const [subcategories, setSubcategories] = useState<string[] | []>([])
     const filters = useAppSelector((state: RootState) => state.events.filters)
 
-    const getSubcategories = async (category: string) => {
+    const getSubcategories = (category: string) => {
         const result = categories.find(item => item.name === category)
         if (result?.subcategories === null) return setSubcategories([])
         if (result) setSubcategories(result.subcategories)
     }
-    const handleSubmit = () => { }
-
+    useEffect(() => getSubcategories(filters.category), [filters.category])
     return (
         <aside className='filter_panel'>
-            <form onSubmit={handleSubmit}>
+            <form>
                 <span className='filter_panel-title'>Filters</span>
                 <div className="filter_section">
                     {filters.category.length > 0 ?
@@ -30,7 +29,7 @@ export default function FilterPanel({ categories }: { categories: CategoryType[]
                         :
                         <>
                             <div className='filter_section-title'>Category</div>
-                            <Categories categories={categories} getSubcategories={getSubcategories} />
+                            <Categories categories={categories} />
                         </>
                     }
                 </div>

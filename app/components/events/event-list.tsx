@@ -5,11 +5,13 @@ import { RootState } from '@/lib/store';
 import supabase from '@/utils/supabase/client-supabase';
 import EventCard from './event-card';
 import dayjs from 'dayjs';
+import { usePathname } from 'next/navigation';
 
 export default function EventsList() {
     const activeFilter: string | null = useAppSelector((state: RootState) => state.events.activeTab)
     const filters = useAppSelector((state: RootState) => state.events.filters)
     const [eventCards, setEventCards] = useState<EventType[] | []>([])
+    const pathname = usePathname()
 
     let query = supabase.from("events").select('*').order('timeStart', { ascending: true }).limit(6)
 
@@ -72,28 +74,30 @@ export default function EventsList() {
         const { data } = await query
         setEventCards(data as EventType[])
     }
+    useEffect(() => {
+        if (pathname === '/') getEvents(activeFilter as string)
+    }, [activeFilter, pathname])
 
     useEffect(() => {
-        getEvents(activeFilter as string)
-    }, [activeFilter])
-
-    useEffect(() => {
-        if (filters.category.length > 0) getEventsByField("category", filters.category as string)
-        if (filters.subcategory.length > 0) getEventsByContainsValueInArray("subcategory", filters.subcategory)
-        if (filters.date.length > 0) getEventsByDate(filters.date as string)
-        if (filters.price.length > 0) getEventsByPrice(filters.price as string)
-        if (filters.format.length > 0) getEventsByField("format", filters.format as string)
-        if (filters.currency.length > 0) getEventsByField("currency", filters.currency as string)
-        if (filters.language.length > 0) getEventsByContainsValueInArray("language", filters.language as string[])
-
+        if (Object.values(filters).some(item => item.length > 0)) {
+            if (filters.category.length > 0) getEventsByField("category", filters.category as string)
+            if (filters.subcategory.length > 0) getEventsByContainsValueInArray("subcategory", filters.subcategory)
+            if (filters.date.length > 0) getEventsByDate(filters.date as string)
+            if (filters.price.length > 0) getEventsByPrice(filters.price as string)
+            if (filters.format.length > 0) getEventsByField("format", filters.format as string)
+            if (filters.currency.length > 0) getEventsByField("currency", filters.currency as string)
+            if (filters.language.length > 0) getEventsByContainsValueInArray("language", filters.language as string[])
+        }
         if (Object.values(filters).every(item => item.length === 0)) getEvents('All')
     }, [filters])
 
     return (
-        <div className='events_list'>
-            {!eventCards || eventCards?.length === 0 ?
-                <p className='events_notfound'>No one event found</p>
-                : eventCards.map(event => <EventCard key={event.id} event={event} />)}
+        <div className="event_list-container">
+            <div className='events_list'>
+                {!eventCards || eventCards?.length === 0 ?
+                    <p className='events_notfound'>No one event found</p>
+                    : eventCards.map(event => <EventCard key={event.id} event={event} />)}
+            </div>
         </div>
     )
 }

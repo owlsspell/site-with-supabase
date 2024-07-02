@@ -140,8 +140,11 @@
         }
     }
 
-    .events_list {
+    .event_list-container {
         @include section_padding;
+    }
+
+    .events_list {
         padding-top: 24px;
         width: 100%;
         display: grid;

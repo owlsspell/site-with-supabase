@@ -23,7 +23,7 @@ export default function EventCard({ event }: { event: EventType }) {
     useEffect(() => {
         getImages()
     }, [])
-
+    console.log('render');
     return (
         <Link className={'event_card ' + (pathname === '/events' ? "event_card-row" : "")} href={'/event/' + event.id}>
             {!images || images?.length === 0 ? "" :

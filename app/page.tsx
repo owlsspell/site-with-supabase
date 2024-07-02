@@ -1,21 +1,23 @@
-import { createClient } from "@/utils/supabase/server";
 import FullbleedBanner from "./components/homepage/fullbleed-banner"
 import IconCategories from "./components/homepage/categories/icon-categories";
 import EventsList from "./components/events/events-list-server";
+import { createClient } from "@/utils/supabase/server";
+
+async function getCategories() {
+  const supabase = createClient()
+  const { data, error } = await supabase.from("categories").select('*').order('id')
+  if (error) throw new Error('Could not find event')
+  return data
+}
 
 export default async function Home() {
-  // const supabase = createClient()
-  // const { data } = await supabase.from("comments").select('*, author: profiles(*)').order('created_at', { ascending: false });
-  // const { data: { session } } = await supabase.auth.getSession()
+  const categories = await getCategories()
 
   return (
     <main>
       <FullbleedBanner />
-      <IconCategories />
+      <IconCategories categories={categories} />
       <EventsList />
-      {/* <AuthButtonServer />
-      {session ? <NewComment /> : ""}
-      <Comments comments={data as CommentWithAuthor[]} /> */}
     </main>
   );
 }

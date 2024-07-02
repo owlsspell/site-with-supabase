@@ -4,7 +4,7 @@ import getIconCategory from '../../utils/categories/get-icon-category'
 import { changeFilter } from '@/lib/features/eventsFiltersSlice'
 import { useAppDispatch } from '@/lib/hooks'
 
-export default function Categories({ categories, getSubcategories }: { categories: CategoryType[], getSubcategories: (name: string) => void }) {
+export default function Categories({ categories }: { categories: CategoryType[] }) {
     const [isOpen, toodleOpen] = useState(false)
     const dispatch = useAppDispatch()
     function handleClick() {
@@ -13,7 +13,6 @@ export default function Categories({ categories, getSubcategories }: { categorie
     const memoizedCategories = useMemo(() => isOpen || categories.length <= 4 ? categories : categories.slice(0, 4), [isOpen, categories])
     const handleChange = (name: string) => {
         dispatch(changeFilter({ name: "category", value: name }))
-        getSubcategories(name)
     }
     return (
         <ul className='filter-choice-items'>
