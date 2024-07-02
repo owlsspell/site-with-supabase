@@ -1,7 +1,6 @@
 'use client'
 import React, { useMemo, useState } from 'react'
 import getIconCategory from '../../utils/categories/get-icon-category'
-import { Field } from 'react-final-form'
 import { changeFilter } from '@/lib/features/eventsFiltersSlice'
 import { useAppDispatch } from '@/lib/hooks'
 

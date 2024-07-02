@@ -1,10 +1,10 @@
 'use client'
-import { changeFilter, changeFilterCheckbox, changeFilters } from '@/lib/features/eventsFiltersSlice'
+import { changeFilter } from '@/lib/features/eventsFiltersSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { RootState } from '@/lib/store'
 import React, { useMemo, useState } from 'react'
 
-export default function RadioOrCheckboxFilter({ title, options, type = "radio" }: { title?: string, options: string[], type?: "radio" | "checkbox" }) {
+export default function RadioOrCheckboxFilter({ title, options, type = "radio", name }: { title?: string, options: string[], type?: "radio" | "checkbox", name?: string }) {
     const [isOpen, toodleOpen] = useState(false)
 
     function handleClick() {
@@ -14,7 +14,7 @@ export default function RadioOrCheckboxFilter({ title, options, type = "radio" }
 
     return (
         <div className="filter_section">
-            <div className='filter_section-title'>{title}</div>
+            <div className='filter_section-title'>{name || title}</div>
             <ul className='filter-choice-items'>
                 {memoizedOptions.map(option =>
                     <li key={option}>

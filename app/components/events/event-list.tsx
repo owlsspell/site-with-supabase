@@ -6,13 +6,11 @@ import supabase from '@/utils/supabase/client-supabase';
 import EventCard from './event-card';
 import dayjs from 'dayjs';
 
-
 export default function EventsList() {
     const activeFilter: string | null = useAppSelector((state: RootState) => state.events.activeTab)
     const filters = useAppSelector((state: RootState) => state.events.filters)
     const [eventCards, setEventCards] = useState<EventType[] | []>([])
-    console.log('filters', filters);
-    console.log('eventCards', eventCards);
+
     let query = supabase.from("events").select('*').order('timeStart', { ascending: true }).limit(6)
 
     async function getEvents(activeFilter: string) {
@@ -56,7 +54,6 @@ export default function EventsList() {
         }
 
         const { data } = await query
-        console.log('data!', data);
         setEventCards(data as EventType[])
     }
     const getEventsByPrice = async (price: string) => {
@@ -82,6 +79,7 @@ export default function EventsList() {
 
     useEffect(() => {
         if (filters.category.length > 0) getEventsByField("category", filters.category as string)
+        if (filters.subcategory.length > 0) getEventsByContainsValueInArray("subcategory", filters.subcategory)
         if (filters.date.length > 0) getEventsByDate(filters.date as string)
         if (filters.price.length > 0) getEventsByPrice(filters.price as string)
         if (filters.format.length > 0) getEventsByField("format", filters.format as string)

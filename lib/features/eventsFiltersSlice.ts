@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-
 interface FiltersType {
   category: string;
   subcategory: string[];
@@ -19,7 +17,7 @@ const initialState: EventsState = {
   activeTab: "All",
   filters: {
     category: "",
-    subcategory:[],
+    subcategory: [],
     date: "",
     price: "",
     format: "",
@@ -35,9 +33,6 @@ export const eventSlice = createSlice({
     setActiveTab: (state, data) => {
       state.activeTab = data.payload;
     },
-    changeFilters: (state, data) => {
-      state.filters = data.payload;
-    },
     clearFilter: (state, data) => {
       state.filters = { ...state.filters, [data.payload]: "" };
     },
@@ -47,23 +42,8 @@ export const eventSlice = createSlice({
         [data.payload.name]: data.payload.value,
       };
     },
-    changeFilterCheckbox: (state, data) => {
-      // const { name, value, checked } = data.payload;
-      
-      // checked
-      //   ? ([...state.filters[name]] = [...state.filters[name], value])
-      //   : (state.filters[name] = state.filters[name].filter(
-      //       (item) => item !== value
-      //     ));
-    },
   },
 });
 
-export const {
-  setActiveTab,
-  changeFilters,
-  clearFilter,
-  changeFilter,
-  changeFilterCheckbox,
-} = eventSlice.actions;
+export const { setActiveTab, clearFilter, changeFilter } = eventSlice.actions;
 export default eventSlice.reducer;
