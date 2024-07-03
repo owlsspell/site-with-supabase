@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import EventDetail from "../../components/event-detail/event-detail";
+import EventDetail from "../../../components/event-detail/event-detail";
 import supabase from "@/utils/supabase/client-supabase";
 
 async function getEventData(id: string) {
