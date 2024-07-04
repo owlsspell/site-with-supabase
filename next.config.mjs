@@ -20,10 +20,9 @@ const nextConfig = {
             test: /\.svg$/,
             use: ['@svgr/webpack', 'url-loader'],
         });
-
         return config;
     },
-    // reactStrictMode: true,
+    reactStrictMode: true,
 };
 
 export default nextConfig;

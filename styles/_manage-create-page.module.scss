@@ -25,6 +25,10 @@
 
         &.navbar_item-active {
             background-color: v.$blue;
+
+            path {
+                stroke: v.$white;
+            }
         }
     }
 }
