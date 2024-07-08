@@ -1,0 +1,46 @@
+@use '_variables' as v;
+
+//Navbar
+.navbar-left {
+    border-right: 1px solid v.$gray_200;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    max-width: 56px;
+    background-color: v.$gray_100;
+    padding-top: 20px;
+
+    .navbar_logo {
+        text-align: center;
+
+        a {
+            text-decoration: none;
+            color: v.$orange;
+            font-size: 30px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+    }
+
+    .navbar_item {
+        color: v.$gray;
+        padding: 8px;
+        margin: 0 8px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+
+        &:hover {
+            color: v.$blue;
+            background-color: v.$white;
+        }
+
+        &.navbar_item-active {
+            background-color: v.$blue;
+
+            path {
+                stroke: v.$white;
+            }
+        }
+    }
+}

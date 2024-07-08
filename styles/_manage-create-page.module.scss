@@ -1,34 +1,57 @@
 @use '_variables' as v;
 
-//Navbar
-.navbar-left {
-    border-right: 1px solid v.$gray_200;
-    position: fixed;
-    top: 66px;
-    bottom: 0;
-    height: 100vh;
-    max-width: 56px;
+.create_container {
+    margin-left: 56px;
+    display: flex;
+}
+
+.drawer__eds {
+    width: 288px;
     background-color: v.$gray_100;
-    padding-top: 40px;
+    height: 100vh;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 
-    .navbar_item {
-        color: v.$gray;
-        padding: 8px;
-        margin: 0 8px 24px;
-        border-radius: 8px;
-        cursor: pointer;
+    h3 {
+        margin: 23px 16px 16px;
+    }
 
-        &:hover {
-            color: v.$blue;
-            background-color: v.$white;
+    .drawer_list {
+        list-style-type: none;
+
+        .drawer_li-active {
+            background-color: v.$gray_200;
+
+            label {
+                opacity: 1;
+            }
         }
 
-        &.navbar_item-active {
-            background-color: v.$blue;
+        label {
+            display: flex;
+            align-items: start;
+            padding: 16px;
+            gap: 16px;
+            opacity: 0.5;
 
-            path {
-                stroke: v.$white;
+            input {
+                min-width: 25px;
+                height: 20px;
+            }
+        }
+
+        .drawer_step {
+            .drawer_step-title {
+                font-weight: 600;
+                margin-bottom: 8px;
             }
         }
     }
+}
+
+//Editor
+
+.editor_body {
+    min-height: 100vh;
 }

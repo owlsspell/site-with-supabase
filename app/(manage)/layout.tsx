@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "../../styles/global.scss";
 import StoreProvider from "../StoreProvider";
-import DashboardHeader from "../components/headers/dashboard-header";
+import DashboardHeaderServer from "../components/headers/dashboard/dashboard-header-server";
 
 const lato = Lato({ subsets: ["latin"], weight: "400" });
 
@@ -19,7 +19,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={lato.className}>
-                <DashboardHeader />
+                <DashboardHeaderServer />
                 <StoreProvider>{children}</StoreProvider>
             </body>
         </html>

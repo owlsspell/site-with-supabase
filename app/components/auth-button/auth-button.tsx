@@ -3,6 +3,7 @@ import supabase from "@/utils/supabase/client-supabase"
 import { Session } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
 import GrayButton from "../buttons/gray-button"
+import Link from "next/link"
 
 export default function AuthButton({ session }: { session: Session | null }) {
     const router = useRouter()
@@ -24,9 +25,9 @@ export default function AuthButton({ session }: { session: Session | null }) {
         <>
             {session ?
                 <>
-                    <div className="header_user_image">
+                    <Link href="/manage/events/home" className="header_user_image">
                         <img src={session?.user?.user_metadata.avatar_url} alt="" />
-                    </div>
+                    </Link>
                     <GrayButton text="Log out" onClick={onLogOut} />
                 </>
                 :
