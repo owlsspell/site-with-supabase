@@ -15,6 +15,7 @@ export default function AuthButton({ session }: { session: Session | null }) {
                 redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
             },
         })
+        router.refresh()
     }
     const onLogOut = async () => {
         await supabase.auth.signOut();
