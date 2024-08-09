@@ -1,5 +1,5 @@
 import Drawer from '@/app/components/events/create/drawer'
-import EventEditor from '@/app/components/events/create/editor'
+import EventEditor from '@/app/components/events/create/editor/editor'
 import React from 'react'
 
 export default function CreateEvent() {
