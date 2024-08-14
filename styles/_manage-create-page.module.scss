@@ -102,6 +102,16 @@
             position: relative;
             padding: 0;
 
+            input[type="file"] {
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                height: 100%;
+                width: 100%;
+                z-index: 20;
+                cursor: pointer;
+            }
+
             .editor_upload-picture {
                 background-color: rgba(v.$white, .5);
                 position: absolute;
@@ -128,6 +138,7 @@
                     justify-content: center;
                     gap: 10px;
                     text-align: center;
+                    font-style: normal;
 
                     .editor_upload-picture-icon {
                         background-color: v.$gray_100;
@@ -140,20 +151,32 @@
 
         .editor_title {
             h1 {
-                font-size: v.$font_size * 3.5;
+                font-size: v.$font_size * 3;
                 font-weight: 800;
                 line-height: 4rem;
-                margin-bottom: 15px;
+                margin-bottom: 35px;
             }
 
             h3 {
                 font-size: v.$font_size + 8;
                 font-weight: 800;
-                margin-bottom: 20px;
+                margin-bottom: 15px;
+                margin-top: 15px;
             }
 
             p {
                 font-size: v.$font_size + 2;
+                margin-bottom: 20px;
+            }
+
+            input {
+                margin-bottom: 20px;
+                padding: 15px 10px;
+                font-size: v.$font_size + 2;
+                font-weight: 400;
+                border-radius: 10px;
+                border-color: v.$gray_800;
+                width: 95%;
             }
 
             hr {
@@ -185,6 +208,11 @@
                 -o-object-position: center;
                 object-position: center;
             }
+
+            &.event_image {
+                height: 350px;
+                width: auto;
+            }
         }
 
         .swiper-pagination-bullet {
@@ -201,7 +229,6 @@
         bottom: 0;
         display: flex;
         justify-content: flex-end;
-        // padding-right: 80px;
         background-color: v.$white;
         z-index: 20;
 
