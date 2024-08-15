@@ -1,13 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface EventsState {
-  title: string;
-  summary: string;
+  overview: {
+    title: string;
+    summary: string;
+  };
 }
 
 const initialState: EventsState = {
-  title: "",
-  summary: "",
+  overview: {
+    title: "",
+    summary: "",
+  },
 };
 
 export const eventDataSlice = createSlice({
@@ -15,7 +19,12 @@ export const eventDataSlice = createSlice({
   initialState,
   reducers: {
     setRow: (state, data) => {
-      state[data.payload.key as keyof EventsState] = data.payload.value;
+      console.log(data.payload);
+      const { section, key, value } = data.payload;
+      state[section as keyof EventsState] = {
+        ...state[section as keyof EventsState],
+        [key]: value,
+      };
     },
   },
 });

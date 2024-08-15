@@ -82,19 +82,27 @@
                 border: 2px solid v.$blue;
             }
 
-            .editor_upload-plus {
-                @include flex-centered;
+            .editor_upload-icon {
                 position: absolute;
                 top: 10px;
                 right: 10px;
                 z-index: 10;
-                font-size: v.$font_size * 3;
-                color: v.$blue;
-                width: 36px;
-                height: 36px;
-                background-color: v.$gray_100;
-                border-radius: 50%;
-                padding: 0 1px 2px;
+
+                .icon {
+                    @include flex-centered;
+                    width: 36px;
+                    height: 36px;
+                    font-size: v.$font_size * 3;
+                    color: v.$blue;
+                    background-color: v.$gray_100;
+                    border-radius: 50%;
+                    padding: 0 1px 2px;
+
+                    &.editor_upload-close {
+                        color: v.$gray_800;
+                        font-size: v.$font_size * 2;
+                    }
+                }
             }
         }
 
