@@ -1,9 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface EventsState {
+export interface EventsState {
   overview: {
     title: string;
     summary: string;
+  };
+  dateAndLocation: {
+    date: string;
+    startTime: string;
+    endTime: string;
+    location: string;
   };
 }
 
@@ -12,6 +18,12 @@ const initialState: EventsState = {
     title: "",
     summary: "",
   },
+  dateAndLocation: {
+    date: "",
+    startTime: "",
+    endTime: "",
+    location: "",
+  },
 };
 
 export const eventDataSlice = createSlice({
@@ -19,12 +31,12 @@ export const eventDataSlice = createSlice({
   initialState,
   reducers: {
     setRow: (state, data) => {
-      console.log(data.payload);
       const { section, key, value } = data.payload;
-      state[section as keyof EventsState] = {
+      const newField = {
         ...state[section as keyof EventsState],
         [key]: value,
       };
+      Object.assign(state, { [section]: newField });
     },
   },
 });

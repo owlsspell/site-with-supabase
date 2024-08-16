@@ -98,9 +98,16 @@
                     border-radius: 50%;
                     padding: 0 1px 2px;
 
-                    &.editor_upload-close {
+                    &.icon-close {
                         color: v.$gray_800;
                         font-size: v.$font_size * 2;
+                    }
+
+                    &.icon-ok {
+                        background-color: v.$green;
+                        color: v.$white;
+                        font-size: v.$font_size * 2;
+                        font-weight: 800;
                     }
                 }
             }
@@ -183,7 +190,7 @@
                 font-size: v.$font_size + 2;
                 font-weight: 400;
                 border-radius: 10px;
-                border-color: v.$gray_800;
+                border: 2px solid v.$gray_300;
                 width: 95%;
             }
 
@@ -194,8 +201,19 @@
 
             &.editor_title-flex {
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 gap: 50px;
+
+                .editor_date-and-location {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                }
+
+                .editor-date {
+                    display: flex;
+                    gap: 16px;
+                }
             }
         }
 

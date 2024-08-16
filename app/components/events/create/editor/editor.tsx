@@ -6,6 +6,7 @@ import ContainerHoc from './container-hoc';
 import EventDateAndLocation from './sections/event-date-and-location';
 import AboutEvent from './sections/about-event';
 import OrangeButton from '@/app/components/buttons/orange-button';
+import { useAppSelector } from '@/lib/hooks';
 
 export default function EventEditor() {
     const [isOpened, toogleOpened] = useState({
@@ -15,10 +16,10 @@ export default function EventEditor() {
         about: false,
     })
     const changeVisibility = (field: string, value: boolean) => {
-        console.log('field', field, value);
         toogleOpened({ ...isOpened, [field]: value })
-        console.log('isOpened', isOpened);
     }
+    const event = useAppSelector((state: any) => state.eventData)
+    console.log('event', event);
     return (
         <div className='editor_container'>
             <div className='editor_body'>
@@ -26,10 +27,10 @@ export default function EventEditor() {
                     <SwiperGalery />
                 </ContainerHoc>
                 <ContainerHoc field="overview" isOpened={isOpened.overview} changeVisibility={changeVisibility}>
-                    <EventTitle isOpened={isOpened.overview} changeVisibility={changeVisibility} />
+                    <EventTitle isOpened={isOpened.overview} />
                 </ContainerHoc>
                 <ContainerHoc field="dateAndLocation" isOpened={isOpened.dateAndLocation} changeVisibility={changeVisibility}>
-                    <EventDateAndLocation />
+                    <EventDateAndLocation isOpened={isOpened.dateAndLocation} />
                 </ContainerHoc>
                 <ContainerHoc field="about" isOpened={isOpened.about} changeVisibility={changeVisibility}>
                     <AboutEvent />

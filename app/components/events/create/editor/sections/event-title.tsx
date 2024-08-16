@@ -1,23 +1,24 @@
 'use client'
-import { setRow } from '@/lib/features/eventData'
+import { setRow } from '@/lib/features/eventDataSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { RootState } from '@/lib/store'
 import React from 'react'
 
-export default function EventTitle({ isOpened, changeVisibility }: { isOpened: boolean, changeVisibility: (field: string, value: boolean) => void }) {
+export default function EventTitle({ isOpened }: { isOpened: boolean }) {
     const dispatch = useAppDispatch()
     const event = useAppSelector((state: RootState) => state.eventData.overview)
-    console.log('event', event);
 
     const changeInput = (inputName: string, e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setRow({ section: "overview", key: inputName, value: e.target.value }))
     }
-    const handleClick = () => {
-        if (isOpened) return
-        changeVisibility('overview', true)
+
+    const isSomeFieldFull = () => {
+        if (!event) return
+        return Object.values(event).some((item) => item.length > 0)
     }
+
     return (
-        <div className='editor_title' onClick={handleClick}>
+        <div className='editor_title' >
             {isOpened ? <>
                 <h1>Event overview</h1>
                 <h3>Event title</h3>
@@ -27,7 +28,7 @@ export default function EventTitle({ isOpened, changeVisibility }: { isOpened: b
                 <p>{"Grab people's attention with a short description about your event. Attendees will see this at the top of your event page."}</p>
                 <input type="text" value={event.summary} onChange={(e) => changeInput('summary', e)} />
             </>
-                : (event.title.length > 0 && event.summary.length > 0) ?
+                : (event.title.length > 0 || event.summary.length > 0) ?
                     <>
                         <h1>{event.title}</h1>
                         <p>{event.summary}</p>
