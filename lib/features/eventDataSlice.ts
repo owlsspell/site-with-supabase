@@ -11,6 +11,9 @@ export interface EventsState {
     endTime: string;
     location: string;
   };
+  about: {
+    info: string;
+  };
 }
 
 const initialState: EventsState = {
@@ -23,6 +26,9 @@ const initialState: EventsState = {
     startTime: "",
     endTime: "",
     location: "",
+  },
+  about: {
+    info: "",
   },
 };
 

@@ -1,5 +1,6 @@
 'use client'
 import { setRow } from '@/lib/features/eventDataSlice'
+import { isSomeFieldFull } from '@/lib/functions'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { RootState } from '@/lib/store'
 import React from 'react'
@@ -10,11 +11,6 @@ export default function EventTitle({ isOpened }: { isOpened: boolean }) {
 
     const changeInput = (inputName: string, e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setRow({ section: "overview", key: inputName, value: e.target.value }))
-    }
-
-    const isSomeFieldFull = () => {
-        if (!event) return
-        return Object.values(event).some((item) => item.length > 0)
     }
 
     return (
@@ -28,7 +24,7 @@ export default function EventTitle({ isOpened }: { isOpened: boolean }) {
                 <p>{"Grab people's attention with a short description about your event. Attendees will see this at the top of your event page."}</p>
                 <input type="text" value={event.summary} onChange={(e) => changeInput('summary', e)} />
             </>
-                : (event.title.length > 0 || event.summary.length > 0) ?
+                : isSomeFieldFull(event) ?
                     <>
                         <h1>{event.title}</h1>
                         <p>{event.summary}</p>

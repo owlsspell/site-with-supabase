@@ -5,6 +5,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { RootState } from '@/lib/store'
 import { setRow } from '@/lib/features/eventDataSlice'
+import { isSomeFieldFull } from '@/lib/functions'
 
 dayjs.extend(advancedFormat)
 dayjs.extend(timezone)
@@ -15,11 +16,6 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
     const event = useAppSelector((state: RootState) => state.eventData.dateAndLocation)
     const changeInput = (inputName: string, e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setRow({ section: "dateAndLocation", key: inputName, value: e.target.value }))
-    }
-
-    const isSomeFieldFull = () => {
-        if (!event) return
-        return Object.values(event).some((item) => item.length > 0)
     }
 
     return (
@@ -36,7 +32,7 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
                     <h3>Location</h3>
                     <input type="text" value={event.location} onChange={(e) => changeInput('location', e)} />
                 </div>
-                : isSomeFieldFull() ?
+                : isSomeFieldFull(event) ?
                     <>
                         <div>
                             <h3>Date and time</h3>

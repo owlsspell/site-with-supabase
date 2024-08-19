@@ -33,7 +33,7 @@ export default function EventEditor() {
                     <EventDateAndLocation isOpened={isOpened.dateAndLocation} />
                 </ContainerHoc>
                 <ContainerHoc field="about" isOpened={isOpened.about} changeVisibility={changeVisibility}>
-                    <AboutEvent />
+                    <AboutEvent isOpened={isOpened.about} />
                 </ContainerHoc>
             </div >
             <div className='editor_footer'>
