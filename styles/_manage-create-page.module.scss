@@ -101,7 +101,8 @@
 
                     &.icon-close {
                         color: v.$gray_800;
-                        font-size: v.$font_size * 2;
+                        font-size: v.$font_size * 1.6;
+                        padding: 0;
                     }
 
                     &.icon-ok {
@@ -109,6 +110,52 @@
                         color: v.$white;
                         font-size: v.$font_size * 2;
                         font-weight: 800;
+                    }
+                }
+            }
+
+            &.rich_text {
+                overflow: visible;
+
+                h2 {
+                    font-size: v.$font_size * 2;
+
+                    span {
+                        font-size: v.$font_size * 2;
+                    }
+                }
+
+                h3 {
+                    font-size: v.$font_size + 5;
+
+                    span {
+                        font-size: v.$font_size + 5;
+                    }
+                }
+
+                h5 {
+                    font-size: v.$font_size + 2;
+
+                    span {
+                        font-size: v.$font_size + 2;
+                    }
+                }
+
+                .link-modal {
+                    height: auto;
+
+                    input {
+                        padding: 5px 10px;
+                    }
+
+                    .rdw-link-modal-target-option {
+                        display: flex;
+                        align-items: center;
+
+                        input {
+                            width: 30px;
+                            margin-bottom: 0;
+                        }
                     }
                 }
             }
@@ -239,6 +286,7 @@
             &.event_image {
                 height: 350px;
                 width: auto;
+                position: relative;
             }
         }
 
@@ -270,4 +318,8 @@
     background-color: v.$gray_100;
     padding: 5px 10px;
     min-height: 100px;
+
+    span {
+        font-size: inherit;
+    }
 }

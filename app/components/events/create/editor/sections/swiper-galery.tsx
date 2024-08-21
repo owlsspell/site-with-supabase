@@ -11,8 +11,11 @@ import image2 from "@/images/swiper/pic2_optim.jpeg"
 import image3 from "@/images/swiper/pic3_optim.jpeg"
 import { ChangeEvent, useState } from 'react';
 import supabase from '@/utils/supabase/client-supabase'
+import { useAppDispatch } from '@/lib/hooks';
+import { setRow } from '@/lib/features/eventDataSlice';
 
 export default function SwiperGalery() {
+    const dispatch = useAppDispatch()
     const slides = [image1, image2, image3]
     const [image, changeImage] = useState<null | string>(null)
 
@@ -24,6 +27,7 @@ export default function SwiperGalery() {
         // const formData = new FormData()
         // formData.append("image", e.target.files[0])
         // console.log('formData', formData);
+        dispatch(setRow({ section: "images", key: 'image', value: e.target.files[0] }))
     }
     console.log('image,', image);
     // async function getImages() {
@@ -62,6 +66,7 @@ export default function SwiperGalery() {
             :
             <div className='swiper_slide event_image'>
                 <Image priority fill src={image} alt="" />
+                <input type="file" onChange={uploadImage} />
             </div>
         }
     </>

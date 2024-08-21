@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface EventsState {
+  images: {
+    image: null | File;
+  };
   overview: {
     title: string;
     summary: string;
@@ -17,6 +20,9 @@ export interface EventsState {
 }
 
 const initialState: EventsState = {
+  images: {
+    image: null,
+  },
   overview: {
     title: "",
     summary: "",

@@ -19,11 +19,13 @@ export default function EventEditor() {
         toogleOpened({ ...isOpened, [field]: value })
     }
     const event = useAppSelector((state: any) => state.eventData)
-    console.log('event', event);
+    const createEvent = () => {
+        console.log('event', event);
+    }
     return (
         <div className='editor_container'>
             <div className='editor_body'>
-                <ContainerHoc classes="editor_picture" field="image" isOpened={isOpened.image} changeVisibility={changeVisibility}>
+                <ContainerHoc classes="editor_picture" field="images" isOpened={isOpened.image} changeVisibility={changeVisibility}>
                     <SwiperGalery />
                 </ContainerHoc>
                 <ContainerHoc field="overview" isOpened={isOpened.overview} changeVisibility={changeVisibility}>
@@ -32,12 +34,12 @@ export default function EventEditor() {
                 <ContainerHoc field="dateAndLocation" isOpened={isOpened.dateAndLocation} changeVisibility={changeVisibility}>
                     <EventDateAndLocation isOpened={isOpened.dateAndLocation} />
                 </ContainerHoc>
-                <ContainerHoc field="about" isOpened={isOpened.about} changeVisibility={changeVisibility}>
+                <ContainerHoc classes="rich_text" field="about" isOpened={isOpened.about} changeVisibility={changeVisibility}>
                     <AboutEvent isOpened={isOpened.about} />
                 </ContainerHoc>
             </div >
             <div className='editor_footer'>
-                <OrangeButton className='editor_button' text="Save and continue" />
+                <OrangeButton className='editor_button' text="Save and continue" onClick={createEvent} />
             </div>
         </div>
     )
