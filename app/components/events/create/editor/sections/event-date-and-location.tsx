@@ -15,6 +15,7 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
     const dispatch = useAppDispatch()
     const event = useAppSelector((state: RootState) => state.eventData.dateAndLocation)
     const changeInput = (inputName: string, e: React.ChangeEvent<HTMLInputElement>) => {
+        if (inputName === 'isOnline') return dispatch(setRow({ section: "dateAndLocation", key: inputName, value: e.target.checked }))
         dispatch(setRow({ section: "dateAndLocation", key: inputName, value: e.target.value }))
     }
 
@@ -30,7 +31,11 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
                         <input type="time" value={event.endTime} onChange={(e) => changeInput('endTime', e)} />
                     </div>
                     <h3>Location</h3>
-                    <input type="text" value={event.location} onChange={(e) => changeInput('location', e)} />
+                    <label className="editor-location-online">
+                        <span>Is Online?</span>
+                        <input type="checkbox" checked={event.isOnline} onChange={(e) => changeInput('isOnline', e)} />
+                    </label>
+                    <input type="text" placeholder='Event location' disabled={event.isOnline} value={event.isOnline ? "" : event.location} onChange={(e) => changeInput('location', e)} />
                 </div>
                 : isSomeFieldFull(event) ?
                     <>
