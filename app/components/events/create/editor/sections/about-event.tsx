@@ -13,7 +13,6 @@ const Editor = dynamic(() => import('react-draft-wysiwyg').then(mod => mod.Edito
 export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
     const dispatch = useAppDispatch()
     const event = useAppSelector((state: RootState) => state.eventData.about)
-    console.log('event', event);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
     const toolbar = {

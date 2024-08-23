@@ -15,6 +15,11 @@ export interface EventsState {
   about: {
     info: string;
   };
+  category: {
+    mainCategory: string;
+    subCategory: string;
+    format: string;
+  };
 }
 
 const initialState: EventsState = {
@@ -31,6 +36,11 @@ const initialState: EventsState = {
   },
   about: {
     info: "",
+  },
+  category: {
+    mainCategory: "",
+    subCategory: "",
+    format: "",
   },
 };
 

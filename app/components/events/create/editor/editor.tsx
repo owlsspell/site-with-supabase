@@ -8,13 +8,15 @@ import AboutEvent from './sections/about-event';
 import OrangeButton from '@/app/components/buttons/orange-button';
 import { useAppSelector } from '@/lib/hooks';
 import supabase from '@/utils/supabase/client-supabase';
+import EventCategory from './sections/event-category';
 
-export default function EventEditor() {
+export default function EventEditor({ categories }: { categories: CategoryType[] }) {
     const [isOpened, toogleOpened] = useState({
         image: false,
         overview: false,
         dateAndLocation: false,
         about: false,
+        category: false,
     })
     const [image, changeImage] = useState<null | File>(null)
     const changeVisibility = (field: string, value: boolean) => {
@@ -64,6 +66,9 @@ export default function EventEditor() {
                 </ContainerHoc>
                 <ContainerHoc field="dateAndLocation" isOpened={isOpened.dateAndLocation} changeVisibility={changeVisibility}>
                     <EventDateAndLocation isOpened={isOpened.dateAndLocation} />
+                </ContainerHoc>
+                <ContainerHoc field="category" isOpened={isOpened.category} changeVisibility={changeVisibility}>
+                    <EventCategory isOpened={isOpened.category} categories={categories} />
                 </ContainerHoc>
                 <ContainerHoc classes="rich_text" field="about" isOpened={isOpened.about} changeVisibility={changeVisibility}>
                     <AboutEvent isOpened={isOpened.about} />

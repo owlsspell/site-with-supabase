@@ -24,6 +24,10 @@ export default function ContainerHoc({ children, classes, isOpened, field, chang
             let isFullField = Object.values(newObj).every((item) => item !== null && item.length > 0 || !!item)
             return (isOnline || location.length > 0) && isFullField
         }
+        if (field === 'category') {
+            const { subCategory, ...newObj } = event[field];
+            return Object.values(newObj).every((item) => item !== null && item.length > 0 || !!item)
+        }
         else return Object.values(event[field]).every((item) => item !== null && item.length > 0 || !!item)
     }
     const handleClick = () => {

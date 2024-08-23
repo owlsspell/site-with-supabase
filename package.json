@@ -26,6 +26,7 @@
     "react-draft-wysiwyg": "^1.15.0",
     "react-final-form": "^6.5.9",
     "react-redux": "^9.1.2",
+    "react-select": "^5.8.0",
     "sweetalert2": "^11.11.1",
     "swiper": "^11.1.4"
   },
