@@ -1,84 +1,88 @@
-import { format } from '@/lib/constants'
-import { setRow } from '@/lib/features/eventDataSlice'
+import { format as formatConstants } from '@/lib/constants'
 import { isSomeFieldFull } from '@/lib/functions'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { RootState } from '@/lib/store'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
+import { Field, useField } from 'react-final-form'
 import Select from 'react-select';
 
 export default function EventCategory({ isOpened, categories }: { isOpened: boolean, categories: CategoryType[] }) {
-    const dispatch = useAppDispatch()
-    const event = useAppSelector((state: RootState) => state.eventData.category)
-    const [selectedOption, setSelectedOption] = useState(null)
-    const [subcategory, setSubcategory] = useState(null)
-    const [selectedFormat, setFormat] = useState(null)
+    const category = useField('category')
+    const subcategory = useField('subcategory')
+    const format = useField('format')
 
     const handleChangeCategory = (selectedOption: any) => {
-        setSelectedOption(selectedOption)
-        setSubcategory(null)
-        dispatch(setRow({ section: "category", key: "mainCategory", value: selectedOption.label }))
-        dispatch(setRow({ section: "category", key: "subCategory", value: null }))
+        category.input.onChange(selectedOption)
+        subcategory.input.onChange(null)
     }
-    const handleChangeSubcategory = (selectedOption: any) => {
-        setSubcategory(selectedOption)
-        const filtered = selectedOption.map((item: any) => item.label)
-        dispatch(setRow({ section: "category", key: "subCategory", value: filtered }))
-    }
-    const handleChangeFormat = (selectedOption: any) => {
-        setFormat(selectedOption)
-        dispatch(setRow({ section: "category", key: "format", value: selectedOption.label }))
-    }
+
+    const handleChangeSubcategory = (selectedOption: any) => subcategory.input.onChange(selectedOption)
 
     const getSubcategories = (category: any) => {
         const result = categories.find(item => item.name === category.label)
         if (result?.subcategories === null) return []
         if (result) return result.subcategories
     }
-    const options = useMemo(() => categories.map(category => ({ value: category.id, label: category.name })), [categories])
+
+    const categoriesList = useMemo(() => categories.map(category => ({ value: category.id, label: category.name })), [categories])
+
     const subCategories = useMemo(() => {
-        if (!selectedOption) return []
-        const result = getSubcategories(selectedOption)
+        if (!category.input.value) return []
+        const result = getSubcategories(category.input.value)
         if (!result) return []
         return result.map(category => ({ value: category, label: category }))
-    }, [selectedOption])
-    const formatsArray = format.map(item => ({ value: item, label: item }))
+    }, [category.input.value])
+
+    const formatsArray = formatConstants.map(item => ({ value: item, label: item }))
 
     return (
         <div className='editor_title'>
-            {isOpened && options.length > 0 ? <>
+            {isOpened && categoriesList.length > 0 ? <>
                 <h3>Event category and info</h3>
                 <div className='editor_select-category'>
                     <div>
                         <h5>Category</h5>
-                        <Select
-                            value={selectedOption}
-                            onChange={handleChangeCategory}
-                            options={options}
-                        />
+                        <Field name="category">
+                            {({ input }) => (
+                                <Select
+                                    {...input}
+                                    value={input.value}
+                                    onChange={handleChangeCategory}
+                                    options={categoriesList}
+                                />
+                            )}
+                        </Field>
                     </div>
                     {subCategories.length ? <div>
                         <h5>Subcategory</h5>
-                        <Select
-                            value={subcategory}
-                            onChange={handleChangeSubcategory}
-                            options={subCategories}
-                            isMulti
-                        />
+                        <Field name="subcategory">
+                            {({ input }) => (
+                                <Select
+                                    {...input}
+                                    value={input.value}
+                                    onChange={handleChangeSubcategory}
+                                    options={subCategories}
+                                    isMulti
+                                />
+                            )}
+                        </Field>
                     </div> : ""}
                     <div>
                         <h5>Format</h5>
-                        <Select
-                            value={selectedFormat}
-                            onChange={handleChangeFormat}
-                            options={formatsArray}
-                        />
+                        <Field name="format">
+                            {({ input }) => (
+                                <Select
+                                    {...input}
+                                    options={formatsArray}
+                                />
+                            )}
+                        </Field>
                     </div>
                 </div>
             </>
-                : isSomeFieldFull(event) ?
+                : isSomeFieldFull([category.input.value, subcategory.input.value, format.input.value]) ?
                     <>
-                        <h1>{event.mainCategory}</h1>
-                        <p>{event.format}</p>
+                        <h3>{category.input.value}</h3>
+                        <h5>{subcategory.input.value.join(',')}</h5>
+                        <h5>{format.input.value}</h5>
                     </> :
                     <>
                         <h3>Event category</h3>

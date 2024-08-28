@@ -11,7 +11,6 @@ import image2 from "@/images/swiper/pic2_optim.jpeg"
 import image3 from "@/images/swiper/pic3_optim.jpeg"
 import { ChangeEvent, useMemo, useState } from 'react';
 import { useAppDispatch } from '@/lib/hooks';
-import { setRow } from '@/lib/features/eventDataSlice';
 
 export default function SwiperGalery({ image, changeImage }: { image: null | File, changeImage: (file: File) => void }) {
     const dispatch = useAppDispatch()

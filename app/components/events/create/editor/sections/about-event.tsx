@@ -1,18 +1,14 @@
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import React, { useEffect, useState } from 'react'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import { EditorState, convertToRaw } from 'draft-js';
-import { RootState } from '@/lib/store';
 import DOMPurify from 'dompurify';
-import { setRow } from '@/lib/features/eventDataSlice';
 import dynamic from 'next/dynamic';
 import draftToHtml from 'draftjs-to-html';
+import { useField } from 'react-final-form';
 
 const Editor = dynamic(() => import('react-draft-wysiwyg').then(mod => mod.Editor), { ssr: false });
 
 export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
-    const dispatch = useAppDispatch()
-    const event = useAppSelector((state: RootState) => state.eventData.about)
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
     const toolbar = {
@@ -29,6 +25,7 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
             options: ['unordered', 'ordered', 'indent', 'outdent'],
         },
         textAlign: {
+            className: 'editor_field_text-align',
             inDropdown: true,
             options: ['left', 'center', 'right']
         },
@@ -43,11 +40,12 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
             options: [10, 11, 12, 14, 16, 18, 24, 30, 36],
         },
     }
+    const info = useField('info')
 
     useEffect(() => {
         let html = draftToHtml(convertToRaw(editorState.getCurrentContent()))
         if (html === "<p></p>\n") return
-        dispatch(setRow({ section: "about", key: 'info', value: html }))
+        info.input.onChange(html)
     }, [editorState]);
 
     function createMarkup(html: any) {
@@ -68,11 +66,11 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
                     toolbar={toolbar}
                 />
             </>
-                : event.info.length > 0 ?
+                : info.input.value.length > 0 ?
                     <>
                         <div
                             className="preview"
-                            dangerouslySetInnerHTML={createMarkup(event.info)}>
+                            dangerouslySetInnerHTML={createMarkup(info.input.value.length)}>
                         </div>
                     </>
                     :

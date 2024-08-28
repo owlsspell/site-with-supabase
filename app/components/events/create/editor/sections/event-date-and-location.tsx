@@ -2,23 +2,19 @@ import dayjs from 'dayjs'
 import React, { useMemo } from 'react'
 import timezone from 'dayjs/plugin/timezone'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { RootState } from '@/lib/store'
-import { setRow } from '@/lib/features/eventDataSlice'
 import { isSomeFieldFull } from '@/lib/functions'
+import { Field, useField } from 'react-final-form'
 
 dayjs.extend(advancedFormat)
 dayjs.extend(timezone)
 
 export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }) {
     const today = useMemo(() => dayjs().format('ddd, D MMM YYYY z'), [])
-    const dispatch = useAppDispatch()
-    const event = useAppSelector((state: RootState) => state.eventData.dateAndLocation)
-    const changeInput = (inputName: string, e: React.ChangeEvent<HTMLInputElement>) => {
-        if (inputName === 'isOnline') return dispatch(setRow({ section: "dateAndLocation", key: inputName, value: e.target.checked }))
-        dispatch(setRow({ section: "dateAndLocation", key: inputName, value: e.target.value }))
-    }
-
+    const date = useField('date')
+    const startTime = useField('startTime')
+    const endTime = useField('endTime')
+    const isOnline = useField('isOnline')
+    const location = useField('location')
     return (
         <div className='editor_title editor_title-flex'>
             {isOpened ?
@@ -26,27 +22,31 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
                     <h3>Date and location</h3>
                     <h5>Date and time</h5>
                     <div className='editor-date'>
-                        <input type="date" value={event.date} onChange={(e) => changeInput('date', e)} />
-                        <input type="time" value={event.startTime} onChange={(e) => changeInput('startTime', e)} />
-                        <input type="time" value={event.endTime} onChange={(e) => changeInput('endTime', e)} />
+                        <Field name="date" component="input" type="date" />
+                        <Field name="startTime" component="input" type="time" />
+                        <Field name="endTime" component="input" type="time" />
                     </div>
                     <h5>Location</h5>
                     <label className="editor-location-online">
                         <span>Is Online?</span>
-                        <input type="checkbox" checked={event.isOnline} onChange={(e) => changeInput('isOnline', e)} />
+                        <Field name="isOnline" component="input" type="checkbox" />
                     </label>
-                    <input type="text" placeholder='Event location' disabled={event.isOnline} value={event.isOnline ? "" : event.location} onChange={(e) => changeInput('location', e)} />
+                    <Field name="location">
+                        {({ input }) => (
+                            <input type="text" placeholder='Event location' disabled={!!isOnline.input.value} value={!!isOnline.input.value ? "" : input.value} onChange={input.onChange} />
+                        )}
+                    </Field>
                 </div>
-                : isSomeFieldFull(event) ?
+                : isSomeFieldFull([date.input.value, startTime.input.value, endTime.input.value, location.input.value]) || isOnline.input.value ?
                     <>
                         <div>
                             <h3>Date and time</h3>
-                            <p>{event.date} {event.startTime} {event.endTime}</p>
+                            <p>{date.input.value} {startTime.input.value}-{endTime.input.value}</p>
                         </div>
                         <hr />
                         <div>
                             <h3>Location</h3>
-                            <p>{event.location}</p>
+                            <p>{!!isOnline.input.value ? "Online" : location.input.value}</p>
                         </div>
                     </>
                     :

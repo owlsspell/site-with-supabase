@@ -293,6 +293,10 @@
                 grid-template-rows: 1fr;
                 gap: 20px 50px;
             }
+
+            .editor_field_text-align {
+                z-index: 0;
+            }
         }
 
         .swiper-wrapper {
@@ -337,9 +341,14 @@
         background-color: v.$white;
         z-index: 20;
 
+        button {
+            border: 0;
+            padding: 0;
+            margin: 20px;
+        }
+
         .editor_button {
             border-radius: 5px;
-            margin: 20px;
         }
     }
 }
