@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Ref, useEffect, useRef, useState } from 'react'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import { EditorState, convertToRaw } from 'draft-js';
 import DOMPurify from 'dompurify';
@@ -10,7 +10,7 @@ const Editor = dynamic(() => import('react-draft-wysiwyg').then(mod => mod.Edito
 
 export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
+    const editorRef = useRef()
     const toolbar = {
         options: ['blockType', 'inline', 'textAlign', 'list', 'link', 'fontSize', 'colorPicker'],
         blockType: {
@@ -40,12 +40,12 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
             options: [10, 11, 12, 14, 16, 18, 24, 30, 36],
         },
     }
-    const info = useField('info')
+    const about = useField('about')
 
     useEffect(() => {
         let html = draftToHtml(convertToRaw(editorState.getCurrentContent()))
-        if (html === "<p></p>\n") return
-        info.input.onChange(html)
+        if (html === "<p></p>\n") return about.input.onChange("")
+        about.input.onChange(html)
     }, [editorState]);
 
     function createMarkup(html: any) {
@@ -53,24 +53,33 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
             __html: DOMPurify.sanitize(html)
         }
     }
-
+    const onEditorChange = (editorState: any) => {
+        setEditorState(editorState);
+    }
+    const setEditorReference = (ref: any) => {
+        if (!ref) return
+        editorRef.current = ref;
+        ref.focus();
+        about.input.onBlur()
+    }
     return (
         <div className='editor_title'>
             {isOpened ? <>
                 <Editor
                     editorState={editorState}
-                    onEditorStateChange={setEditorState}
+                    onEditorStateChange={onEditorChange}
                     wrapperClassName="wrapper-class"
                     editorClassName="editor-class"
                     toolbarClassName="toolbar-class"
                     toolbar={toolbar}
+                    editorRef={setEditorReference}
                 />
             </>
-                : info.input.value.length > 0 ?
+                : about.input.value.length > 0 ?
                     <>
                         <div
                             className="preview"
-                            dangerouslySetInnerHTML={createMarkup(info.input.value.length)}>
+                            dangerouslySetInnerHTML={createMarkup(about.input.value)}>
                         </div>
                     </>
                     :

@@ -2,11 +2,13 @@ export interface EventState {
   title: string;
   summary: string;
   date: string;
+  startDate: string;
   startTime: string;
+  endDate: string;
   endTime: string;
   location: string;
   isOnline: boolean;
-  info: string;
+  about: string;
   category: string;
   subcategory: string[];
   format: string;

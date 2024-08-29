@@ -11,7 +11,6 @@ import supabase from '@/utils/supabase/client-supabase';
 import EventCategory from './sections/event-category';
 import { Form } from 'react-final-form';
 import { EventState } from '@/types/custom-types';
-import * as yup from 'yup';
 
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
     // const initialValues: EventState = {
@@ -32,7 +31,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         overview: false,
         dateAndLocation: false,
         about: false,
-        category: false,
+        categories: false,
     })
     const [image, changeImage] = useState<null | File>(null)
     const changeVisibility = (field: string, value: boolean) => {
@@ -43,12 +42,12 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         console.log('values', values);
         console.log('event', event);
         const { data: { user } } = await supabase.auth.getUser();
-        console.log('user,', user);
+        // console.log('user,', user);
         if (user) {
             const data = {
                 name: event.overview.title,
                 description: event.overview.summary,
-                text: event.about.info,
+                text: event.about.about,
                 author_id: user.id,
                 location: event.dateAndLocation.location,
                 // price: "",
@@ -72,18 +71,41 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         //     console.log('data,error', data, error);
         // }
     }
-    const validationSchema = yup.object({
-        email: yup.string().email(),
-    });
-    const validate = (values: EventState) => {
+
+    const isFullField = (value: string | undefined) => (typeof value === 'undefined') ? true : value.length === 0
+    const validate = async (values: EventState) => {
+        // const errors = schema.validate(values);
+        // const validateValues = validateFormValues(schema);
+
+        // console.log('validateValues!', validateValues);
         console.log('values', values);
         const errors: any = {};
-        if (!values.title || !values.summary || values.title.length === 0 || values.summary.length === 0) {
+        if (isFullField(values.title) || isFullField(values.summary)) {
             errors.overview = true;
         }
-        console.log('111', !values.date && !values.startTime && !values.endTime && (!values.location || !!values.isOnline));
-        if (!values.date && !values.startTime && !values.endTime && (!values.location || !!values.isOnline)) {
-            errors.dateAndLocation = false;
+
+        // console.log('!11111', isFullField(values.endDate) || isFullField(values.endTime) || (!!values.isOnline || isFullField(values.location)));
+        if (isFullField(values.startDate) || isFullField(values.startTime) || isFullField(values.endDate) || isFullField(values.endTime) || (!!values.isOnline || isFullField(values.location))) {
+            errors.dateAndLocation = true;
+        }
+        // if (isFullField(values.startDate) || isFullField(values.startTime) || isFullField(values.endDate) || isFullField(values.endTime)) {
+        //     console.log('ok');
+        //     if (!values.isOnline || !isFullField(values.location)) {
+        //         console.log('ok2');
+        //         errors.dateAndLocation = true;
+        //     }
+        // }
+        // if (!values.startTime && !values.endTime && (!values.location || !!values.isOnline)) {
+        //     errors.dateAndLocation = true;
+        //     if (isFullField(values.startTime) && isFullField(values.endTime) && (isFullField(values.location) || isFullField(values.isOnline))) {
+        //         errors.dateAndLocation = true;
+        //     }
+        // }
+        if ((!values.category && !values.format) || isFullField(values.category) || isFullField(values.format)) {
+            errors.categories = true;
+        }
+        if ((!values.about) || isFullField(values.about)) {
+            errors.about = true;
         }
         // if (!values.date) {
         //     errors.date = 'Required';
@@ -111,21 +133,23 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
             validate={validate}
             render={({ handleSubmit, errors, touched }) => (
                 <form onSubmit={handleSubmit}>
+                    {console.log('errors!!', errors)}
+                    {/* {console.log('touched!!', touched)} */}
                     <div className='editor_container'>
                         <div className='editor_body'>
-                            <ContainerHoc classes="editor_picture" field="image" image={image} isOpened={isOpened.image} changeVisibility={changeVisibility}>
+                            <ContainerHoc classes="editor_picture" field="image" touched={touched?.image} errors={errors?.image} image={image} isOpened={isOpened.image} changeVisibility={changeVisibility}>
                                 <SwiperGalery image={image} changeImage={changeImage} />
                             </ContainerHoc>
                             <ContainerHoc field="overview" touched={touched?.title || touched?.summary} errors={errors?.overview} isOpened={isOpened.overview} changeVisibility={changeVisibility}>
                                 <EventTitle isOpened={isOpened.overview} />
                             </ContainerHoc>
-                            <ContainerHoc field="dateAndLocation" touched={touched?.date || touched?.startTime || touched?.endTime || touched?.location || touched?.isOnline} errors={errors?.dateAndLocation} isOpened={isOpened.dateAndLocation} changeVisibility={changeVisibility}>
+                            <ContainerHoc field="dateAndLocation" touched={touched?.startDate || touched?.startTime || touched?.endDate || touched?.endTime || touched?.location || touched?.isOnline} errors={errors?.dateAndLocation} isOpened={isOpened.dateAndLocation} changeVisibility={changeVisibility}>
                                 <EventDateAndLocation isOpened={isOpened.dateAndLocation} />
                             </ContainerHoc>
-                            <ContainerHoc field="category" isOpened={isOpened.category} changeVisibility={changeVisibility}>
-                                <EventCategory isOpened={isOpened.category} categories={categories} />
+                            <ContainerHoc field="categories" touched={touched?.category || touched?.subcategory || touched?.format} errors={errors?.categories} isOpened={isOpened.categories} changeVisibility={changeVisibility}>
+                                <EventCategory isOpened={isOpened.categories} categories={categories} />
                             </ContainerHoc>
-                            <ContainerHoc classes="rich_text" field="about" isOpened={isOpened.about} changeVisibility={changeVisibility}>
+                            <ContainerHoc classes="rich_text" field="about" touched={touched?.about} errors={errors?.about} isOpened={isOpened.about} changeVisibility={changeVisibility}>
                                 <AboutEvent isOpened={isOpened.about} />
                             </ContainerHoc>
                         </div >

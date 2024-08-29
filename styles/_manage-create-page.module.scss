@@ -282,8 +282,23 @@
                 }
 
                 .editor-date {
-                    display: flex;
-                    gap: 16px;
+                    .time {
+                        display: flex;
+                        align-items: baseline;
+                        gap: 20px;
+
+                        .time-title {
+                            font-size: v.$font_size + 2;
+                            width: 40px;
+                        }
+
+                        input {
+                            max-width: -webkit-max-content;
+                            max-width: -moz-max-content;
+                            max-width: max-content;
+                            padding-left: 20px;
+                        }
+                    }
                 }
             }
 

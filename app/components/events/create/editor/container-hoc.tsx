@@ -37,7 +37,8 @@ export default function ContainerHoc({ children, classes, errors, touched, isOpe
         if (isOpened) return
         changeVisibility(field, true)
     }
-    console.log('errors hoc', errors);
+    // console.log('errors hoc', errors);
+    // console.log('touched hoc', touched);
     return (
         <div className={`editor_section-gray ${classes ?? ""}`} onClick={handleClick}>
             {children}
