@@ -26,7 +26,7 @@ const initialState: EventsState = {
   },
 };
 
-export const eventSlice = createSlice({
+export const eventFiltersSlice = createSlice({
   name: "eventsFilter",
   initialState,
   reducers: {
@@ -45,5 +45,6 @@ export const eventSlice = createSlice({
   },
 });
 
-export const { setActiveTab, clearFilter, changeFilter } = eventSlice.actions;
-export default eventSlice.reducer;
+export const { setActiveTab, clearFilter, changeFilter } =
+  eventFiltersSlice.actions;
+export default eventFiltersSlice.reducer;

@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import eventsSlice from "./features/eventsFiltersSlice";
+import drawerStepsSlice from "./features/drawerStepsSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       events: eventsSlice,
+      drawerSteps: drawerStepsSlice,
     },
   });
 };

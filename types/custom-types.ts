@@ -1,7 +1,6 @@
 export interface EventState {
   title: string;
   summary: string;
-  date: string;
   startDate: string;
   startTime: string;
   endDate: string;

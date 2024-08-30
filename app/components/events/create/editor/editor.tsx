@@ -6,13 +6,15 @@ import ContainerHoc from './container-hoc';
 import EventDateAndLocation from './sections/event-date-and-location';
 import AboutEvent from './sections/about-event';
 import OrangeButton from '@/app/components/buttons/orange-button';
-import { useAppSelector } from '@/lib/hooks';
 import supabase from '@/utils/supabase/client-supabase';
 import EventCategory from './sections/event-category';
 import { Form } from 'react-final-form';
 import { EventState } from '@/types/custom-types';
+import { useAppDispatch } from '@/lib/hooks';
+import { setActiveStep } from '@/lib/features/drawerStepsSlice';
 
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
+    const dispatch = useAppDispatch()
     // const initialValues: EventState = {
     //     title: "",
     //     summary: "",
@@ -37,25 +39,26 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     const changeVisibility = (field: string, value: boolean) => {
         toogleOpened({ ...isOpened, [field]: value })
     }
-    const event = useAppSelector((state: any) => state.eventData)
+    const goToNextStep = (step: number) => dispatch(setActiveStep(step))
+
     const createEvent = async (values: EventState) => {
         console.log('values', values);
-        console.log('event', event);
         const { data: { user } } = await supabase.auth.getUser();
-        // console.log('user,', user);
         if (user) {
             const data = {
-                name: event.overview.title,
-                description: event.overview.summary,
-                text: event.about.about,
+                name: values.title,
+                description: values.summary,
+                text: values.about,
                 author_id: user.id,
-                location: event.dateAndLocation.location,
+                location: values.isOnline ? 'online' : values.location,
                 // price: "",
-                timeStart: event.dateAndLocation.startTime,
-                timeEnd: event.dateAndLocation.endTime,
-                // category :"",
-                // subcategory :[""],
-                // format :"",
+                startDate: values.startDate,
+                startTime: values.startTime,
+                endDate: values.endDate,
+                endTime: values.endTime,
+                category: values.category,
+                subcategory: values.subcategory,
+                format: values.format,
                 // language:[ ""],
                 // currency:[ ""],
             }
@@ -70,71 +73,33 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         //         .upload(image.name, image)
         //     console.log('data,error', data, error);
         // }
+        goToNextStep(1)
     }
 
-    const isFullField = (value: string | undefined) => (typeof value === 'undefined') ? true : value.length === 0
-    const validate = async (values: EventState) => {
-        // const errors = schema.validate(values);
-        // const validateValues = validateFormValues(schema);
+    const isClearField = (value: string | undefined) => (typeof value === 'undefined') ? true : value.length === 0
 
-        // console.log('validateValues!', validateValues);
-        console.log('values', values);
+    const validate = async (values: EventState) => {
         const errors: any = {};
-        if (isFullField(values.title) || isFullField(values.summary)) {
+        if (isClearField(values.title) || isClearField(values.summary)) {
             errors.overview = true;
         }
-
-        // console.log('!11111', isFullField(values.endDate) || isFullField(values.endTime) || (!!values.isOnline || isFullField(values.location)));
-        if (isFullField(values.startDate) || isFullField(values.startTime) || isFullField(values.endDate) || isFullField(values.endTime) || (!!values.isOnline || isFullField(values.location))) {
+        if (isClearField(values.startDate) || isClearField(values.startTime) || isClearField(values.endDate) || isClearField(values.endTime) || !(!!values.isOnline || !isClearField(values.location))) {
             errors.dateAndLocation = true;
         }
-        // if (isFullField(values.startDate) || isFullField(values.startTime) || isFullField(values.endDate) || isFullField(values.endTime)) {
-        //     console.log('ok');
-        //     if (!values.isOnline || !isFullField(values.location)) {
-        //         console.log('ok2');
-        //         errors.dateAndLocation = true;
-        //     }
-        // }
-        // if (!values.startTime && !values.endTime && (!values.location || !!values.isOnline)) {
-        //     errors.dateAndLocation = true;
-        //     if (isFullField(values.startTime) && isFullField(values.endTime) && (isFullField(values.location) || isFullField(values.isOnline))) {
-        //         errors.dateAndLocation = true;
-        //     }
-        // }
-        if ((!values.category && !values.format) || isFullField(values.category) || isFullField(values.format)) {
+        if ((!values.category && !values.format) || isClearField(values.category) || isClearField(values.format)) {
             errors.categories = true;
         }
-        if ((!values.about) || isFullField(values.about)) {
+        if ((!values.about) || isClearField(values.about)) {
             errors.about = true;
         }
-        // if (!values.date) {
-        //     errors.date = 'Required';
-        // }
-        // if (!values.startTime) {
-        //     errors.startTime = 'Required';
-        // }
-        // if (!values.endTime) {
-        //     errors.endTime = 'Required';
-        // }
-        // if (!values.location) {
-        //     errors.location = 'Required';
-        // }
-        // if (!values.info) {
-        //     errors.info = 'Required';
-        // }
-        // if (!values.category) {
-        //     errors.category = 'Required';
-        // }
         return errors;
     };
     return (
         <Form
             onSubmit={createEvent}
-            validate={validate}
+            // validate={validate}
             render={({ handleSubmit, errors, touched }) => (
                 <form onSubmit={handleSubmit}>
-                    {console.log('errors!!', errors)}
-                    {/* {console.log('touched!!', touched)} */}
                     <div className='editor_container'>
                         <div className='editor_body'>
                             <ContainerHoc classes="editor_picture" field="image" touched={touched?.image} errors={errors?.image} image={image} isOpened={isOpened.image} changeVisibility={changeVisibility}>
