@@ -1,20 +1,19 @@
 'use client'
-import React, { useMemo, useState } from 'react'
-import SwiperGalery from './sections/swiper-galery';
-import EventTitle from './sections/event-title';
-import ContainerHoc from './container-hoc';
-import EventDateAndLocation from './sections/event-date-and-location';
-import AboutEvent from './sections/about-event';
+import React, { useEffect, useRef, useState } from 'react'
 import OrangeButton from '@/app/components/buttons/orange-button';
 import supabase from '@/utils/supabase/client-supabase';
-import EventCategory from './sections/event-category';
 import { Form } from 'react-final-form';
 import { EventState } from '@/types/custom-types';
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { setActiveStep } from '@/lib/features/drawerStepsSlice';
+import GeneralInfo from './form/general-info';
+import CreateTickets from './form/create-tickets';
+import { ValidationErrors } from 'final-form';
 
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
     const dispatch = useAppDispatch()
+    const activeStep = useAppSelector((state) => state.drawerSteps.activeStep)
+    const ref = useRef<null | HTMLDivElement>(null);
     // const initialValues: EventState = {
     //     title: "",
     //     summary: "",
@@ -35,11 +34,12 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         about: false,
         categories: false,
     })
-    const [image, changeImage] = useState<null | File>(null)
     const changeVisibility = (field: string, value: boolean) => {
         toogleOpened({ ...isOpened, [field]: value })
     }
     const goToNextStep = (step: number) => dispatch(setActiveStep(step))
+
+    const getValuesArray = (values: any) => values ? values.map((item: any) => item.label) : null
 
     const createEvent = async (values: EventState) => {
         console.log('values', values);
@@ -57,9 +57,9 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 endDate: values.endDate,
                 endTime: values.endTime,
                 category: values.category,
-                subcategory: values.subcategory,
+                subcategory: getValuesArray(values.subcategory),
                 format: values.format,
-                // language:[ ""],
+                language: getValuesArray(values.language),
                 // currency:[ ""],
             }
             console.log('data', data);
@@ -86,47 +86,47 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         if (isClearField(values.startDate) || isClearField(values.startTime) || isClearField(values.endDate) || isClearField(values.endTime) || !(!!values.isOnline || !isClearField(values.location))) {
             errors.dateAndLocation = true;
         }
-        if ((!values.category && !values.format) || isClearField(values.category) || isClearField(values.format)) {
+        if (isClearField(values.category) || isClearField(values.format) || values.language.length === 0) {
             errors.categories = true;
         }
-        if ((!values.about) || isClearField(values.about)) {
+        if (isClearField(values.about)) {
             errors.about = true;
         }
         return errors;
     };
+
+    const getComponent = (step: number, errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
+        switch (step) {
+            case 0: return <GeneralInfo changeVisibility={changeVisibility} isOpened={isOpened} categories={categories} touched={touched} errors={errors} />
+            case 1: return <CreateTickets />
+        }
+    }
+    useEffect(() => {
+        if (!ref.current) return
+        ref.current.scrollIntoView({ behavior: "smooth" })
+    }, [activeStep]);
+
     return (
-        <Form
-            onSubmit={createEvent}
-            // validate={validate}
-            render={({ handleSubmit, errors, touched }) => (
-                <form onSubmit={handleSubmit}>
-                    <div className='editor_container'>
-                        <div className='editor_body'>
-                            <ContainerHoc classes="editor_picture" field="image" touched={touched?.image} errors={errors?.image} image={image} isOpened={isOpened.image} changeVisibility={changeVisibility}>
-                                <SwiperGalery image={image} changeImage={changeImage} />
-                            </ContainerHoc>
-                            <ContainerHoc field="overview" touched={touched?.title || touched?.summary} errors={errors?.overview} isOpened={isOpened.overview} changeVisibility={changeVisibility}>
-                                <EventTitle isOpened={isOpened.overview} />
-                            </ContainerHoc>
-                            <ContainerHoc field="dateAndLocation" touched={touched?.startDate || touched?.startTime || touched?.endDate || touched?.endTime || touched?.location || touched?.isOnline} errors={errors?.dateAndLocation} isOpened={isOpened.dateAndLocation} changeVisibility={changeVisibility}>
-                                <EventDateAndLocation isOpened={isOpened.dateAndLocation} />
-                            </ContainerHoc>
-                            <ContainerHoc field="categories" touched={touched?.category || touched?.subcategory || touched?.format} errors={errors?.categories} isOpened={isOpened.categories} changeVisibility={changeVisibility}>
-                                <EventCategory isOpened={isOpened.categories} categories={categories} />
-                            </ContainerHoc>
-                            <ContainerHoc classes="rich_text" field="about" touched={touched?.about} errors={errors?.about} isOpened={isOpened.about} changeVisibility={changeVisibility}>
-                                <AboutEvent isOpened={isOpened.about} />
-                            </ContainerHoc>
-                        </div >
-                        <div className='editor_footer'>
-                            <button type='submit'>
-                                <OrangeButton className='editor_button' text="Save and continue" />
-                            </button>
+        <div ref={ref}>
+            <Form
+                onSubmit={createEvent}
+                // validate={validate}
+                render={({ handleSubmit, errors, touched }) => (
+                    <form onSubmit={handleSubmit}>
+                        <div className='editor_container'>
+                            <div className='editor_body'>
+                                {getComponent(activeStep, errors, touched)}
+                            </div >
+                            <div className='editor_footer'>
+                                <button type='submit'>
+                                    <OrangeButton className='editor_button' text="Save and continue" />
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            )
-            }
-        />
+                    </form>
+                )
+                }
+            />
+        </div>
     )
 }

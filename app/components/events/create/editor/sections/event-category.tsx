@@ -1,4 +1,4 @@
-import { format as formatConstants } from '@/lib/constants'
+import { format as formatConstants, language as languageConstants } from '@/lib/constants'
 import { isSomeFieldFull } from '@/lib/functions'
 import React, { useMemo } from 'react'
 import { Field, useField } from 'react-final-form'
@@ -32,6 +32,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
     }, [category.input.value])
 
     const formatsArray = formatConstants.map(item => ({ value: item, label: item }))
+    const languageArray = languageConstants.map(item => ({ value: item, label: item }))
 
     return (
         <div className='editor_title'>
@@ -72,6 +73,18 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                                 <Select
                                     {...input}
                                     options={formatsArray}
+                                />
+                            )}
+                        </Field>
+                    </div>
+                    <div>
+                        <h5>Language</h5>
+                        <Field name="language">
+                            {({ input }) => (
+                                <Select
+                                    {...input}
+                                    options={languageArray}
+                                    isMulti
                                 />
                             )}
                         </Field>

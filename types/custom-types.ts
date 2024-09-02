@@ -11,4 +11,5 @@ export interface EventState {
   category: string;
   subcategory: string[];
   format: string;
+  language: string[];
 }

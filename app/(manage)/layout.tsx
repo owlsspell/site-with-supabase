@@ -4,7 +4,7 @@ import "../../styles/global.scss";
 import StoreProvider from "../StoreProvider";
 import DashboardHeaderServer from "../components/headers/dashboard/dashboard-header-server";
 
-const lato = Lato({ subsets: ["latin"], weight: "400" });
+const lato = Lato({ subsets: ["latin"], weight: ['100', '400', '700', '900'] });
 
 export const metadata: Metadata = {
     title: "Eventbrite",
