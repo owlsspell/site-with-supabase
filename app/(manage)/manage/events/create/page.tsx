@@ -1,7 +1,8 @@
-import Drawer from '@/app/components/events/create/drawer'
+import React from 'react'
+import Drawer from '@/app/components/events/create/drawer/drawer'
 import EventEditor from '@/app/components/events/create/editor/editor'
 import { createClient } from '@/utils/supabase/server'
-import React from 'react'
+import DrawerHeader from '@/app/components/events/create/drawer/drawer-header'
 
 async function getCategories() {
     const supabase = createClient()
@@ -15,8 +16,13 @@ export default async function CreateEvent() {
 
     return (
         <div className='create_container'>
-            <Drawer />
-            <EventEditor categories={categories} />
+            <div className="create_container-drawer">
+                <Drawer />
+            </div>
+            <div className='create_container-body'>
+                <DrawerHeader />
+                <EventEditor categories={categories} />
+            </div>
         </div>
     )
 }

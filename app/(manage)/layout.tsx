@@ -3,6 +3,7 @@ import { Lato } from "next/font/google";
 import "../../styles/global.scss";
 import StoreProvider from "../StoreProvider";
 import DashboardHeaderServer from "../components/headers/dashboard/dashboard-header-server";
+import 'remixicon/fonts/remixicon.css'
 
 const lato = Lato({ subsets: ["latin"], weight: ['100', '400', '700', '900'] });
 

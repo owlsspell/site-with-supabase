@@ -45,6 +45,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                             {({ input }) => (
                                 <Select
                                     {...input}
+                                    id='category'
                                     value={input.value}
                                     onChange={handleChangeCategory}
                                     options={categoriesList}
@@ -58,6 +59,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                             {({ input }) => (
                                 <Select
                                     {...input}
+                                    id='subcategory'
                                     value={input.value}
                                     onChange={handleChangeSubcategory}
                                     options={subCategories}

@@ -13,7 +13,6 @@ import { ValidationErrors } from 'final-form';
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
     const dispatch = useAppDispatch()
     const activeStep = useAppSelector((state) => state.drawerSteps.activeStep)
-    const ref = useRef<null | HTMLDivElement>(null);
     // const initialValues: EventState = {
     //     title: "",
     //     summary: "",
@@ -101,13 +100,9 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
             case 1: return <CreateTickets />
         }
     }
-    useEffect(() => {
-        if (!ref.current) return
-        ref.current.scrollIntoView({ behavior: "smooth" })
-    }, [activeStep]);
 
     return (
-        <div ref={ref}>
+        <div className='editor_wrapper'>
             <Form
                 onSubmit={createEvent}
                 // validate={validate}

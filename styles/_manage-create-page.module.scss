@@ -9,6 +9,45 @@
 .create_container {
     margin-left: 56px;
     display: flex;
+
+    .create_container-body {
+        width: 100%;
+    }
+}
+
+//Drawer
+
+.create_container-drawer {
+    @media screen and (max-width: 960px) {
+        display: none;
+    }
+}
+
+.drawer_header-sidebar {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content !important;
+}
+
+.drawer_header {
+    background-color: v.$white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .06), 0 2px 2px 0 rgba(0, 0, 0, .06);
+
+    @media screen and (min-width: 960px) {
+        display: none;
+    }
+
+    .drawer_header-btn {
+        width: 100%;
+        max-width: 740px;
+        margin: auto;
+
+        button {
+            border: 0;
+            background: none;
+            padding: 10px;
+        }
+    }
 }
 
 .drawer__eds {
@@ -25,6 +64,7 @@
 
     .drawer_list {
         list-style-type: none;
+        width: 288px;
 
         .drawer_li-active {
             background-color: v.$gray_200;
@@ -54,20 +94,26 @@
             }
         }
     }
+
+    @media screen and (min-width:960px) {
+        display: block;
+    }
 }
 
 //Editor
+.editor_wrapper {
+    width: 100%;
+    padding: 48px 80px;
+    position: relative;
+}
 
 .editor_container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
 
     .editor_body {
-        min-height: 100vh;
-        max-width: 742px;
-        margin: 0px auto 20px;
-        padding: 48px 80px;
+        margin: 0px auto 0;
+        min-height: 500px;
+        max-width: 740px;
+        width: auto;
 
         .editor_section-gray {
             border: 2px solid v.$gray_200;
@@ -87,7 +133,7 @@
                 position: absolute;
                 top: 10px;
                 right: 10px;
-                z-index: 10;
+                z-index: 1;
                 cursor: pointer;
 
                 .icon {
@@ -165,6 +211,10 @@
         .editor_picture {
             position: relative;
             padding: 0;
+            max-width: 740px;
+            width: 100%;
+            overflow: hidden;
+            display: inline-block;
 
             input[type="file"] {
                 opacity: 0;
@@ -172,7 +222,7 @@
                 top: 0;
                 height: 100%;
                 width: 100%;
-                z-index: 20;
+                z-index: 5;
                 cursor: pointer;
             }
 
@@ -393,12 +443,14 @@
         display: flex;
         justify-content: flex-end;
         background-color: v.$white;
-        z-index: 20;
+        z-index: 1;
+        margin: 0px auto 20px;
+        max-width: 780px;
 
         button {
             border: 0;
             padding: 0;
-            margin: 20px;
+            margin: 20px 20px;
         }
 
         .editor_button {
