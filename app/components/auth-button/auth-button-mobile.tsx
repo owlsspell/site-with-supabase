@@ -2,11 +2,11 @@ import React, { useMemo } from 'react'
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 
-interface LinkType {
+type LinkType = {
     id: number,
     text: string,
     url?: string,
-    func?: () => void
+    handleClick?: () => void
 }
 
 export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar: string, session: any, onLogOut: () => void }): JSX.Element {
@@ -22,10 +22,10 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
             { id: 3, text: "Help Centre" },
         ],
         [
-            { id: 1, text: "Log out", func: onLogOut },
+            { id: 1, text: "Log out", handleClick: onLogOut },
         ]
     ]
-    const linksIfAnonymus = [
+    const linksIfAnonymus: LinkType[][] = [
         [
             { id: 1, text: "Find Events" },
             { id: 2, text: "Create Events", url: "/manage/events/home" },
@@ -60,7 +60,7 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
                     {list.map((links, i) =>
                         <div key={i} className='mobile_header-sidebar-group'>
                             {links.map(link =>
-                                <a className='mobile_header-link' key={link.id} href={link.url} onClick={link.func}>{link.text}</a>
+                                <a className='mobile_header-link' key={link.id} href={link.url} onClick={link.handleClick}>{link.text}</a>
                             )}
                         </div>
                     )}
