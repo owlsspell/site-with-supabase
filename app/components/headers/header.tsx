@@ -17,8 +17,8 @@ export default function Header() {
                 <GrayButton text="Find Events" />
                 <GrayButton text="Create Events" href="/manage/events/create" />
                 <GrayButton text="Help Centre" />
-                <AuthButtonServer />
             </nav>
+            <AuthButtonServer />
         </div>
     )
 }

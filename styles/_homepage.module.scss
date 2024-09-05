@@ -150,6 +150,18 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
 
+        @media screen and (max-width: 1200px) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media screen and (max-width: 790px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media screen and (max-width: 620px) {
+            grid-template-columns: repeat(1, 1fr);
+        }
+
         .events_notfound {
             min-height: 150px;
             padding: 16px 16px;
@@ -191,6 +203,10 @@
     .event_image {
         max-height: 230px;
         position: relative;
+
+        @media screen and (max-width: 620px) {
+            min-height: 230px
+        }
 
         img {
             border-radius: 4px;

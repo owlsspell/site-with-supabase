@@ -33,6 +33,7 @@
         padding: 0 12px;
         margin: 0 44px;
         cursor: pointer;
+        max-width: 500px;
 
         &:hover {
             box-shadow: rgba(30, 10, 60, 0.06) 0px 2px 8px, rgba(30, 10, 60, 0.08) 0px 4px 12px;
@@ -55,17 +56,22 @@
     font-size: 14px;
     font-weight: 600;
 
-    .header_user_image {
-        -o-object-fit: cover;
-        object-fit: cover;
-        cursor: pointer;
-        padding: 0 8px;
+    @media screen and (max-width: 960px) {
+        display: none;
+    }
+}
 
-        img {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-        }
+//User image
+.header_user_image {
+    -o-object-fit: cover;
+    object-fit: cover;
+    cursor: pointer;
+    padding: 0 8px;
+
+    img {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
     }
 }
 

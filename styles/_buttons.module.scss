@@ -19,6 +19,9 @@
     cursor: pointer;
     border-radius: 100px;
     background-color: inherit;
+    min-width: -webkit-max-content;
+    min-width: -moz-max-content;
+    min-width: max-content;
 
     &:hover {
         background-color: v.$gray-100;
