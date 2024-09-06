@@ -3,6 +3,7 @@ import React from 'react'
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import { default as CustomDrawer } from './drawer'
+import useWindowSize from '@/hooks/useWindowSizes'
 
 export default function DrawerHeader() {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -12,7 +13,9 @@ export default function DrawerHeader() {
     const closeDrawer = () => {
         setIsOpen(false)
     }
+    const { width } = useWindowSize();
 
+    if (width > 960) return <></>
     return (
         <div className='drawer_header'>
             <div className='drawer_header-btn'>

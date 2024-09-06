@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface DrawerSteps {
-  activeStep: number;
+  activeStep: number | null;
 }
 
 const initialState: DrawerSteps = {
-  activeStep: 0,
+  activeStep: null,
 };
 
 export const drawerStepsSlice = createSlice({

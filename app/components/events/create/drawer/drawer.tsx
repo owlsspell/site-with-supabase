@@ -1,17 +1,31 @@
 'use client'
 import { setActiveStep } from '@/lib/features/drawerStepsSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import React from 'react'
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
+import React, { useEffect } from 'react'
 
 export default function Drawer({ closeDrawer }: { closeDrawer?: () => void }) {
-  const steps = [{ id: 0, title: "Build Event Page", description: "Add all of your event details and let attendees know what to expect" }, { id: 1, title: "Add Tickets" }, { id: 2, title: "Publish" }]
+  const steps = [{ id: 0, slug: "general", title: "Build Event Page", description: "Add all of your event details and let attendees know what to expect" }, { id: 1, slug: "tickets", title: "Add Tickets" }, { id: 2, slug: "publish", title: "Publish" }]
   const activeStep = useAppSelector((state) => state.drawerSteps.activeStep)
   const dispatch = useAppDispatch()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
   const handleChange = (index: number) => {
     dispatch(setActiveStep(index))
     if (!closeDrawer) return
+    router.push(`?page=${steps[index].slug}`)
     closeDrawer()
   }
+  useEffect(() => {
+    const page = searchParams.get("page");
+    if (!page) {
+      dispatch(setActiveStep(0))
+      return
+    }
+    const step = steps.find(step => step.slug === page)
+    dispatch(setActiveStep(step?.id))
+  }, [searchParams])
   return (
     <div className='drawer__eds'>
       <h3>Steps</h3>

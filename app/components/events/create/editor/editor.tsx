@@ -7,7 +7,7 @@ import { EventState } from '@/types/custom-types';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { setActiveStep } from '@/lib/features/drawerStepsSlice';
 import GeneralInfo from './form/general-info';
-import CreateTickets from './form/create-tickets';
+import CreateTickets from './form/tickets/create-tickets';
 import { ValidationErrors } from 'final-form';
 
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
@@ -94,10 +94,11 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         return errors;
     };
 
-    const getComponent = (step: number, errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
+    const getComponent = (step: number | null, errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
         switch (step) {
             case 0: return <GeneralInfo changeVisibility={changeVisibility} isOpened={isOpened} categories={categories} touched={touched} errors={errors} />
             case 1: return <CreateTickets />
+            default: <></>
         }
     }
 
