@@ -422,6 +422,11 @@
                     border-radius: 8px;
                     max-width: 500px;
 
+                    &.ticket_item-info {
+                        justify-content: flex-start;
+                        align-items: start;
+                    }
+
                     &:hover {
                         box-shadow: 0 0 0 2px v.$gray_300;
                         transition: .1s;
@@ -446,8 +451,32 @@
 
             .drawer_tickets {
                 max-width: 50vw;
-                min-width: 320px;
-                padding: 20px;
+                background-color: transparent;
+                box-shadow: none;
+
+                .drawer_tickets-container {
+                    margin-bottom: 100px;
+                    background-color: v.$white;
+                    padding: 30px 50px;
+                    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+                }
+
+                .drawer_tickets-cost {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 40px;
+
+                    .drawer_tickets-cost-select {
+                        width: 500px;
+                    }
+                }
+
+                input[type="number"] {
+                    width: 100px;
+                    border: solid 1px v.$gray_300;
+                    border-radius: 4px;
+                    padding: 10px;
+                }
             }
         }
 

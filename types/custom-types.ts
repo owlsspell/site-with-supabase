@@ -12,4 +12,7 @@ export interface EventState {
   subcategory: string[];
   format: string;
   language: string[];
+  isFree: boolean;
+  ticketPrice?: number;
+  ticketCount?: number;
 }

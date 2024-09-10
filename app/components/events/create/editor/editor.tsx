@@ -26,6 +26,9 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     //     subcategory: [],
     //     format: "",
     // };
+
+    const initialValues = { ticketCurrency: { label: "U.S. Dollar", value: "U.S. Dollar" } }
+
     const [isOpened, toogleOpened] = useState({
         image: false,
         overview: false,
@@ -106,10 +109,12 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         <div className='editor_wrapper'>
             <Form
                 onSubmit={createEvent}
+                initialValues={initialValues}
                 // validate={validate}
-                render={({ handleSubmit, errors, touched }) => (
+                render={({ handleSubmit, values, errors, touched }) => (
                     <form onSubmit={handleSubmit}>
                         <div className='editor_container'>
+                            {console.log('values', values)}
                             <div className='editor_body'>
                                 {getComponent(activeStep, errors, touched)}
                             </div >

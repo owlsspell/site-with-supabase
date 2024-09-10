@@ -1,7 +1,7 @@
 'use client'
 import { setActiveStep } from '@/lib/features/drawerStepsSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 
 export default function Drawer({ closeDrawer }: { closeDrawer?: () => void }) {
