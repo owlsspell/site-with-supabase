@@ -17,8 +17,8 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
     const isOnline = useField('isOnline')
     const location = useField('location')
     return (
-        <div className='editor_title editor_title-flex'>
-            {isOpened ?
+        <div className='editor_title'>
+            <div className={'editor_title-flex ' + (isOpened ? 'show' : 'hidden')}>
                 <div className='editor_date-and-location'>
                     <h3>Date and location</h3>
                     <h5>Date and time</h5>
@@ -45,7 +45,9 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
                         )}
                     </Field>
                 </div>
-                : isSomeFieldFull([startDate.input.value, endDate.input.value, startTime.input.value, endTime.input.value, location.input.value]) || isOnline.input.value ?
+            </div>
+            <div className={'editor_title-flex ' + (isOpened ? 'hidden' : 'show')}>
+                {isSomeFieldFull([startDate.input.value, endDate.input.value, startTime.input.value, endTime.input.value, location.input.value]) || isOnline.input.value ?
                     <>
                         <div>
                             <h3>Date and time</h3>
@@ -76,7 +78,8 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
                             <p>Enter a location</p>
                         </div>
                     </>
-            }
+                }
+            </div>
         </div >
     )
 }

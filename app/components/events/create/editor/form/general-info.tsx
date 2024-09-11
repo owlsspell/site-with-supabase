@@ -26,7 +26,7 @@ export default function GeneralInfo({ changeVisibility, isOpened, categories, to
 
     return (
         <>
-            <ContainerHoc classes="editor_picture" field="image" touched={touched?.image} errors={errors?.image} image={image} isOpened={isOpened.image} changeVisibility={changeVisibility}>
+            <ContainerHoc classes="editor_picture" field="image" touched={touched?.image} errors={errors?.image} image={image} isOpened={false} changeVisibility={changeVisibility}>
                 <SwiperGalery image={image} changeImage={changeImage} />
             </ContainerHoc>
             <ContainerHoc field="overview" touched={touched?.title || touched?.summary} errors={errors?.overview} isOpened={isOpened.overview} changeVisibility={changeVisibility}>

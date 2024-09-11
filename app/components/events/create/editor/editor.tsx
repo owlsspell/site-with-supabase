@@ -36,6 +36,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         about: false,
         categories: false,
     })
+    console.log('isOpened', isOpened);
     const changeVisibility = (field: string, value: boolean) => {
         toogleOpened({ ...isOpened, [field]: value })
     }
@@ -45,6 +46,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
 
     const createEvent = async (values: EventState) => {
         console.log('values', values);
+        console.log('createEvent');
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
             const data = {

@@ -36,7 +36,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
 
     return (
         <div className='editor_title'>
-            {isOpened && categoriesList.length > 0 ? <>
+            <div className={isOpened && categoriesList.length > 0 ? 'show' : 'hidden'}>
                 <h3>Event category and info</h3>
                 <div className='editor_select-category'>
                     <div>
@@ -92,8 +92,9 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                         </Field>
                     </div>
                 </div>
-            </>
-                : isSomeFieldFull([category.input.value, subcategory.input.value, format.input.value]) ?
+            </div>
+            <div className={isOpened ? 'hidden' : 'show'}>
+                {isSomeFieldFull([category.input.value, subcategory.input.value, format.input.value]) ?
                     <>
                         <h3>{category.input.value}</h3>
                         <h5>{subcategory.input.value.join(',')}</h5>
@@ -103,7 +104,8 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                         <h3>Event category</h3>
                         <p>Please select an event category to make it easier to find you.</p>
                     </>
-            }
+                }
+            </div >
         </div >
     )
 }

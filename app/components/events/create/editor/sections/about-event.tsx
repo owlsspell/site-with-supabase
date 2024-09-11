@@ -64,8 +64,8 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
     }
     return (
         <div className='editor_title'>
-            {isOpened ? <>
-                <Editor
+            <div className={isOpened ? 'show' : 'hidden'}>
+                {isOpened && <Editor
                     editorState={editorState}
                     onEditorStateChange={onEditorChange}
                     wrapperClassName="wrapper-class"
@@ -73,9 +73,10 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
                     toolbarClassName="toolbar-class"
                     toolbar={toolbar}
                     editorRef={setEditorReference}
-                />
-            </>
-                : about.input.value.length > 0 ?
+                />}
+            </div>
+            <div className={isOpened ? 'hidden' : 'show'}>
+                {about.input.value.length > 0 ?
                     <>
                         <div
                             className="preview"
@@ -87,7 +88,8 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
                         <h3>About this event</h3>
                         <p>Use this section to provide more details about your event. You can include things to know, venue information, parking, accessibility options—anything that will help people know what to expect.</p>
                     </>
-            }
+                }
+            </div>
         </div>
     )
 }
