@@ -18,7 +18,6 @@ export default function SwiperGalery({ image, changeImage }: { image: null | Fil
     const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return
         const url = URL.createObjectURL(e.target.files[0])
-        console.log('url', url);
         changeImage(e.target.files[0])
         // const formData = new FormData()
         // formData.append("image", e.target.files[0])

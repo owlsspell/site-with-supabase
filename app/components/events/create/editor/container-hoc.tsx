@@ -1,25 +1,27 @@
 import { ReactNode } from "react";
+import { Field, useField, useForm } from 'react-final-form'
 
 type PropsData = {
     children: ReactNode,
+    isOpened?: boolean,
     classes?: string,
     errors: string | boolean | undefined,
     touched: boolean | undefined,
-    isOpened: boolean,
     field: string,
-    changeVisibility: (field: string, value: boolean) => void,
     image?: null | File
 }
 
-export default function ContainerHoc({ children, classes, errors, touched, isOpened, field, changeVisibility, image }: PropsData) {
+export default function ContainerHoc({ children, isOpened, classes, errors, touched, field, image }: PropsData) {
+    const form = useForm();
     const handleClick = () => {
         if (isOpened) return
-        changeVisibility(field, true)
+        form.change(`isOpened.${field}`, true)
     }
     return (
         <div className={`editor_section-gray ${classes ?? ""}`} onClick={handleClick}>
             {children}
-            <div className="editor_upload-icon" onClick={() => changeVisibility(field, !isOpened)}>
+            <div className="editor_upload-icon" >
+                <Field name={`isOpened.${field}`} component="input" type="checkbox" />
                 {!errors && touched ?
                     <div className="icon icon-ok">✓</div>
                     : isOpened ?

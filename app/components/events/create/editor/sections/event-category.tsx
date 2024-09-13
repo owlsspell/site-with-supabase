@@ -8,13 +8,15 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
     const category = useField('category')
     const subcategory = useField('subcategory')
     const format = useField('format')
-
+    const language = useField('language')
     const handleChangeCategory = (selectedOption: any) => {
         category.input.onChange(selectedOption)
         subcategory.input.onChange(null)
     }
 
-    const handleChangeSubcategory = (selectedOption: any) => subcategory.input.onChange(selectedOption)
+    const handleChangeSubcategory = (selectedOption: any) => {
+        subcategory.input.onChange(selectedOption)
+    }
 
     const getSubcategories = (category: any) => {
         const result = categories.find(item => item.name === category.label)
@@ -96,9 +98,10 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
             <div className={isOpened ? 'hidden' : 'show'}>
                 {isSomeFieldFull([category.input.value, subcategory.input.value, format.input.value]) ?
                     <>
-                        <h3>{category.input.value}</h3>
-                        <h5>{subcategory.input.value.join(',')}</h5>
-                        <h5>{format.input.value}</h5>
+                        <h3>{category.input.value && category.input.value.label}</h3>
+                        <h5>{subcategory.input.value && subcategory.input.value.map((item: any) => item.value).join(',')}</h5>
+                        <h5>{format.input.value && format.input.value.value}</h5>
+                        <h5>{language.input.value && language.input.value.map((item: any) => item.value).join(',')}</h5>
                     </> :
                     <>
                         <h3>Event category</h3>
