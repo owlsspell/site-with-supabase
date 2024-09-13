@@ -8,13 +8,15 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
     const category = useField('category')
     const subcategory = useField('subcategory')
     const format = useField('format')
-
+    const language = useField('language')
     const handleChangeCategory = (selectedOption: any) => {
         category.input.onChange(selectedOption)
         subcategory.input.onChange(null)
     }
 
-    const handleChangeSubcategory = (selectedOption: any) => subcategory.input.onChange(selectedOption)
+    const handleChangeSubcategory = (selectedOption: any) => {
+        subcategory.input.onChange(selectedOption)
+    }
 
     const getSubcategories = (category: any) => {
         const result = categories.find(item => item.name === category.label)
@@ -36,7 +38,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
 
     return (
         <div className='editor_title'>
-            {isOpened && categoriesList.length > 0 ? <>
+            <div className={isOpened && categoriesList.length > 0 ? 'show' : 'hidden'}>
                 <h3>Event category and info</h3>
                 <div className='editor_select-category'>
                     <div>
@@ -92,18 +94,21 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                         </Field>
                     </div>
                 </div>
-            </>
-                : isSomeFieldFull([category.input.value, subcategory.input.value, format.input.value]) ?
+            </div>
+            <div className={isOpened ? 'hidden' : 'show'}>
+                {isSomeFieldFull([category.input.value, subcategory.input.value, format.input.value]) ?
                     <>
-                        <h3>{category.input.value}</h3>
-                        <h5>{subcategory.input.value.join(',')}</h5>
-                        <h5>{format.input.value}</h5>
+                        <h3>{category.input.value && category.input.value.label}</h3>
+                        <h5>{subcategory.input.value && subcategory.input.value.map((item: any) => item.value).join(',')}</h5>
+                        <h5>{format.input.value && format.input.value.value}</h5>
+                        <h5>{language.input.value && language.input.value.map((item: any) => item.value).join(',')}</h5>
                     </> :
                     <>
                         <h3>Event category</h3>
                         <p>Please select an event category to make it easier to find you.</p>
                     </>
-            }
+                }
+            </div >
         </div >
     )
 }

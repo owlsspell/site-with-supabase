@@ -9,18 +9,15 @@ import 'swiper/css/effect-fade';
 import image1 from "@/images/swiper/pic1_optim.jpeg"
 import image2 from "@/images/swiper/pic2_optim.jpeg"
 import image3 from "@/images/swiper/pic3_optim.jpeg"
-import { ChangeEvent, useMemo, useState } from 'react';
-import { useAppDispatch } from '@/lib/hooks';
+import { ChangeEvent, useMemo } from 'react';
 
 export default function SwiperGalery({ image, changeImage }: { image: null | File, changeImage: (file: File) => void }) {
-    const dispatch = useAppDispatch()
     const slides = [image1, image2, image3]
     const url = useMemo(() => !image ? null : URL.createObjectURL(image as Blob | MediaSource), [image])
 
     const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return
         const url = URL.createObjectURL(e.target.files[0])
-        console.log('url', url);
         changeImage(e.target.files[0])
         // const formData = new FormData()
         // formData.append("image", e.target.files[0])

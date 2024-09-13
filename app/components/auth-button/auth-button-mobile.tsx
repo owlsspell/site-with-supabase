@@ -18,7 +18,7 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
     const drawerLinks: LinkType[][] = [
         [
             { id: 1, text: "Find Events" },
-            { id: 2, text: "Create Events", url: "/manage/events/home" },
+            { id: 2, text: "Create Events", url: "/manage/events/create" },
             { id: 3, text: "Help Centre" },
         ],
         [
@@ -53,7 +53,7 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
                 direction='right'
                 customIdSuffix="right-drawer"
                 enableOverlay={false}
-                style={{ height: 'max-content', minHeight: 500, top: 60 }}
+                style={{ height: 'max-content', minHeight: 100, top: 60 }}
             >
                 <div className='mobile_header-sidebar-content'>
                     <div onClick={toggleDrawer} className='mobile_header-sidebar-close-btn'><i className="ri-close-line ri-lg"></i></div>

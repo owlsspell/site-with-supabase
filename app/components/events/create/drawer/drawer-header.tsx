@@ -13,9 +13,9 @@ export default function DrawerHeader() {
     const closeDrawer = () => {
         setIsOpen(false)
     }
-    const { width } = useWindowSize();
+    const { width, domLoaded } = useWindowSize();
 
-    if (width > 960) return <></>
+    if (width > 960 && !domLoaded) return <></>
     return (
         <div className='drawer_header'>
             <div className='drawer_header-btn'>

@@ -5,12 +5,14 @@ function getWindowSize() {
     return {
       width: 0,
       height: 0,
+      domLoaded: false,
     };
   }
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
     height,
+    domLoaded: true,
   };
 }
 
