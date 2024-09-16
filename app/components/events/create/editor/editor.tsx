@@ -5,16 +5,20 @@ import supabase from '@/utils/supabase/client-supabase';
 import { Form } from 'react-final-form';
 import { EventState } from '@/types/custom-types';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { setActiveStep } from '@/lib/features/drawerStepsSlice';
+import { setActiveStep, toogleStepsStatus } from '@/lib/features/drawerStepsSlice';
 import GeneralInfo from './form/general-info';
 import CreateTickets from './form/tickets/create-tickets';
 import { ValidationErrors } from 'final-form';
 import { setEventInfo } from '@/lib/features/createEventSlice';
+import useWindowSize from '@/hooks/useWindowSizes';
+import { useSearchParams } from 'next/navigation';
 
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
     type GeneralFormState = EventState & { isOpened: typeof isOpened }
     const dispatch = useAppDispatch()
     const activeStep = useAppSelector((state) => state.drawerSteps.activeStep)
+    const searchParams = useSearchParams()
+    const page = searchParams.get("page");
     // const initialValues: EventState = {
     //     title: "",
     //     summary: "",
@@ -70,6 +74,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
             }
             console.log('data', data);
             dispatch(setEventInfo(data))
+            dispatch(toogleStepsStatus({ general: true }))
             // await supabase.from('events').insert({ text: comment, user_id: user.id, event_id: eventId })
             // revalidatePath("/event/[id]")
         }
@@ -105,32 +110,34 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     const getComponent = (step: number | null, isOpened: GeneralFormState['isOpened'], errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
         switch (step) {
             case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} />
-            case 1: return <CreateTickets />
+            case 1: return <CreateTickets goToNextStep={goToNextStep} />
             default: return <></>
         }
     }
     console.log('render');
+    const { domLoaded } = useWindowSize();
+    if (!domLoaded) return <></>
     return (
         <div className='editor_wrapper'>
             <Form
                 onSubmit={createEvent}
                 initialValues={initialValues}
-                validate={validate}
+                // validate={validate}
                 render={({ handleSubmit, values, errors, touched }) => (
                     <form onSubmit={handleSubmit}>
                         <div className='editor_container'>
                             <div className='editor_body'>
                                 {getComponent(activeStep, values.isOpened, errors, touched)}
                             </div >
-                            <div className='editor_footer'>
-                                <button type='submit'>
-                                    <OrangeButton className='editor_button' text="Save and continue" />
-                                </button>
-                            </div>
+                            {page === 'general' &&
+                                <div className='editor_footer'>
+                                    <button type='submit'>
+                                        <OrangeButton className='editor_button' text="Save and continue" />
+                                    </button>
+                                </div>}
                         </div>
                     </form>
-                )
-                }
+                )}
             />
         </div>
     )

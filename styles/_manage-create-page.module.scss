@@ -43,6 +43,7 @@
         margin: auto;
 
         button {
+            cursor: pointer;
             border: 0;
             background: none;
             padding: 10px;
@@ -66,11 +67,29 @@
         list-style-type: none;
         width: 288px;
 
+        .drawer_li {
+
+            label,
+            input {
+                cursor: pointer;
+            }
+        }
+
         .drawer_li-active {
             background-color: v.$gray_200;
 
             label {
                 opacity: 1;
+            }
+        }
+
+        .drawer_li-done {
+            input[type='radio'] {
+                accent-color: green;
+
+                &:focus {
+                    accent-color: green;
+                }
             }
         }
 
@@ -457,6 +476,13 @@
                 }
             }
 
+            .ticket_list-buttons-container {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                margin-top: 20px;
+            }
+
             .drawer_tickets {
                 max-width: 50vw;
                 background-color: transparent;
@@ -471,11 +497,11 @@
 
                 .drawer_tickets-cost {
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: flex-start;
                     gap: 40px;
 
                     .drawer_tickets-cost-select {
-                        width: 500px;
+                        width: 200px;
                     }
                 }
 

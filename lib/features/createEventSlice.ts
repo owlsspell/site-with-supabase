@@ -1,11 +1,14 @@
+import { CreatedEventState } from "@/types/custom-types";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface EventInfo {
-  eventInfo: number | null;
+  eventInfo: CreatedEventState | null;
+  ticketsInfo: null;
 }
 
 const initialState: EventInfo = {
   eventInfo: null,
+  ticketsInfo: null,
 };
 
 export const createEventSlice = createSlice({
@@ -14,6 +17,9 @@ export const createEventSlice = createSlice({
   reducers: {
     setEventInfo: (state, data) => {
       state.eventInfo = data.payload;
+    },
+    setEventTicketsInfo: (state, data) => {
+      state.ticketsInfo = data.payload;
     },
   },
 });
