@@ -17,17 +17,17 @@ export interface EventState {
   ticketCount?: number;
 }
 export interface CreatedEventState {
-  author_id: string;
-  category: number;
-  description: string;
-  endDate: string;
-  endTime: string;
-  format: string;
-  language: string[];
-  location: string;
-  name: string;
-  startDate: string;
-  startTime: string;
-  subcategory: string[];
-  text: string;
+  author_id?: string;
+  category: number | null;
+  description: string | null;
+  endDate: string | null;
+  endTime: string | null;
+  format: string | null;
+  language: string[] | null;
+  location: string | null;
+  name: string | null;
+  startDate: string | null;
+  startTime: string | null;
+  subcategory: string[] | null;
+  text: string | null;
 }

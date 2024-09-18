@@ -2,12 +2,25 @@ import { CreatedEventState } from "@/types/custom-types";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface EventInfo {
-  eventInfo: CreatedEventState | null;
+  eventInfo: CreatedEventState;
   ticketsInfo: null;
 }
 
 const initialState: EventInfo = {
-  eventInfo: null,
+  eventInfo: {
+    category: null,
+    description: null,
+    endDate: null,
+    endTime: null,
+    format: null,
+    language: ["English"],
+    location: null,
+    name: null,
+    startDate: null,
+    startTime: null,
+    subcategory: null,
+    text: null,
+  },
   ticketsInfo: null,
 };
 
@@ -24,5 +37,6 @@ export const createEventSlice = createSlice({
   },
 });
 
-export const { setEventInfo } = createEventSlice.actions;
+export const { setEventInfo, setEventTicketsInfo } =
+  createEventSlice.actions;
 export default createEventSlice.reducer;

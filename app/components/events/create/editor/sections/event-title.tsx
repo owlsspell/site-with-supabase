@@ -1,11 +1,13 @@
 'use client'
 import { isSomeFieldFull } from '@/lib/functions'
+import { useAppSelector } from '@/lib/hooks'
 import React from 'react'
 import { Field, useField } from 'react-final-form'
 
 export default function EventTitle({ isOpened }: { isOpened: boolean }) {
     const title = useField('title')
     const summary = useField('summary')
+    const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
     return (
         <div className='editor_title' >
             <div className={isOpened ? 'show' : 'hidden'}>
@@ -18,10 +20,10 @@ export default function EventTitle({ isOpened }: { isOpened: boolean }) {
                 <Field name="summary" component="input" />
             </div>
             <div className={isOpened ? 'hidden' : 'show'}>
-                {isSomeFieldFull([title.input.value, summary.input.value]) ?
+                {isSomeFieldFull([eventInfo?.name, eventInfo?.description, title.input.value, summary.input.value]) ?
                     <>
-                        <h1>{title.input.value}</h1>
-                        <p>{summary.input.value}</p>
+                        <h1>{title.input.value ?? eventInfo.name}</h1>
+                        <p>{summary.input.value ?? eventInfo.description}</p>
                     </> :
                     <>
                         <h1>Event title</h1>

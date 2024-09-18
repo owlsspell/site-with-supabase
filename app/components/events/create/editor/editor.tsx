@@ -19,6 +19,8 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     const activeStep = useAppSelector((state) => state.drawerSteps.activeStep)
     const searchParams = useSearchParams()
     const page = searchParams.get("page");
+    const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
+
     // const initialValues: EventState = {
     //     title: "",
     //     summary: "",
@@ -32,6 +34,10 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     //     subcategory: [],
     //     format: "",
     // };
+    const getValuesArrayFromOptions = (values: any) => values ? values.map((item: any) => item.label) : null
+    const getValueFromOption = (item: any) => item ? item.value : null
+    const getOptionFromValue = (item: any) => ({ value: item, label: item })
+    const getMultiOptionsFromValue = (values: any) => values ? values.map((item: string) => ({ value: item, label: item })) : null
 
     const isOpened = {
         image: false,
@@ -42,15 +48,38 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     }
     const initialValues = {
         ticketCurrency: { label: "U.S. Dollar", value: "U.S. Dollar" },
-        language: [{ label: "English", value: "English" }],
-        isOpened: isOpened
+        // language: [{ label: "English", value: "English" }],
+        isOpened: isOpened,
+        title: eventInfo.name,
+        summary: eventInfo.description,
+        about: eventInfo.text,
+        location: eventInfo.location === 'online' ? null : eventInfo.location,
+        isOnline: !!(eventInfo.location === 'online'),
+        startDate: eventInfo.startDate,
+        startTime: eventInfo.startTime,
+        endDate: eventInfo.endDate,
+        endTime: eventInfo.endTime,
+        category: getOptionFromValue(eventInfo.category),
+        subcategory: getMultiOptionsFromValue(eventInfo.subcategory),
+        format: getOptionFromValue(eventInfo.format),
+        language: getMultiOptionsFromValue(eventInfo.language),
+
+        // text: values.about,
+        // author_id: user.id,
+        // location: values.isOnline ? 'online' : values.location,
+        // // price: "",
+        // startDate: values.startDate,
+        // startTime: values.startTime,
+        // endDate: values.endDate,
+        // endTime: values.endTime,
+        // category:  getValueFromOption(values.category),
+        // subcategory: getValuesArrayFromOptions(values.subcategory),
+        // format:  getValueFromOption(values.format),
+        // language: getValuesArrayFromOptions(values.language),
     }
-    const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
     console.log('eventInfo', eventInfo);
     const goToNextStep = (step: number) => { dispatch(setActiveStep(step)) }
-
-    const getValuesArray = (values: any) => values ? values.map((item: any) => item.label) : null
-    const getValueFromObject = (item: any) => item ? item.value : null
+    console.log('language!', getMultiOptionsFromValue(eventInfo.language));
 
     const createEvent = async (values: GeneralFormState) => {
         const { data: { user } } = await supabase.auth.getUser();
@@ -66,10 +95,10 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 startTime: values.startTime,
                 endDate: values.endDate,
                 endTime: values.endTime,
-                category: getValueFromObject(values.category),
-                subcategory: getValuesArray(values.subcategory),
-                format: getValueFromObject(values.format),
-                language: getValuesArray(values.language),
+                category: getValueFromOption(values.category),
+                subcategory: getValuesArrayFromOptions(values.subcategory),
+                format: getValueFromOption(values.format),
+                language: getValuesArrayFromOptions(values.language),
                 // currency:[ ""],
             }
             console.log('data', data);
@@ -126,6 +155,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 render={({ handleSubmit, values, errors, touched }) => (
                     <form onSubmit={handleSubmit}>
                         <div className='editor_container'>
+                            {console.log('values', values)}
                             <div className='editor_body'>
                                 {getComponent(activeStep, values.isOpened, errors, touched)}
                             </div >
