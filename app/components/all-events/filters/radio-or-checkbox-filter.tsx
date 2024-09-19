@@ -52,7 +52,7 @@ const CustomField = ({ option, type, title }: { option: string, type: string, ti
         <label>
             <input name={title}
                 type={type}
-                value={option}
+                value={option ?? ''}
                 checked={checked}
                 id={option}
                 onChange={handleChange}

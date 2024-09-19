@@ -52,6 +52,7 @@ export default function TicketModal({ isFree = false, isOpen, toggleDrawer, save
                                     {({ input }) => (
                                         <Select
                                             {...input}
+                                            value={input.value ?? ""}
                                             options={currency}
                                             menuPlacement="auto"
                                             className='drawer_tickets-cost-select'

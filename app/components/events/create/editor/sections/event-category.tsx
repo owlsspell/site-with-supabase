@@ -51,7 +51,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                                 <Select
                                     {...input}
                                     id='category'
-                                    value={input.value}
+                                    value={input.value.value ? input.value : ''}
                                     onChange={handleChangeCategory}
                                     options={categoriesList}
                                 />
@@ -65,7 +65,6 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                                 <Select
                                     {...input}
                                     id='subcategory'
-                                    value={input.value}
                                     onChange={handleChangeSubcategory}
                                     options={subCategories}
                                     isMulti
@@ -79,6 +78,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                             {({ input }) => (
                                 <Select
                                     {...input}
+                                    value={input.value.value ? input.value : ''}
                                     options={formatsArray}
                                 />
                             )}

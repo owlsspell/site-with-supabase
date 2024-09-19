@@ -12,6 +12,8 @@ import { ValidationErrors } from 'final-form';
 import { setEventInfo } from '@/lib/features/createEventSlice';
 import useWindowSize from '@/hooks/useWindowSizes';
 import { useSearchParams } from 'next/navigation';
+import { getMultiOptionsFromValue, getOptionFromValue, getValueFromOption, getValuesArrayFromOptions } from '@/lib/functions';
+import Preview from './form/preview';
 
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
     type GeneralFormState = EventState & { isOpened: typeof isOpened }
@@ -20,24 +22,6 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     const searchParams = useSearchParams()
     const page = searchParams.get("page");
     const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
-
-    // const initialValues: EventState = {
-    //     title: "",
-    //     summary: "",
-    //     date: "",
-    //     startTime: "",
-    //     endTime: "",
-    //     location: "",
-    //     isOnline: false,
-    //     info: "",
-    //     category: "",
-    //     subcategory: [],
-    //     format: "",
-    // };
-    const getValuesArrayFromOptions = (values: any) => values ? values.map((item: any) => item.label) : null
-    const getValueFromOption = (item: any) => item ? item.value : null
-    const getOptionFromValue = (item: any) => ({ value: item, label: item })
-    const getMultiOptionsFromValue = (values: any) => values ? values.map((item: string) => ({ value: item, label: item })) : null
 
     const isOpened = {
         image: false,
@@ -48,7 +32,6 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     }
     const initialValues = {
         ticketCurrency: { label: "U.S. Dollar", value: "U.S. Dollar" },
-        // language: [{ label: "English", value: "English" }],
         isOpened: isOpened,
         title: eventInfo.name,
         summary: eventInfo.description,
@@ -63,23 +46,8 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         subcategory: getMultiOptionsFromValue(eventInfo.subcategory),
         format: getOptionFromValue(eventInfo.format),
         language: getMultiOptionsFromValue(eventInfo.language),
-
-        // text: values.about,
-        // author_id: user.id,
-        // location: values.isOnline ? 'online' : values.location,
-        // // price: "",
-        // startDate: values.startDate,
-        // startTime: values.startTime,
-        // endDate: values.endDate,
-        // endTime: values.endTime,
-        // category:  getValueFromOption(values.category),
-        // subcategory: getValuesArrayFromOptions(values.subcategory),
-        // format:  getValueFromOption(values.format),
-        // language: getValuesArrayFromOptions(values.language),
     }
-    console.log('eventInfo', eventInfo);
     const goToNextStep = (step: number) => { dispatch(setActiveStep(step)) }
-    console.log('language!', getMultiOptionsFromValue(eventInfo.language));
 
     const createEvent = async (values: GeneralFormState) => {
         const { data: { user } } = await supabase.auth.getUser();
@@ -137,9 +105,11 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     };
 
     const getComponent = (step: number | null, isOpened: GeneralFormState['isOpened'], errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
+        console.log('step,', step);
         switch (step) {
             case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} />
             case 1: return <CreateTickets goToNextStep={goToNextStep} />
+            case 2: return <Preview />
             default: return <></>
         }
     }
@@ -155,7 +125,6 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 render={({ handleSubmit, values, errors, touched }) => (
                     <form onSubmit={handleSubmit}>
                         <div className='editor_container'>
-                            {console.log('values', values)}
                             <div className='editor_body'>
                                 {getComponent(activeStep, values.isOpened, errors, touched)}
                             </div >

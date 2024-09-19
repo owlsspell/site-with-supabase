@@ -11,7 +11,6 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
     const isOnline = useField('isOnline')
     const location = useField('location')
     const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
-
     return (
         <div className='editor_title'>
             <div className={'editor_title-flex ' + (isOpened ? 'show' : 'hidden')}>
@@ -37,7 +36,7 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
                     </label>
                     <Field name="location">
                         {({ input }) => (
-                            <input type="text" placeholder='Event location' disabled={!!isOnline.input.value} value={!!isOnline.input.value ? "" : input.value} onChange={input.onChange} />
+                            <input type="text" placeholder='Event location' disabled={!!isOnline.input.value} value={!!isOnline.input.value ? "" : (input.value ?? '')} onChange={input.onChange} />
                         )}
                     </Field>
                 </div>
