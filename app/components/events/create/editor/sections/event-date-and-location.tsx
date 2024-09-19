@@ -1,21 +1,16 @@
-import dayjs from 'dayjs'
-import React, { useMemo } from 'react'
-import timezone from 'dayjs/plugin/timezone'
-import advancedFormat from 'dayjs/plugin/advancedFormat'
-import { isSomeFieldFull } from '@/lib/functions'
+import React from 'react'
 import { Field, useField } from 'react-final-form'
-
-dayjs.extend(advancedFormat)
-dayjs.extend(timezone)
+import { useAppSelector } from '@/lib/hooks'
+import EventDateAndLocationInfo from './view-section/date-and-location'
 
 export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }) {
-    const today = useMemo(() => dayjs().format('ddd, D MMM YYYY z'), [])
     const startDate = useField('startDate')
     const endDate = useField('endDate')
     const startTime = useField('startTime')
     const endTime = useField('endTime')
     const isOnline = useField('isOnline')
     const location = useField('location')
+    const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
     return (
         <div className='editor_title'>
             <div className={'editor_title-flex ' + (isOpened ? 'show' : 'hidden')}>
@@ -41,45 +36,19 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
                     </label>
                     <Field name="location">
                         {({ input }) => (
-                            <input type="text" placeholder='Event location' disabled={!!isOnline.input.value} value={!!isOnline.input.value ? "" : input.value} onChange={input.onChange} />
+                            <input type="text" placeholder='Event location' disabled={!!isOnline.input.value} value={!!isOnline.input.value ? "" : (input.value ?? '')} onChange={input.onChange} />
                         )}
                     </Field>
                 </div>
             </div>
-            <div className={'editor_title-flex ' + (isOpened ? 'hidden' : 'show')}>
-                {isSomeFieldFull([startDate.input.value, endDate.input.value, startTime.input.value, endTime.input.value, location.input.value]) || isOnline.input.value ?
-                    <>
-                        <div>
-                            <h3>Date and time</h3>
-                            <div>{startDate.input.value === endDate.input.value ?
-                                `${startDate.input.value} ${startTime.input.value}-${endTime.input.value}`
-                                :
-                                <>
-                                    <div>{`from: ${startDate.input.value} ${startTime.input.value}`}</div>
-                                    <div>{`to: ${endDate.input.value} ${endTime.input.value}`}</div>
-                                </>}
-                            </div>
-                        </div>
-                        <hr />
-                        <div>
-                            <h3>Location</h3>
-                            <p>{!!isOnline.input.value ? "Online" : location.input.value}</p>
-                        </div>
-                    </>
-                    :
-                    <>
-                        <div>
-                            <h3>Date and time</h3>
-                            <p>{today}</p>
-                        </div>
-                        <hr />
-                        <div>
-                            <h3>Location</h3>
-                            <p>Enter a location</p>
-                        </div>
-                    </>
-                }
-            </div>
+            <EventDateAndLocationInfo
+                isOpened={isOpened}
+                startDate={startDate.input.value ?? eventInfo.startDate}
+                endDate={endDate.input.value ?? eventInfo.endDate}
+                startTime={startTime.input.value ?? eventInfo.startTime}
+                endTime={endTime.input.value ?? eventInfo.endTime}
+                location={(!!isOnline.input.value ? "online" : location.input.value ?? eventInfo.location)}
+            />
         </div >
     )
 }

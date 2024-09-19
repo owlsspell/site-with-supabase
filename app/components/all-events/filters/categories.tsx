@@ -21,7 +21,7 @@ export default function Categories({ categories }: { categories: CategoryType[] 
                     <label>
                         <input name="category"
                             type="radio"
-                            value={category.name}
+                            value={category.name ?? ''}
                             id={category.name}
                             onChange={() => handleChange(category.name)}
                         />

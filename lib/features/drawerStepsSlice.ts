@@ -1,11 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface DrawerSteps {
+export interface DrawerSteps {
   activeStep: number | null;
+  stepsStatus: {
+    general: boolean;
+    tickets: boolean;
+    publish: boolean;
+  };
 }
 
 const initialState: DrawerSteps = {
   activeStep: null,
+  stepsStatus: {
+    general: false,
+    tickets: false,
+    publish: false,
+  },
 };
 
 export const drawerStepsSlice = createSlice({
@@ -15,8 +25,11 @@ export const drawerStepsSlice = createSlice({
     setActiveStep: (state, data) => {
       state.activeStep = data.payload;
     },
+    toogleStepsStatus: (state, data) => {
+      state.stepsStatus = { ...state.stepsStatus, ...data.payload };
+    },
   },
 });
 
-export const { setActiveStep } = drawerStepsSlice.actions;
+export const { setActiveStep, toogleStepsStatus } = drawerStepsSlice.actions;
 export default drawerStepsSlice.reducer;

@@ -5,29 +5,23 @@ import supabase from '@/utils/supabase/client-supabase';
 import { Form } from 'react-final-form';
 import { EventState } from '@/types/custom-types';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { setActiveStep } from '@/lib/features/drawerStepsSlice';
+import { setActiveStep, toogleStepsStatus } from '@/lib/features/drawerStepsSlice';
 import GeneralInfo from './form/general-info';
 import CreateTickets from './form/tickets/create-tickets';
 import { ValidationErrors } from 'final-form';
 import { setEventInfo } from '@/lib/features/createEventSlice';
+import useWindowSize from '@/hooks/useWindowSizes';
+import { useSearchParams } from 'next/navigation';
+import { getMultiOptionsFromValue, getOptionFromValue, getValueFromOption, getValuesArrayFromOptions } from '@/lib/functions';
+import Preview from './form/preview';
 
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
     type GeneralFormState = EventState & { isOpened: typeof isOpened }
     const dispatch = useAppDispatch()
     const activeStep = useAppSelector((state) => state.drawerSteps.activeStep)
-    // const initialValues: EventState = {
-    //     title: "",
-    //     summary: "",
-    //     date: "",
-    //     startTime: "",
-    //     endTime: "",
-    //     location: "",
-    //     isOnline: false,
-    //     info: "",
-    //     category: "",
-    //     subcategory: [],
-    //     format: "",
-    // };
+    const searchParams = useSearchParams()
+    const page = searchParams.get("page");
+    const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
 
     const isOpened = {
         image: false,
@@ -38,15 +32,22 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     }
     const initialValues = {
         ticketCurrency: { label: "U.S. Dollar", value: "U.S. Dollar" },
-        language: [{ label: "English", value: "English" }],
-        isOpened: isOpened
+        isOpened: isOpened,
+        title: eventInfo.name,
+        summary: eventInfo.description,
+        about: eventInfo.text,
+        location: eventInfo.location === 'online' ? null : eventInfo.location,
+        isOnline: !!(eventInfo.location === 'online'),
+        startDate: eventInfo.startDate,
+        startTime: eventInfo.startTime,
+        endDate: eventInfo.endDate,
+        endTime: eventInfo.endTime,
+        category: getOptionFromValue(eventInfo.category),
+        subcategory: getMultiOptionsFromValue(eventInfo.subcategory),
+        format: getOptionFromValue(eventInfo.format),
+        language: getMultiOptionsFromValue(eventInfo.language),
     }
-    const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
-    console.log('eventInfo', eventInfo);
     const goToNextStep = (step: number) => { dispatch(setActiveStep(step)) }
-
-    const getValuesArray = (values: any) => values ? values.map((item: any) => item.label) : null
-    const getValueFromObject = (item: any) => item ? item.value : null
 
     const createEvent = async (values: GeneralFormState) => {
         const { data: { user } } = await supabase.auth.getUser();
@@ -62,14 +63,15 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 startTime: values.startTime,
                 endDate: values.endDate,
                 endTime: values.endTime,
-                category: getValueFromObject(values.category),
-                subcategory: getValuesArray(values.subcategory),
-                format: getValueFromObject(values.format),
-                language: getValuesArray(values.language),
+                category: getValueFromOption(values.category),
+                subcategory: getValuesArrayFromOptions(values.subcategory),
+                format: getValueFromOption(values.format),
+                language: getValuesArrayFromOptions(values.language),
                 // currency:[ ""],
             }
             console.log('data', data);
             dispatch(setEventInfo(data))
+            dispatch(toogleStepsStatus({ general: true }))
             // await supabase.from('events').insert({ text: comment, user_id: user.id, event_id: eventId })
             // revalidatePath("/event/[id]")
         }
@@ -103,34 +105,38 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     };
 
     const getComponent = (step: number | null, isOpened: GeneralFormState['isOpened'], errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
+        console.log('step,', step);
         switch (step) {
             case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} />
-            case 1: return <CreateTickets />
+            case 1: return <CreateTickets goToNextStep={goToNextStep} />
+            case 2: return <Preview />
             default: return <></>
         }
     }
     console.log('render');
+    const { domLoaded } = useWindowSize();
+    if (!domLoaded) return <></>
     return (
         <div className='editor_wrapper'>
             <Form
                 onSubmit={createEvent}
                 initialValues={initialValues}
-                validate={validate}
+                // validate={validate}
                 render={({ handleSubmit, values, errors, touched }) => (
                     <form onSubmit={handleSubmit}>
                         <div className='editor_container'>
                             <div className='editor_body'>
                                 {getComponent(activeStep, values.isOpened, errors, touched)}
                             </div >
-                            <div className='editor_footer'>
-                                <button type='submit'>
-                                    <OrangeButton className='editor_button' text="Save and continue" />
-                                </button>
-                            </div>
+                            {page === 'general' &&
+                                <div className='editor_footer'>
+                                    <button type='submit'>
+                                        <OrangeButton className='editor_button' text="Save and continue" />
+                                    </button>
+                                </div>}
                         </div>
                     </form>
-                )
-                }
+                )}
             />
         </div>
     )

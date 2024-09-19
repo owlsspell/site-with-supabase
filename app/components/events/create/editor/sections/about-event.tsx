@@ -1,16 +1,31 @@
 import React, { Ref, useEffect, useRef, useState } from 'react'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
-import { EditorState, convertToRaw } from 'draft-js';
+import { ContentState, EditorState, convertFromHTML, convertToRaw } from 'draft-js';
 import DOMPurify from 'dompurify';
 import dynamic from 'next/dynamic';
 import draftToHtml from 'draftjs-to-html';
 import { useField } from 'react-final-form';
+import { useAppSelector } from '@/lib/hooks';
 
 const Editor = dynamic(() => import('react-draft-wysiwyg').then(mod => mod.Editor), { ssr: false });
 
 export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    const editorRef = useRef()
+    const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
+    const initialState = () => {
+        if (!!eventInfo.text) {
+            return EditorState.createWithContent(
+                ContentState.createFromBlockArray(
+                    convertFromHTML(eventInfo.text as string) as any
+                )
+            )
+        }
+        return EditorState.createEmpty()
+    }
+
+    const [editorState, setEditorState] = useState(initialState);
+    const [isInitialEditor, toogleInitialEditor] = useState(false)
+
+    const editorRef = useRef<any>()
     const toolbar = {
         options: ['blockType', 'inline', 'textAlign', 'list', 'link', 'fontSize', 'colorPicker'],
         blockType: {
@@ -42,12 +57,6 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
     }
     const about = useField('about')
 
-    useEffect(() => {
-        let html = draftToHtml(convertToRaw(editorState.getCurrentContent()))
-        if (html === "<p></p>\n") return about.input.onChange("")
-        about.input.onChange(html)
-    }, [editorState]);
-
     function createMarkup(html: any) {
         return {
             __html: DOMPurify.sanitize(html)
@@ -59,9 +68,20 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
     const setEditorReference = (ref: any) => {
         if (!ref) return
         editorRef.current = ref;
-        ref.focus();
-        about.input.onBlur()
+        if (!isInitialEditor) toogleInitialEditor(true)
     }
+    useEffect(() => {
+        if (!isInitialEditor) return
+        if (!editorRef.current) return
+        editorRef?.current.focus();
+        about.input.onBlur()
+    }, [isInitialEditor, isOpened])
+
+    useEffect(() => {
+        let html = draftToHtml(convertToRaw(editorState.getCurrentContent()))
+        if (html === "<p></p>\n") return about.input.onChange("")
+        about.input.onChange(html)
+    }, [editorState]);
     return (
         <div className='editor_title'>
             <div className={isOpened ? 'show' : 'hidden'}>
@@ -78,6 +98,7 @@ export default function AboutEvent({ isOpened }: { isOpened: boolean }) {
             <div className={isOpened ? 'hidden' : 'show'}>
                 {about.input.value.length > 0 ?
                     <>
+                        <h3>About this event</h3>
                         <div
                             className="preview"
                             dangerouslySetInnerHTML={createMarkup(about.input.value)}>

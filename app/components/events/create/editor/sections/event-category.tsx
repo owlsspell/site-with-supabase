@@ -1,14 +1,18 @@
 import { format as formatConstants, language as languageConstants } from '@/lib/constants'
-import { isSomeFieldFull } from '@/lib/functions'
+import { useAppSelector } from '@/lib/hooks';
 import React, { useMemo } from 'react'
 import { Field, useField } from 'react-final-form'
 import Select from 'react-select';
+import EventCategoryInfo from './view-section/category';
+import { getValueFromOption, getValuesArrayFromOptions } from '@/lib/functions';
 
 export default function EventCategory({ isOpened, categories }: { isOpened: boolean, categories: CategoryType[] }) {
     const category = useField('category')
     const subcategory = useField('subcategory')
     const format = useField('format')
     const language = useField('language')
+    const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
+
     const handleChangeCategory = (selectedOption: any) => {
         category.input.onChange(selectedOption)
         subcategory.input.onChange(null)
@@ -24,7 +28,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
         if (result) return result.subcategories
     }
 
-    const categoriesList = useMemo(() => categories.map(category => ({ value: category.id, label: category.name })), [categories])
+    const categoriesList = useMemo(() => categories.map(category => ({ value: category.name, label: category.name })), [categories])
 
     const subCategories = useMemo(() => {
         if (!category.input.value) return []
@@ -35,7 +39,6 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
 
     const formatsArray = formatConstants.map(item => ({ value: item, label: item }))
     const languageArray = languageConstants.map(item => ({ value: item, label: item }))
-
     return (
         <div className='editor_title'>
             <div className={isOpened && categoriesList.length > 0 ? 'show' : 'hidden'}>
@@ -48,7 +51,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                                 <Select
                                     {...input}
                                     id='category'
-                                    value={input.value}
+                                    value={input.value.value ? input.value : ''}
                                     onChange={handleChangeCategory}
                                     options={categoriesList}
                                 />
@@ -62,7 +65,6 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                                 <Select
                                     {...input}
                                     id='subcategory'
-                                    value={input.value}
                                     onChange={handleChangeSubcategory}
                                     options={subCategories}
                                     isMulti
@@ -76,6 +78,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                             {({ input }) => (
                                 <Select
                                     {...input}
+                                    value={input.value.value ? input.value : ''}
                                     options={formatsArray}
                                 />
                             )}
@@ -95,20 +98,13 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                     </div>
                 </div>
             </div>
-            <div className={isOpened ? 'hidden' : 'show'}>
-                {isSomeFieldFull([category.input.value, subcategory.input.value, format.input.value]) ?
-                    <>
-                        <h3>{category.input.value && category.input.value.label}</h3>
-                        <h5>{subcategory.input.value && subcategory.input.value.map((item: any) => item.value).join(',')}</h5>
-                        <h5>{format.input.value && format.input.value.value}</h5>
-                        <h5>{language.input.value && language.input.value.map((item: any) => item.value).join(',')}</h5>
-                    </> :
-                    <>
-                        <h3>Event category</h3>
-                        <p>Please select an event category to make it easier to find you.</p>
-                    </>
-                }
-            </div >
+            <EventCategoryInfo
+                isOpened={isOpened}
+                category={getValueFromOption(category.input.value) ?? eventInfo.category}
+                subcategory={getValueFromOption(category.input.value) === eventInfo.category ? eventInfo.subcategory : getValuesArrayFromOptions(subcategory.input.value)}
+                format={getValueFromOption(format.input.value) ?? eventInfo.format}
+                language={getValuesArrayFromOptions(language.input.value) ?? language.format}
+            />
         </div >
     )
 }
