@@ -10,21 +10,26 @@ import image1 from "@/images/swiper/pic1_optim.jpeg"
 import image2 from "@/images/swiper/pic2_optim.jpeg"
 import image3 from "@/images/swiper/pic3_optim.jpeg"
 import { ChangeEvent, useMemo } from 'react';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { setEventImage } from '@/lib/features/createEventSlice';
 
 export default function SwiperGalery({ image, changeImage }: { image: null | File, changeImage: (file: File) => void }) {
     const slides = [image1, image2, image3]
+    // const image = useAppSelector((state) => state.createdEventInfo.eventImage)
     const url = useMemo(() => !image ? null : URL.createObjectURL(image as Blob | MediaSource), [image])
-
+    // const dispatch = useAppDispatch()
     const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return
-        const url = URL.createObjectURL(e.target.files[0])
+        // const url = URL.createObjectURL(e.target.files[0])
         changeImage(e.target.files[0])
+        // dispatch(setEventImage(e.target.files[0]))
+
         // const formData = new FormData()
         // formData.append("image", e.target.files[0])
         // console.log('formData', formData);
         // dispatch(setRow({ section: "images", key: 'image', value: e.target.files[0] }))
     }
-    console.log('image,', image);
+    // console.log('image,', image);
     // async function getImages() {
     //     const { data: images } = await supabase
     //         .storage

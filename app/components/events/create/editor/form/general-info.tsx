@@ -18,10 +18,12 @@ interface GeneralInfoTypes {
     categories: CategoryType[];
     touched: { [key: string]: boolean; } | undefined;
     errors: ValidationErrors
+    image: null | File,
+    changeImage: (file: File) => void
 }
 
-export default function GeneralInfo({ isOpened, categories, touched, errors }: GeneralInfoTypes) {
-    const [image, changeImage] = useState<null | File>(null)
+export default function GeneralInfo({ isOpened, categories, touched, errors, image, changeImage }: GeneralInfoTypes) {
+    // const [image, changeImage] = useState<null | File>(null)
     return (
         <>
             <ContainerHoc classes="editor_picture" field="image" touched={touched?.image} errors={errors?.image} image={image}  >

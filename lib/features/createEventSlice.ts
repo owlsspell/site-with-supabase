@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface EventInfo {
   eventInfo: CreatedEventState;
   ticketsInfo: null;
+  eventImage: null | File;
 }
 
 const initialState: EventInfo = {
@@ -22,6 +23,7 @@ const initialState: EventInfo = {
     text: null,
   },
   ticketsInfo: null,
+  eventImage: null,
 };
 
 export const createEventSlice = createSlice({
@@ -34,9 +36,12 @@ export const createEventSlice = createSlice({
     setEventTicketsInfo: (state, data) => {
       state.ticketsInfo = data.payload;
     },
+    setEventImage: (state, data) => {
+      state.eventImage = data.payload;
+    },
   },
 });
 
-export const { setEventInfo, setEventTicketsInfo } =
+export const { setEventInfo, setEventTicketsInfo, setEventImage } =
   createEventSlice.actions;
 export default createEventSlice.reducer;

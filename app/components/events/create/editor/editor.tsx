@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import OrangeButton from '@/app/components/buttons/orange-button';
 import supabase from '@/utils/supabase/client-supabase';
 import { Form } from 'react-final-form';
@@ -14,6 +14,7 @@ import useWindowSize from '@/hooks/useWindowSizes';
 import { useSearchParams } from 'next/navigation';
 import { getMultiOptionsFromValue, getOptionFromValue, getValueFromOption, getValuesArrayFromOptions } from '@/lib/functions';
 import Preview from './form/preview';
+import dayjs from 'dayjs';
 
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
     type GeneralFormState = EventState & { isOpened: typeof isOpened }
@@ -22,6 +23,8 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     const searchParams = useSearchParams()
     const page = searchParams.get("page");
     const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
+    const eventImage = useAppSelector((state) => state.createdEventInfo.eventImage)
+    const [image, changeImage] = useState<null | File>(null)
 
     const isOpened = {
         image: false,
@@ -59,6 +62,34 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 author_id: user.id,
                 location: values.isOnline ? 'online' : values.location,
                 // price: "",
+                timeStart: dayjs(`${values.startDate}${values.startTime}`).format('YYYY-MM-DD HH:mm:ss z'),
+                timeEnd: dayjs(`${values.endDate}${values.endTime}`).format('YYYY-MM-DD HH:mm:ss z'),
+                category: getValueFromOption(values.category),
+                subcategory: getValuesArrayFromOptions(values.subcategory),
+                format: getValueFromOption(values.format),
+                language: getValuesArrayFromOptions(values.language),
+                // currency:[ ""],
+            }
+            console.log('data', data);
+
+            const { data: resultData, error } = await supabase.from('events').upsert(data).select()
+            console.log('resultData, error', resultData, error);
+
+            if (!eventImage || !resultData) return console.log('resultData null');
+
+            const { data: data2, error: error2 } = await supabase
+                .storage
+                .from('event_images')
+                .upload(encodeURIComponent(`${resultData[0].id}/${self.crypto.randomUUID()}`), eventImage)
+            console.log('data2, error2', data2, error2);
+            // revalidatePath("/event/[id]")
+            dispatch(setEventInfo({
+                name: values.title,
+                description: values.summary,
+                text: values.about,
+                author_id: user.id,
+                location: values.isOnline ? 'online' : values.location,
+                // price: "",
                 startDate: values.startDate,
                 startTime: values.startTime,
                 endDate: values.endDate,
@@ -68,12 +99,10 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 format: getValueFromOption(values.format),
                 language: getValuesArrayFromOptions(values.language),
                 // currency:[ ""],
-            }
-            console.log('data', data);
-            dispatch(setEventInfo(data))
+            }))
             dispatch(toogleStepsStatus({ general: true }))
-            // await supabase.from('events').insert({ text: comment, user_id: user.id, event_id: eventId })
-            // revalidatePath("/event/[id]")
+            goToNextStep(1)
+
         }
         // if (!!image) {
         //     const { data, error } = await supabase
@@ -82,7 +111,8 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         //         .upload(image.name, image)
         //     console.log('data,error', data, error);
         // }
-        goToNextStep(1)
+
+        // goToNextStep(1)
     }
 
     const isClearField = (value: string | undefined) => (typeof value === 'undefined') ? true : value.length === 0
@@ -107,7 +137,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     const getComponent = (step: number | null, isOpened: GeneralFormState['isOpened'], errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
         console.log('step,', step);
         switch (step) {
-            case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} />
+            case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} image={image} changeImage={changeImage} />
             case 1: return <CreateTickets goToNextStep={goToNextStep} />
             case 2: return <Preview />
             default: return <></>
