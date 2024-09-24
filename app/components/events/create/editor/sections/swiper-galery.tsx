@@ -10,8 +10,6 @@ import image1 from "@/images/swiper/pic1_optim.jpeg"
 import image2 from "@/images/swiper/pic2_optim.jpeg"
 import image3 from "@/images/swiper/pic3_optim.jpeg"
 import { ChangeEvent, useMemo } from 'react';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { setEventImage } from '@/lib/features/createEventSlice';
 
 export default function SwiperGalery({ image, changeImage }: { image: null | File, changeImage: (file: File) => void }) {
     const slides = [image1, image2, image3]

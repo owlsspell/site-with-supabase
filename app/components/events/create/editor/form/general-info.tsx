@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ContainerHoc from '../container-hoc'
 import SwiperGalery from '.././sections/swiper-galery';
 import EventTitle from '.././sections/event-title';
@@ -23,7 +23,6 @@ interface GeneralInfoTypes {
 }
 
 export default function GeneralInfo({ isOpened, categories, touched, errors, image, changeImage }: GeneralInfoTypes) {
-    // const [image, changeImage] = useState<null | File>(null)
     return (
         <>
             <ContainerHoc classes="editor_picture" field="image" touched={touched?.image} errors={errors?.image} image={image}  >

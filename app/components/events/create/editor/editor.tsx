@@ -9,12 +9,13 @@ import { setActiveStep, toogleStepsStatus } from '@/lib/features/drawerStepsSlic
 import GeneralInfo from './form/general-info';
 import CreateTickets from './form/tickets/create-tickets';
 import { ValidationErrors } from 'final-form';
-import { setEventInfo } from '@/lib/features/createEventSlice';
+import { setEventInfo, toogleEventStatus } from '@/lib/features/createEventSlice';
 import useWindowSize from '@/hooks/useWindowSizes';
 import { useSearchParams } from 'next/navigation';
-import { getMultiOptionsFromValue, getOptionFromValue, getValueFromOption, getValuesArrayFromOptions } from '@/lib/functions';
+import { getMultiOptionsFromValue, getOptionFromValue, getValueFromOption, getValuesArrayFromOptions, isClearField } from '@/lib/functions';
 import Preview from './form/preview';
 import dayjs from 'dayjs';
+import Swal from 'sweetalert2';
 
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
     type GeneralFormState = EventState & { isOpened: typeof isOpened }
@@ -23,7 +24,6 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     const searchParams = useSearchParams()
     const page = searchParams.get("page");
     const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
-    const eventImage = useAppSelector((state) => state.createdEventInfo.eventImage)
     const [image, changeImage] = useState<null | File>(null)
 
     const isOpened = {
@@ -52,6 +52,14 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     }
     const goToNextStep = (step: number) => { dispatch(setActiveStep(step)) }
 
+    const handleError = () => {
+        return Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong! Try again",
+        });
+    }
+
     const createEvent = async (values: GeneralFormState) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
@@ -72,17 +80,11 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
             }
             console.log('data', data);
 
-            const { data: resultData, error } = await supabase.from('events').upsert(data).select()
+            const { data: resultData, error } = await supabase.from('events').upsert(data, { onConflict: "name" }).select()
             console.log('resultData, error', resultData, error);
 
-            if (!eventImage || !resultData) return console.log('resultData null');
+            if (error) handleError()
 
-            const { data: data2, error: error2 } = await supabase
-                .storage
-                .from('event_images')
-                .upload(encodeURIComponent(`${resultData[0].id}/${self.crypto.randomUUID()}`), eventImage)
-            console.log('data2, error2', data2, error2);
-            // revalidatePath("/event/[id]")
             dispatch(setEventInfo({
                 name: values.title,
                 description: values.summary,
@@ -100,32 +102,35 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 language: getValuesArrayFromOptions(values.language),
                 // currency:[ ""],
             }))
+
+            if (!image || !resultData) return console.log('resultData null');
+
+            const { data: data2, error: error2 } = await supabase
+                .storage
+                .from('event_images')
+                .upload(encodeURIComponent(`${resultData[0].id}/${self.crypto.randomUUID()}`), image)
+            console.log('data2, error2', data2, error2);
+            if (error2) handleError()
+
             dispatch(toogleStepsStatus({ general: true }))
-            goToNextStep(1)
-
+            dispatch(toogleEventStatus(true))
+            Swal.fire({
+                icon: "success",
+                timer: 2000,
+            }).then(() => goToNextStep(1))
         }
-        // if (!!image) {
-        //     const { data, error } = await supabase
-        //         .storage
-        //         .from('event_images')
-        //         .upload(image.name, image)
-        //     console.log('data,error', data, error);
-        // }
-
-        // goToNextStep(1)
     }
-
-    const isClearField = (value: string | undefined) => (typeof value === 'undefined') ? true : value.length === 0
 
     const validate = async (values: GeneralFormState) => {
         const errors: any = {};
+        console.log('getValueFromOption(isClearField(values.category)),', isClearField(getValueFromOption(values.category)));
         if (isClearField(values.title) || isClearField(values.summary)) {
             errors.overview = true;
         }
         if (isClearField(values.startDate) || isClearField(values.startTime) || isClearField(values.endDate) || isClearField(values.endTime) || !(!!values.isOnline || !isClearField(values.location))) {
             errors.dateAndLocation = true;
         }
-        if (isClearField(values.category) || isClearField(values.format) || values.language.length === 0) {
+        if (isClearField(getValueFromOption(values.category)) || isClearField(getValueFromOption(values.format)) || isClearField(getValuesArrayFromOptions(values.language))) {
             errors.categories = true;
         }
         if (isClearField(values.about)) {
@@ -135,7 +140,6 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     };
 
     const getComponent = (step: number | null, isOpened: GeneralFormState['isOpened'], errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
-        console.log('step,', step);
         switch (step) {
             case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} image={image} changeImage={changeImage} />
             case 1: return <CreateTickets goToNextStep={goToNextStep} />
@@ -151,7 +155,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
             <Form
                 onSubmit={createEvent}
                 initialValues={initialValues}
-                // validate={validate}
+                validate={validate}
                 render={({ handleSubmit, values, errors, touched }) => (
                     <form onSubmit={handleSubmit}>
                         <div className='editor_container'>

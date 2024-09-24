@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Field, useField, useForm } from 'react-final-form'
+import { Field, useForm } from 'react-final-form'
 
 type PropsData = {
     children: ReactNode,
@@ -22,19 +22,12 @@ export default function ContainerHoc({ children, isOpened, classes, errors, touc
             {children}
             <div className="editor_upload-icon" >
                 <Field name={`isOpened.${field}`} component="input" type="checkbox" />
-                {!errors && touched ?
+                {(!errors && touched) || image ?
                     <div className="icon icon-ok">✓</div>
                     : isOpened ?
                         <div className='icon icon-close'>X</div>
                         : <div className="icon">+</div>
                 }
-
-                {/* {(field === "image" || event[field]) && isAllFieldFull() ?
-                    <div className="icon icon-ok">✓</div>
-                    : isOpened ?
-                        <div className='icon icon-close'>X</div>
-                        : <div className="icon">+</div>
-                } */}
             </div>
         </div>
     )

@@ -5,6 +5,9 @@ export const isSomeFieldFull = (event: any) => {
   );
 };
 
+export const isClearField = (value: string | undefined) =>
+  typeof value === "undefined" || !value ? true : value.length === 0;
+
 export const getValueFromOption = (item: any) => (item ? item.label : null);
 
 export const getValuesArrayFromOptions = (values: any) =>
