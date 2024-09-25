@@ -10,6 +10,7 @@ interface EventInfo {
 const initialState: EventInfo = {
   isEventCreated: false,
   eventInfo: {
+    id: null,
     category: null,
     description: null,
     endDate: null,

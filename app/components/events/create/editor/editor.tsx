@@ -78,14 +78,13 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 language: getValuesArrayFromOptions(values.language),
                 // currency:[ ""],
             }
-            console.log('data', data);
 
-            const { data: resultData, error } = await supabase.from('events').upsert(data, { onConflict: "name" }).select()
-            console.log('resultData, error', resultData, error);
+            const { data: resultData, error } = await supabase.from('events').upsert(!eventInfo.id ? data : { ...data, id: eventInfo.id }, { onConflict: "id" }).select()
 
             if (error) handleError()
 
             dispatch(setEventInfo({
+                id: resultData ? resultData[0].id : null,
                 name: values.title,
                 description: values.summary,
                 text: values.about,
@@ -108,9 +107,12 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
             const { data: data2, error: error2 } = await supabase
                 .storage
                 .from('event_images')
-                .upload(encodeURIComponent(`${resultData[0].id}/${self.crypto.randomUUID()}`), image)
-            console.log('data2, error2', data2, error2);
+                .upload(encodeURIComponent(`${resultData[0].id}/${image.name}`), image, {
+                    upsert: true
+                })
+
             if (error2) handleError()
+
 
             dispatch(toogleStepsStatus({ general: true }))
             dispatch(toogleEventStatus(true))
@@ -123,7 +125,6 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
 
     const validate = async (values: GeneralFormState) => {
         const errors: any = {};
-        console.log('getValueFromOption(isClearField(values.category)),', isClearField(getValueFromOption(values.category)));
         if (isClearField(values.title) || isClearField(values.summary)) {
             errors.overview = true;
         }
