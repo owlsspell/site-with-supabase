@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import OrangeButton from '@/app/components/buttons/orange-button';
 import supabase from '@/utils/supabase/client-supabase';
 import { Form } from 'react-final-form';
@@ -9,11 +9,13 @@ import { setActiveStep, toogleStepsStatus } from '@/lib/features/drawerStepsSlic
 import GeneralInfo from './form/general-info';
 import CreateTickets from './form/tickets/create-tickets';
 import { ValidationErrors } from 'final-form';
-import { setEventInfo } from '@/lib/features/createEventSlice';
+import { setEventInfo, toogleEventStatus } from '@/lib/features/createEventSlice';
 import useWindowSize from '@/hooks/useWindowSizes';
 import { useSearchParams } from 'next/navigation';
-import { getMultiOptionsFromValue, getOptionFromValue, getValueFromOption, getValuesArrayFromOptions } from '@/lib/functions';
+import { getMultiOptionsFromValue, getOptionFromValue, getValueFromOption, getValuesArrayFromOptions, isClearField } from '@/lib/functions';
 import Preview from './form/preview';
+import dayjs from 'dayjs';
+import Swal from 'sweetalert2';
 
 export default function EventEditor({ categories }: { categories: CategoryType[] }) {
     type GeneralFormState = EventState & { isOpened: typeof isOpened }
@@ -22,6 +24,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     const searchParams = useSearchParams()
     const page = searchParams.get("page");
     const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
+    const [image, changeImage] = useState<null | File>(null)
 
     const isOpened = {
         image: false,
@@ -49,10 +52,39 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     }
     const goToNextStep = (step: number) => { dispatch(setActiveStep(step)) }
 
+    const handleError = () => {
+        return Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong! Try again",
+        });
+    }
+
     const createEvent = async (values: GeneralFormState) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
             const data = {
+                name: values.title,
+                description: values.summary,
+                text: values.about,
+                author_id: user.id,
+                location: values.isOnline ? 'online' : values.location,
+                // price: "",
+                timeStart: dayjs(`${values.startDate}${values.startTime}`).format('YYYY-MM-DD HH:mm:ss z'),
+                timeEnd: dayjs(`${values.endDate}${values.endTime}`).format('YYYY-MM-DD HH:mm:ss z'),
+                category: getValueFromOption(values.category),
+                subcategory: getValuesArrayFromOptions(values.subcategory),
+                format: getValueFromOption(values.format),
+                language: getValuesArrayFromOptions(values.language),
+                // currency:[ ""],
+            }
+
+            const { data: resultData, error } = await supabase.from('events').upsert(!eventInfo.id ? data : { ...data, id: eventInfo.id }, { onConflict: "id" }).select()
+
+            if (error) handleError()
+
+            dispatch(setEventInfo({
+                id: resultData ? resultData[0].id : null,
                 name: values.title,
                 description: values.summary,
                 text: values.about,
@@ -68,24 +100,28 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 format: getValueFromOption(values.format),
                 language: getValuesArrayFromOptions(values.language),
                 // currency:[ ""],
-            }
-            console.log('data', data);
-            dispatch(setEventInfo(data))
-            dispatch(toogleStepsStatus({ general: true }))
-            // await supabase.from('events').insert({ text: comment, user_id: user.id, event_id: eventId })
-            // revalidatePath("/event/[id]")
-        }
-        // if (!!image) {
-        //     const { data, error } = await supabase
-        //         .storage
-        //         .from('event_images')
-        //         .upload(image.name, image)
-        //     console.log('data,error', data, error);
-        // }
-        goToNextStep(1)
-    }
+            }))
 
-    const isClearField = (value: string | undefined) => (typeof value === 'undefined') ? true : value.length === 0
+            if (!image || !resultData) return console.log('resultData null');
+
+            const { data: data2, error: error2 } = await supabase
+                .storage
+                .from('event_images')
+                .upload(encodeURIComponent(`${resultData[0].id}/${image.name}`), image, {
+                    upsert: true
+                })
+
+            if (error2) handleError()
+
+
+            dispatch(toogleStepsStatus({ general: true }))
+            dispatch(toogleEventStatus(true))
+            Swal.fire({
+                icon: "success",
+                timer: 2000,
+            }).then(() => goToNextStep(1))
+        }
+    }
 
     const validate = async (values: GeneralFormState) => {
         const errors: any = {};
@@ -95,7 +131,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         if (isClearField(values.startDate) || isClearField(values.startTime) || isClearField(values.endDate) || isClearField(values.endTime) || !(!!values.isOnline || !isClearField(values.location))) {
             errors.dateAndLocation = true;
         }
-        if (isClearField(values.category) || isClearField(values.format) || values.language.length === 0) {
+        if (isClearField(getValueFromOption(values.category)) || isClearField(getValueFromOption(values.format)) || isClearField(getValuesArrayFromOptions(values.language))) {
             errors.categories = true;
         }
         if (isClearField(values.about)) {
@@ -105,9 +141,8 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     };
 
     const getComponent = (step: number | null, isOpened: GeneralFormState['isOpened'], errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
-        console.log('step,', step);
         switch (step) {
-            case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} />
+            case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} image={image} changeImage={changeImage} />
             case 1: return <CreateTickets goToNextStep={goToNextStep} />
             case 2: return <Preview />
             default: return <></>
@@ -121,7 +156,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
             <Form
                 onSubmit={createEvent}
                 initialValues={initialValues}
-                // validate={validate}
+                validate={validate}
                 render={({ handleSubmit, values, errors, touched }) => (
                     <form onSubmit={handleSubmit}>
                         <div className='editor_container'>

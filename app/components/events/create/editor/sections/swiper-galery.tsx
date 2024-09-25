@@ -14,24 +14,10 @@ import { ChangeEvent, useMemo } from 'react';
 export default function SwiperGalery({ image, changeImage }: { image: null | File, changeImage: (file: File) => void }) {
     const slides = [image1, image2, image3]
     const url = useMemo(() => !image ? null : URL.createObjectURL(image as Blob | MediaSource), [image])
-
     const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return
-        const url = URL.createObjectURL(e.target.files[0])
         changeImage(e.target.files[0])
-        // const formData = new FormData()
-        // formData.append("image", e.target.files[0])
-        // console.log('formData', formData);
-        // dispatch(setRow({ section: "images", key: 'image', value: e.target.files[0] }))
     }
-    console.log('image,', image);
-    // async function getImages() {
-    //     const { data: images } = await supabase
-    //         .storage
-    //         .from('event_images')
-    //         .list(event.id)
-    //     setImages(images as any)
-    // }
     return (<>
         {!url ?
             <>

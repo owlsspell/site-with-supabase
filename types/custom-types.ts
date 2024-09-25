@@ -17,6 +17,7 @@ export interface EventState {
   ticketCount?: number;
 }
 export interface CreatedEventState {
+  id?: string | null;
   author_id?: string;
   category: number | null;
   description: string | null;

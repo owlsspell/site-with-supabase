@@ -7,15 +7,18 @@ import React, { useEffect } from 'react'
 export default function Drawer({ closeDrawer }: { closeDrawer?: () => void }) {
   const steps = [{ id: 0, slug: "general", title: "Build Event Page", description: "Add all of your event details and let attendees know what to expect" }, { id: 1, slug: "tickets", title: "Add Tickets" }, { id: 2, slug: "publish", title: "Publish" }]
   const activeStep = useAppSelector((state) => state.drawerSteps.activeStep)
+  const isEventCreated = useAppSelector((state) => state.createdEventInfo.isEventCreated)
   const stepsStatus = useAppSelector((state) => state.drawerSteps.stepsStatus)
   const dispatch = useAppDispatch()
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const handleChange = (index: number) => {
-    dispatch(setActiveStep(index))
-    if (!closeDrawer) return
-    closeDrawer()
+  const handleChange = (id: number) => {
+    if (isEventCreated) {
+      dispatch(setActiveStep(id))
+      if (!closeDrawer) return
+      closeDrawer()
+    }
   }
   useEffect(() => {
     const page = searchParams.get("page");

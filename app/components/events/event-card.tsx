@@ -10,25 +10,30 @@ dayjs.extend(advancedFormat)
 dayjs.extend(timezone)
 
 export default function EventCard({ event }: { event: EventType }) {
-    const [images, setImages] = useState<any>([])
+    const [url, setUrl] = useState<any>([])
     const pathname = usePathname()
-    async function getImages() {
+    async function getUrl() {
         const { data: images } = await supabase
             .storage
             .from('event_images')
             .list(event.id)
-        setImages(images as any)
+        if (!images) return
+        const { data } = supabase
+            .storage
+            .from('event_images')
+            .getPublicUrl(event.id + "/" + images[0].name)
+        setUrl(data.publicUrl as any)
     }
 
     useEffect(() => {
-        getImages()
+        getUrl()
     }, [])
     console.log('render');
     return (
         <Link className={'event_card ' + (pathname === '/events' ? "event_card-row" : "")} href={'/event/' + event.id}>
-            {!images || images?.length === 0 ? "" :
+            {!url || url?.length === 0 ? "" :
                 <div className='event_image'>
-                    <Image fill priority sizes="auto" src={process.env.NEXT_PUBLIC_SUPABASE_STORAGE_PUBLIC_URL + event.id + "/" + images[0].name} alt="" />
+                    <Image fill priority sizes="auto" src={url} alt="" />
                 </div>}
             <div className='event_details'>
                 {dayjs().diff(event.created_at, 'h') >= 12 ? "" : <div className='event_label'>Just added</div>}
