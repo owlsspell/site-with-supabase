@@ -104,10 +104,10 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
 
             if (!image || !resultData) return console.log('resultData null');
 
-            const { data: data2, error: error2 } = await supabase
+            const { error: error2 } = await supabase
                 .storage
                 .from('event_images')
-                .upload(encodeURIComponent(`${resultData[0].id}/${image.name}`), image, {
+                .upload(encodeURIComponent(`${resultData[0].id}/${resultData[0].id}`), image, {
                     upsert: true
                 })
 

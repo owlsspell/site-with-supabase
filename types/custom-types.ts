@@ -32,3 +32,10 @@ export interface CreatedEventState {
   subcategory: string[] | null;
   text: string | null;
 }
+
+export interface TicketsInfo {
+  ticketCost: number;
+  ticketCount: number;
+  ticketCurrency: string;
+  isFree: boolean;
+}

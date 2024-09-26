@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 export const isSomeFieldFull = (event: any) => {
   if (!event) return;
   return Object.values(event).some((item: any) =>
@@ -17,3 +19,11 @@ export const getOptionFromValue = (item: any) => ({ value: item, label: item });
 
 export const getMultiOptionsFromValue = (values: any) =>
   values ? values.map((item: string) => ({ value: item, label: item })) : null;
+
+export const handleError = () => {
+  return Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong! Try again",
+  });
+}

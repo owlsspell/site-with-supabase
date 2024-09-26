@@ -212,6 +212,8 @@
             border-radius: 4px;
             width: 100%;
             position: relative !important;
+            -o-object-fit: cover;
+            object-fit: cover;
         }
     }
 

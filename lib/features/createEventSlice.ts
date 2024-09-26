@@ -1,10 +1,10 @@
-import { CreatedEventState } from "@/types/custom-types";
+import { CreatedEventState, TicketsInfo } from "@/types/custom-types";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface EventInfo {
   isEventCreated: boolean;
   eventInfo: CreatedEventState;
-  ticketsInfo: null;
+  ticketsInfo: TicketsInfo | null;
 }
 
 const initialState: EventInfo = {
