@@ -1,4 +1,5 @@
 export interface EventState {
+  image: null | File;
   title: string;
   summary: string;
   startDate: string;
@@ -18,8 +19,9 @@ export interface EventState {
 }
 export interface CreatedEventState {
   id?: string | null;
+  image: null | any;
   author_id?: string;
-  category: number | null;
+  category: string | null;
   description: string | null;
   endDate: string | null;
   endTime: string | null;
@@ -31,6 +33,7 @@ export interface CreatedEventState {
   startTime: string | null;
   subcategory: string[] | null;
   text: string | null;
+  publish: boolean;
 }
 
 export interface TicketsInfo {

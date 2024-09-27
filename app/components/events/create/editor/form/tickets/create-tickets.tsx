@@ -35,9 +35,6 @@ export default function CreateTickets({ goToNextStep }: { goToNextStep: (step: n
         if (name.toLowerCase() === 'free') return change("isFree", true)
         change("isFree", false)
     }
-    console.log('isFree', isFree);
-    console.log('eventId', eventId);
-    console.log('ticketsInfo', ticketsInfo);
     const saveTicketsToBase = async () => {
         if (isFree.input.value) {
             const { error } = await supabase.from('events').update({ price: 'Free', ticketsTotal: ticketsInfo?.ticketCount, ticketsLeft: ticketsInfo?.ticketCount }).eq("id", eventId)
@@ -53,6 +50,8 @@ export default function CreateTickets({ goToNextStep }: { goToNextStep: (step: n
         Swal.fire({
             icon: "success",
             timer: 1500,
+            title: "You have created tickets!",
+            text: "Let's publish it!",
         }).then(() => goToNextStep(2))
         dispatch(toogleStepsStatus({ tickets: true }))
     }

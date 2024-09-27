@@ -23,6 +23,7 @@ export default async function EventDetail({ event, images }: { event: EventWithA
         if (minutes === 60) return '1 hour'
         if (hours >= 24) return `${days} days`
         if (minutes < 60) return `${minutes} min`
+        if (minutes % 60 === 0) return `${hours} hour`
         return `${hours} hour ${minutes % 60} min`
     }, [event.timeStart, event.timeEnd])
 

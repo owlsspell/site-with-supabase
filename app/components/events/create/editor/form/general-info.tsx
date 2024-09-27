@@ -6,7 +6,7 @@ import EventDateAndLocation from '.././sections/event-date-and-location';
 import AboutEvent from '.././sections/about-event';
 import EventCategory from '.././sections/event-category';
 import { ValidationErrors } from 'final-form';
-
+import { EventState } from '@/types/custom-types';
 interface GeneralInfoTypes {
     isOpened: {
         image: boolean;
@@ -16,17 +16,16 @@ interface GeneralInfoTypes {
         categories: boolean;
     };
     categories: CategoryType[];
+    values: EventState;
     touched: { [key: string]: boolean; } | undefined;
     errors: ValidationErrors
-    image: null | File,
-    changeImage: (file: File) => void
 }
 
-export default function GeneralInfo({ isOpened, categories, touched, errors, image, changeImage }: GeneralInfoTypes) {
+export default function GeneralInfo({ isOpened, categories, values, touched, errors }: GeneralInfoTypes) {
     return (
         <>
-            <ContainerHoc classes="editor_picture" field="image" touched={touched?.image} errors={errors?.image} image={image}  >
-                <SwiperGalery image={image} changeImage={changeImage} />
+            <ContainerHoc classes="editor_picture" field="image" touched={touched?.image} errors={errors?.image} image={values.image}  >
+                <SwiperGalery image={values.image} />
             </ContainerHoc>
             <ContainerHoc isOpened={isOpened.overview} field="overview" touched={touched?.title || touched?.summary} errors={errors?.overview} >
                 <EventTitle isOpened={isOpened.overview} />

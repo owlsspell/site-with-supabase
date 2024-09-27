@@ -11,6 +11,7 @@ const initialState: EventInfo = {
   isEventCreated: false,
   eventInfo: {
     id: null,
+    image: null,
     category: null,
     description: null,
     endDate: null,
@@ -23,6 +24,7 @@ const initialState: EventInfo = {
     startTime: null,
     subcategory: null,
     text: null,
+    publish: false,
   },
   ticketsInfo: null,
 };
@@ -40,9 +42,16 @@ export const createEventSlice = createSlice({
     toogleEventStatus: (state, data) => {
       state.isEventCreated = data.payload;
     },
+    tooglePublicEventStatus: (state, data) => {
+      state.eventInfo.publish = data.payload;
+    },
   },
 });
 
-export const { setEventInfo, setEventTicketsInfo, toogleEventStatus } =
-  createEventSlice.actions;
+export const {
+  setEventInfo,
+  setEventTicketsInfo,
+  toogleEventStatus,
+  tooglePublicEventStatus,
+} = createEventSlice.actions;
 export default createEventSlice.reducer;

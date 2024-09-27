@@ -10,16 +10,21 @@ import image1 from "@/images/swiper/pic1_optim.jpeg"
 import image2 from "@/images/swiper/pic2_optim.jpeg"
 import image3 from "@/images/swiper/pic3_optim.jpeg"
 import { ChangeEvent, useMemo } from 'react';
+import { useForm } from 'react-final-form';
+import { useAppSelector } from '@/lib/hooks';
 
-export default function SwiperGalery({ image, changeImage }: { image: null | File, changeImage: (file: File) => void }) {
+export default function SwiperGalery({ image }: { image: null | File }) {
     const slides = [image1, image2, image3]
     const url = useMemo(() => !image ? null : URL.createObjectURL(image as Blob | MediaSource), [image])
+    const form = useForm();
+    const eventImage = useAppSelector((state) => state.createdEventInfo.eventInfo.image)
+
     const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return
-        changeImage(e.target.files[0])
+        form.change('image', e.target.files[0])
     }
     return (<>
-        {!url ?
+        {!url && !eventImage ?
             <>
                 <Swiper
                     autoplay={true}
@@ -46,7 +51,7 @@ export default function SwiperGalery({ image, changeImage }: { image: null | Fil
             </>
             :
             <div className='swiper_slide event_image'>
-                <Image priority fill src={url} alt="" />
+                <Image priority fill src={url || eventImage} alt="" />
                 <input type="file" onChange={uploadImage} />
             </div>
         }

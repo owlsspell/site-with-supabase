@@ -31,8 +31,12 @@ export default function Drawer({ closeDrawer }: { closeDrawer?: () => void }) {
   }, [searchParams])
 
   useEffect(() => {
+    if (!isEventCreated) {
+      return router.push(`?page=general`)
+    }
     router.push(`?page=${steps[activeStep ?? 0].slug}`)
   }, [activeStep])
+
   return (
     <div className='drawer__eds'>
       <h3>Steps</h3>
