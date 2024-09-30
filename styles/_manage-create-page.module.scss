@@ -365,6 +365,10 @@
                 border-radius: 10px;
                 border: 2px solid v.$gray_300;
                 width: 95%;
+
+                &.input-invalid {
+                    border: 2px solid red;
+                }
             }
 
             hr {

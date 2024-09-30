@@ -7,7 +7,7 @@ import { changeFilter, clearFilter } from '@/lib/features/eventsFiltersSlice'
 
 export default function FilterHeader() {
     const dispatch = useAppDispatch()
-    const filters = useAppSelector((state: RootState) => state.events.filters)
+    const filters = useAppSelector((state) => state.events.filters)
     const filterCounts = useMemo(() => Object.values(filters).filter((value) => value.length > 0).length, [filters])
     const filtersName = useMemo(() => Object.values(filters).filter((value) => value.length > 0), [filters])
 

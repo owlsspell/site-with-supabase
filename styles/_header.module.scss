@@ -105,7 +105,9 @@
         top: 60px;
         right: -10px;
         max-width: 500px;
-        width: 100%;
+        width: -webkit-max-content;
+        width: -moz-max-content;
+        width: max-content;
         list-style-type: none;
         box-sizing: border-box;
         box-shadow: 0 1px 17px 0 rgba(40, 44, 53, .1), 0 2px 4px 0 rgba(40, 44, 53, .1);
@@ -124,10 +126,18 @@
             padding: 16px 24px;
             font-weight: 600;
             font-size: v.$font_size + 2;
+            color: v.$text_color;
             cursor: pointer;
 
             &:hover {
                 background-color: v.$gray_100;
+            }
+
+            a {
+                color: v.$text_color;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: v.$font_size + 2;
             }
         }
     }

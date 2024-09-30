@@ -28,7 +28,7 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
     const linksIfAnonymus: LinkType[][] = [
         [
             { id: 1, text: "Find Events" },
-            { id: 2, text: "Create Events", url: "/manage/events/home" },
+            { id: 2, text: "Create Events", url: "/manage/events/create" },
             { id: 3, text: "Help Centre" },
         ],
     ]

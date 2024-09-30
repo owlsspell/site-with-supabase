@@ -123,6 +123,12 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         if (isClearField(values.startDate) || isClearField(values.startTime) || isClearField(values.endDate) || isClearField(values.endTime) || !(!!values.isOnline || !isClearField(values.location))) {
             errors.dateAndLocation = true;
         }
+        const timeStart = dayjs(`${values.startDate}${values.startTime}`).format('YYYY-MM-DD HH:mm:ss z')
+        const timeEnd = dayjs(`${values.endDate}${values.endTime}`).format('YYYY-MM-DD HH:mm:ss z')
+        if (dayjs(timeStart).unix() > dayjs(timeEnd).unix()) {
+            errors.dateAndLocation = true;
+            errors.invalidTime = true;
+        }
         if (isClearField(getValueFromOption(values.category)) || isClearField(getValueFromOption(values.format)) || isClearField(getValuesArrayFromOptions(values.language))) {
             errors.categories = true;
         }
@@ -131,7 +137,6 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         }
         return errors;
     };
-
     const getComponent = (step: number | null, isOpened: GeneralFormState['isOpened'], values: GeneralFormState, errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
         switch (step) {
             case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} values={values} />

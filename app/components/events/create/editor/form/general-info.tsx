@@ -31,7 +31,7 @@ export default function GeneralInfo({ isOpened, categories, values, touched, err
                 <EventTitle isOpened={isOpened.overview} />
             </ContainerHoc>
             <ContainerHoc isOpened={isOpened.dateAndLocation} field="dateAndLocation" touched={touched?.startDate || touched?.startTime || touched?.endDate || touched?.endTime || touched?.location || touched?.isOnline} errors={errors?.dateAndLocation}>
-                <EventDateAndLocation isOpened={isOpened.dateAndLocation} />
+                <EventDateAndLocation isOpened={isOpened.dateAndLocation} errors={errors} />
             </ContainerHoc>
             <ContainerHoc isOpened={isOpened.categories} field="categories" touched={touched?.category || touched?.subcategory || touched?.format || touched?.language} errors={errors?.categories}>
                 <EventCategory isOpened={isOpened.categories} categories={categories} />
