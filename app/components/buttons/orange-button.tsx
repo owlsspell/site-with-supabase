@@ -1,7 +1,9 @@
+import { Url } from 'next/dist/shared/lib/router/router'
+import Link from 'next/link'
 import React from 'react'
 
-export default function OrangeButton({ text, className = "", onClick }: { text: string, className?: string, onClick?: () => void }) {
+export default function OrangeButton({ text, className = "", onClick, href }: { text: string, className?: string, onClick?: () => void, href?: Url }) {
     return (
-        <a className={'button-orange ' + className} onClick={onClick}>{text}</a>
+        <Link className={'button-orange ' + className} href={href || ""} onClick={onClick}>{text}</Link>
     )
 }

@@ -16,11 +16,11 @@ export default async function CreateEvent() {
     const categories = await getCategories()
 
     return (
-        <div className='create_container'>
-            <div className="create_container-drawer">
+        <div className='dashboard_container'>
+            <div className="dashboard_container-drawer">
                 <DrawerClient />
             </div>
-            <div className='create_container-body'>
+            <div className='dashboard_container-body'>
                 <DrawerHeader />
                 <EventEditor categories={categories} />
             </div>
