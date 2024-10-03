@@ -10,7 +10,8 @@
         .events_page-filters {
             display: flex;
             align-items: center;
-            gap: 40px;
+            gap: 20px 40px;
+            flex-wrap: wrap;
         }
 
         .events_page-search {
@@ -47,6 +48,10 @@
         .events_page-btn {
             border-radius: 0;
             width: 150px;
+
+            @media screen and (max-width: 720px) {
+                display: none;
+            }
         }
     }
 

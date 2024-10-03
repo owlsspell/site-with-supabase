@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
@@ -17,7 +18,8 @@ export default function EventCard({ event }: { event: EventType }) {
             .storage
             .from('event_images')
             .list(event.id)
-        if (!images) return
+        if (!images || images.length === 0) return setUrl(null)
+
         const { data } = supabase
             .storage
             .from('event_images')
@@ -31,10 +33,12 @@ export default function EventCard({ event }: { event: EventType }) {
     console.log('render');
     return (
         <Link className={'event_card ' + (pathname === '/events' ? "event_card-row" : "")} href={'/event/' + event.id}>
-            {!url || url?.length === 0 ? "" :
-                <div className='event_image'>
-                    <Image fill priority sizes="auto" src={url} alt="" />
-                </div>}
+            <div className='event_image'>
+                {!url || url?.length === 0 ?
+                    <div className='event_no_image'>No image</div>
+                    : <Image fill priority sizes="auto" src={url} alt="" />
+                }
+            </div>
             <div className='event_details'>
                 {dayjs().diff(event.created_at, 'h') >= 12 ? "" : <div className='event_label'>Just added</div>}
                 <h4>{event.name}</h4>

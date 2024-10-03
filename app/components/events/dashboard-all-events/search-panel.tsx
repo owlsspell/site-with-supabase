@@ -17,6 +17,7 @@ export default function SearchPanel() {
             color: "#FFFFFF",
         }),
     }
+
     return (
         <div className='events_page-search-panel'>
             <div className='events_page-filters'>

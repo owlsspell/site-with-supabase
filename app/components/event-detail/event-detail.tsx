@@ -71,7 +71,9 @@ export default async function EventDetail({ event, images }: { event: EventWithA
                             {durationEvent}
                         </div>
                     </div>
-                    <p>{event.text}</p>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: event.text || "" }}>
+                    </div>
                     <div className="event_comments event_section">
                         <h2 className="event_section-header">Discussion and Reviews</h2>
                         <NewComment eventId={event.id} />
