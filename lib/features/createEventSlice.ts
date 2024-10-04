@@ -45,6 +45,26 @@ export const createEventSlice = createSlice({
     tooglePublicEventStatus: (state, data) => {
       state.eventInfo.publish = data.payload;
     },
+    clearEventData: (state) => {
+      state.ticketsInfo = null;
+      state.eventInfo = {
+        id: null,
+        image: null,
+        category: null,
+        description: null,
+        endDate: null,
+        endTime: null,
+        format: null,
+        language: ["English"],
+        location: null,
+        name: null,
+        startDate: null,
+        startTime: null,
+        subcategory: null,
+        text: null,
+        publish: false,
+      };
+    },
   },
 });
 
@@ -53,5 +73,6 @@ export const {
   setEventTicketsInfo,
   toogleEventStatus,
   tooglePublicEventStatus,
+  clearEventData
 } = createEventSlice.actions;
 export default createEventSlice.reducer;

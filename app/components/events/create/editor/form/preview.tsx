@@ -116,7 +116,7 @@ export default function Preview() {
                 </div>
             </div>
             <div className='editor_footer'>
-                <OrangeButton className='editor_button' text="Publish" onClick={publishEvent} />
+                <OrangeButton className='editor_button' text={isPublic ? "Unpublish" : "Publish"} onClick={publishEvent} />
             </div>
         </div>
     )

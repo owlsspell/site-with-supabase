@@ -22,8 +22,8 @@ export const getMultiOptionsFromValue = (values: any) =>
 
 export const handleError = () => {
   return Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Something went wrong! Try again",
+    icon: "error",
+    title: "Oops...",
+    text: "Something went wrong! Try again",
   });
-}
+};

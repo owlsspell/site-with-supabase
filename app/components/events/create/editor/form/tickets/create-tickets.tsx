@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ReactComponent as Arrow_down } from "@/images/icons/arrow-down.svg"
 import TicketModal from './ticket-modal';
 import { useField, useForm } from 'react-final-form';
@@ -67,6 +67,10 @@ export default function CreateTickets({ goToNextStep }: { goToNextStep: (step: n
     }
     const clearTickets = () => toogleTickets(false)
     const isDisable = !(isFree.input.value ? ticketCount.input.value.length > 0 : (ticketCount.input.value.length > 0 && ticketCost.input.value.length > 0))
+
+    useEffect(() => {
+        if (!!ticketsInfo) toogleTickets(!!ticketsInfo.ticketCost)
+    }, [ticketsInfo])
     return (
         <div className='editor_title' >
             <h1>Create tickets</h1>

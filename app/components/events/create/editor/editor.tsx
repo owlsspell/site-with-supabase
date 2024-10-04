@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import OrangeButton from '@/app/components/buttons/orange-button';
 import supabase from '@/utils/supabase/client-supabase';
 import { Form } from 'react-final-form';
@@ -37,8 +37,8 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         title: eventInfo.name,
         summary: eventInfo.description,
         about: eventInfo.text,
-        location: eventInfo.location === 'online' ? null : eventInfo.location,
-        isOnline: !!(eventInfo.location === 'online'),
+        location: eventInfo.location?.toLowerCase() === 'online' ? null : eventInfo.location,
+        isOnline: !!(eventInfo.location?.toLowerCase() === 'online'),
         startDate: eventInfo.startDate,
         startTime: eventInfo.startTime,
         endDate: eventInfo.endDate,
@@ -70,10 +70,18 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
             const { data: resultData, error } = await supabase.from('events').upsert(!eventInfo.id ? data : { ...data, id: eventInfo.id }, { onConflict: "id" }).select()
 
             if (error) handleError()
+            if (!resultData) return console.log('resultData null');
 
+            const { data: image, error: error2 } = await supabase
+                .storage
+                .from('event_images')
+                .upload(encodeURIComponent(`${resultData[0].id}/${resultData[0].id}`), values.image as any, {
+                    upsert: true
+                })
+            if (error2 || !image) return handleError()
             dispatch(setEventInfo({
                 id: resultData ? resultData[0].id : null,
-                image: URL.createObjectURL(values.image as Blob | MediaSource),
+                image: values.image ? URL.createObjectURL((values.image) as Blob | MediaSource) : (process.env.NEXT_PUBLIC_SUPABASE_STORAGE_PUBLIC_URL + image.path),
                 name: values.title,
                 description: values.summary,
                 text: values.about,
@@ -90,20 +98,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 publish: resultData ? resultData[0].publish : false,
             }))
 
-            if (!values.image || !resultData) return console.log('resultData null');
-
-            const { error: error2 } = await supabase
-                .storage
-                .from('event_images')
-                .upload(encodeURIComponent(`${resultData[0].id}/${resultData[0].id}`), values.image, {
-                    upsert: true
-                })
-
-            if (error2) handleError()
-
-
             dispatch(toogleStepsStatus({ general: true }))
-            dispatch(toogleEventStatus(true))
             Swal.fire({
                 icon: "success",
                 timer: 2000,
@@ -147,6 +142,12 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     }
     console.log('render');
     const { domLoaded } = useWindowSize();
+
+    useEffect(() => {
+        if (!eventInfo.id || eventInfo.id.length === 0) dispatch(toogleEventStatus(false))
+        else dispatch(toogleEventStatus(true))
+    }, [eventInfo.id])
+
     if (!domLoaded) return <></>
     return (
         <div className='editor_wrapper'>
@@ -163,7 +164,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                             {page === 'general' &&
                                 <div className='editor_footer'>
                                     <button type='submit'>
-                                        <OrangeButton className='editor_button' text="Save and continue" />
+                                        <OrangeButton className='editor_button' text="Save and continue" onClick={handleSubmit} />
                                     </button>
                                 </div>}
                         </div>

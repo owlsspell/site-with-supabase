@@ -4,6 +4,8 @@ import { ReactComponent as Arrow_down } from "@/images/icons/arrow-down.svg"
 import supabase from '@/utils/supabase/client-supabase'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { clearEventData } from '@/lib/features/createEventSlice'
+import { useAppDispatch } from '@/lib/hooks'
 
 type LinkType = {
     id: number,
@@ -14,6 +16,7 @@ type LinkType = {
 
 export default function DashboardHeader({ full_name, avatar_url }: { full_name?: string | null, avatar_url?: string | null }) {
     const [isOpen, toogleOpen] = useState(false)
+    const dispatch = useAppDispatch()
     const router = useRouter()
     const handleClick = () => toogleOpen(!isOpen)
     const onLogOut = async () => {
@@ -22,7 +25,10 @@ export default function DashboardHeader({ full_name, avatar_url }: { full_name?:
     };
     const drawerLinks: LinkType[] = [
         { id: 1, text: "Find Events" },
-        { id: 2, text: "Create Events", url: "/manage/events/create" },
+        {
+            id: 2, text: "Create Events", url: "/manage/events/create",
+            handleClick: () => dispatch(clearEventData()) 
+        },
         { id: 3, text: "Log out", handleClick: onLogOut },
     ]
     return (

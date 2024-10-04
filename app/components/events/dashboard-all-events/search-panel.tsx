@@ -1,11 +1,17 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import OrangeButton from '../../buttons/orange-button';
+import { clearEventData } from '@/lib/features/createEventSlice';
+import { useAppDispatch } from '@/lib/hooks';
+import { useRouter } from 'next/navigation';
 
 export default function SearchPanel() {
     const [selectedOption, setSelectedOption] = useState<{ value: string; label: string; } | null>({ value: "all", label: "All events" });
     const options = ["Upcoming events", "Draft", "Past events", "All events"].map(option => ({ value: option.split(" ")[0].toLowerCase(), label: option }));
+    const dispatch = useAppDispatch()
+    const router = useRouter()
+
     const customSlyles = {
         control: (provided: any) => ({
             ...provided,
@@ -17,7 +23,7 @@ export default function SearchPanel() {
             color: "#FFFFFF",
         }),
     }
-
+    useEffect(() => { if (!!selectedOption) router.push(`?filter=${selectedOption.value}`) }, [selectedOption])
     return (
         <div className='events_page-search-panel'>
             <div className='events_page-filters'>
@@ -33,7 +39,7 @@ export default function SearchPanel() {
                     styles={customSlyles}
                 />
             </div>
-            <OrangeButton text='Create Event' href="/manage/events/create" className="events_page-btn" />
+            <OrangeButton text='Create Event' href="/manage/events/create" onClick={() => dispatch(clearEventData())} className="events_page-btn" />
         </div>
     )
 }

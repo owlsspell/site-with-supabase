@@ -1,6 +1,7 @@
 import React from 'react'
 import EventCard from '../event-card';
-import Link from 'next/link';
+
+import BlueEditButton from '../../buttons/blue-edit-button';
 
 export default function ResultsSection({ events }: { events: EventType[] | null }) {
     return (
@@ -18,7 +19,7 @@ export default function ResultsSection({ events }: { events: EventType[] | null 
                         {events.map(event =>
                             <div key={event.id} className='event_container-buttons'>
                                 <EventCard event={event} />
-                                <Link className="event_button-edit" href="/manage/events/create?page=general">Edit</Link>
+                                <BlueEditButton id={event.id} />
                             </div>
                         )}
                     </div>
