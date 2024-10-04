@@ -15,7 +15,7 @@ export default function Header() {
                 <span>Search</span></div>
             <nav className='header_nav'>
                 <GrayButton text="Find Events" />
-                <GrayButton text="Create Events" href="/manage/events/create" />
+                <GrayButton text="Create Events" href="/manage/events/create" isClearEventData={true} />
                 <GrayButton text="Help Centre" />
             </nav>
             <AuthButtonServer />

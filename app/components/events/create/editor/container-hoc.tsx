@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/lib/hooks";
 import { ReactNode } from "react";
 import { Field, useForm } from 'react-final-form'
 
@@ -13,6 +14,7 @@ type PropsData = {
 
 export default function ContainerHoc({ children, isOpened, classes, errors, touched, field, image }: PropsData) {
     const form = useForm();
+    const eventImage = useAppSelector((state) => state.createdEventInfo.eventInfo.image)
     const handleClick = () => {
         if (isOpened) return
         form.change(`isOpened.${field}`, true)
@@ -22,7 +24,7 @@ export default function ContainerHoc({ children, isOpened, classes, errors, touc
             {children}
             <div className="editor_upload-icon" >
                 <Field name={`isOpened.${field}`} component="input" type="checkbox" />
-                {(!errors && touched) || image ?
+                {(!errors) || (field === 'image' && (!!image || !!eventImage)) ?
                     <div className="icon icon-ok">✓</div>
                     : isOpened ?
                         <div className='icon icon-close'>X</div>

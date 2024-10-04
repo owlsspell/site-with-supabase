@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/lib/hooks'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import dayjs from 'dayjs';
 import Image from 'next/image'
 import React, { useMemo } from 'react'
@@ -8,12 +8,17 @@ import eventTime from "@/images/icons/event-time.svg"
 import DOMPurify from 'dompurify';
 import timezone from 'dayjs/plugin/timezone'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
+import OrangeButton from '@/app/components/buttons/orange-button';
+import supabase from '@/utils/supabase/client-supabase';
+import { handleError } from '@/lib/functions';
+import { tooglePublicEventStatus } from '@/lib/features/createEventSlice';
+import Swal from 'sweetalert2';
 
 dayjs.extend(advancedFormat)
 dayjs.extend(timezone)
 
 export default function Preview() {
-    const { startDate, startTime, endDate, endTime, name, description, location, text } = useAppSelector((state) => state.createdEventInfo.eventInfo)
+    const { image, startDate, startTime, endDate, endTime, name, description, location, text } = useAppSelector((state) => state.createdEventInfo.eventInfo)
     // {
     //     name: 'Reimagining Relationships Workshop 2: Taking attachment further',
     //     description: 'A thought-provoking, expert-led workshop series designed to help you explore and clarify the way you want your close relationships to look',
@@ -34,6 +39,10 @@ export default function Preview() {
     //     currency: 'U.S. Dollar',
     //     subcategory: [ 'Education' ],
     //   }
+    const eventId = useAppSelector((state) => state.createdEventInfo.eventInfo.id)
+    const isPublic = useAppSelector((state) => state.createdEventInfo.eventInfo.publish)
+    const dispatch = useAppDispatch()
+
     const durationEvent = useMemo(() => {
         if (!startDate || !startTime || !endDate || !endTime) return null
         const timeStart = dayjs(startDate + startTime).format('ddd, D MMM YYYY H:mm')
@@ -46,6 +55,7 @@ export default function Preview() {
         if (minutes === 60) return '1 hour'
         if (hours >= 24) return `${days} days`
         if (minutes < 60) return `${minutes} min`
+        if (minutes % 60 === 0) return `${hours} hour`
         return `${hours} hour ${minutes % 60} min`
     }, [startDate, startTime, endDate, endTime,])
 
@@ -54,11 +64,22 @@ export default function Preview() {
             __html: DOMPurify.sanitize(html)
         }
     }
+    const publishEvent = async () => {
+        const { error } = await supabase.from('events').update({ publish: !isPublic }).eq("id", eventId)
+        if (error) return handleError()
+        dispatch(tooglePublicEventStatus(!isPublic))
+        Swal.fire({
+            icon: "success",
+            title: "Good job!",
+            text: "Your event has been published!",
+            timer: 1500,
+        })
+    }
     return (
         <div className='event_details'>
             <div className='event_hero-wrapper'>
                 <div className='event_hero'>
-                    {/* <Image src={images[0]} alt="" fill /> */}
+                    {image && <Image src={image} alt="" fill />}
                 </div>
             </div>
             <div className="event_details-wrapper">
@@ -93,6 +114,9 @@ export default function Preview() {
                         dangerouslySetInnerHTML={createMarkup(text)}>
                     </div>
                 </div>
+            </div>
+            <div className='editor_footer'>
+                <OrangeButton className='editor_button' text={isPublic ? "Unpublish" : "Publish"} onClick={publishEvent} />
             </div>
         </div>
     )

@@ -2,8 +2,9 @@ import React from 'react'
 import { Field, useField } from 'react-final-form'
 import { useAppSelector } from '@/lib/hooks'
 import EventDateAndLocationInfo from './view-section/date-and-location'
+import { ValidationErrors } from 'final-form'
 
-export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }) {
+export default function EventDateAndLocation({ isOpened, errors }: { isOpened: boolean, errors: ValidationErrors }) {
     const startDate = useField('startDate')
     const endDate = useField('endDate')
     const startTime = useField('startTime')
@@ -20,13 +21,13 @@ export default function EventDateAndLocation({ isOpened }: { isOpened: boolean }
                     <div className='editor-date'>
                         <div className="time">
                             <div className='time-title'>Start:</div>
-                            <Field name="startDate" component="input" type="date" />
-                            <Field name="startTime" component="input" type="time" />
+                            <Field name="startDate" component="input" type="date" className={errors?.invalidTime ? "input-invalid" : ""} />
+                            <Field name="startTime" component="input" type="time" className={errors?.invalidTime ? "input-invalid" : ""} />
                         </div>
                         <div className="time">
                             <div className='time-title'>End:</div>
-                            <Field name="endDate" component="input" type="date" />
-                            <Field name="endTime" component="input" type="time" />
+                            <Field name="endDate" component="input" type="date" className={errors?.invalidTime ? "input-invalid" : ""} />
+                            <Field name="endTime" component="input" type="time" className={errors?.invalidTime ? "input-invalid" : ""} />
                         </div>
                     </div>
                     <h5>Location</h5>

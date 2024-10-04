@@ -1,3 +1,6 @@
+'use strict';
+import { clearEventData } from '@/lib/features/createEventSlice'
+import { useAppDispatch } from '@/lib/hooks'
 import React, { useMemo } from 'react'
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
@@ -11,14 +14,17 @@ type LinkType = {
 
 export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar: string, session: any, onLogOut: () => void }): JSX.Element {
     const [isOpen, setIsOpen] = React.useState(false)
+    const dispatch = useAppDispatch()
     const toggleDrawer = () => {
         setIsOpen((prevState) => !prevState)
     }
-
     const drawerLinks: LinkType[][] = [
         [
             { id: 1, text: "Find Events" },
-            { id: 2, text: "Create Events", url: "/manage/events/create" },
+            {
+                id: 2, text: "Create Events", url: "/manage/events/create",
+                handleClick: () => dispatch(clearEventData())
+            },
             { id: 3, text: "Help Centre" },
         ],
         [
@@ -28,7 +34,10 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
     const linksIfAnonymus: LinkType[][] = [
         [
             { id: 1, text: "Find Events" },
-            { id: 2, text: "Create Events", url: "/manage/events/home" },
+            {
+                id: 2, text: "Create Events", url: "/manage/events/create",
+                handleClick: () => dispatch(clearEventData())
+            },
             { id: 3, text: "Help Centre" },
         ],
     ]

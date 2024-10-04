@@ -23,6 +23,7 @@ export default async function EventDetail({ event, images }: { event: EventWithA
         if (minutes === 60) return '1 hour'
         if (hours >= 24) return `${days} days`
         if (minutes < 60) return `${minutes} min`
+        if (minutes % 60 === 0) return `${hours} hour`
         return `${hours} hour ${minutes % 60} min`
     }, [event.timeStart, event.timeEnd])
 
@@ -70,7 +71,9 @@ export default async function EventDetail({ event, images }: { event: EventWithA
                             {durationEvent}
                         </div>
                     </div>
-                    <p>{event.text}</p>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: event.text || "" }}>
+                    </div>
                     <div className="event_comments event_section">
                         <h2 className="event_section-header">Discussion and Reviews</h2>
                         <NewComment eventId={event.id} />

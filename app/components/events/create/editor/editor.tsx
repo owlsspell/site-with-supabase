@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import OrangeButton from '@/app/components/buttons/orange-button';
 import supabase from '@/utils/supabase/client-supabase';
 import { Form } from 'react-final-form';
@@ -12,7 +12,7 @@ import { ValidationErrors } from 'final-form';
 import { setEventInfo, toogleEventStatus } from '@/lib/features/createEventSlice';
 import useWindowSize from '@/hooks/useWindowSizes';
 import { useSearchParams } from 'next/navigation';
-import { getMultiOptionsFromValue, getOptionFromValue, getValueFromOption, getValuesArrayFromOptions, isClearField } from '@/lib/functions';
+import { getMultiOptionsFromValue, getOptionFromValue, getValueFromOption, getValuesArrayFromOptions, handleError, isClearField } from '@/lib/functions';
 import Preview from './form/preview';
 import dayjs from 'dayjs';
 import Swal from 'sweetalert2';
@@ -24,8 +24,6 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     const searchParams = useSearchParams()
     const page = searchParams.get("page");
     const eventInfo = useAppSelector((state) => state.createdEventInfo.eventInfo)
-    const [image, changeImage] = useState<null | File>(null)
-
     const isOpened = {
         image: false,
         overview: false,
@@ -39,8 +37,8 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         title: eventInfo.name,
         summary: eventInfo.description,
         about: eventInfo.text,
-        location: eventInfo.location === 'online' ? null : eventInfo.location,
-        isOnline: !!(eventInfo.location === 'online'),
+        location: eventInfo.location?.toLowerCase() === 'online' ? null : eventInfo.location,
+        isOnline: !!(eventInfo.location?.toLowerCase() === 'online'),
         startDate: eventInfo.startDate,
         startTime: eventInfo.startTime,
         endDate: eventInfo.endDate,
@@ -52,14 +50,6 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     }
     const goToNextStep = (step: number) => { dispatch(setActiveStep(step)) }
 
-    const handleError = () => {
-        return Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Something went wrong! Try again",
-        });
-    }
-
     const createEvent = async (values: GeneralFormState) => {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
@@ -69,28 +59,34 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 text: values.about,
                 author_id: user.id,
                 location: values.isOnline ? 'online' : values.location,
-                // price: "",
                 timeStart: dayjs(`${values.startDate}${values.startTime}`).format('YYYY-MM-DD HH:mm:ss z'),
                 timeEnd: dayjs(`${values.endDate}${values.endTime}`).format('YYYY-MM-DD HH:mm:ss z'),
                 category: getValueFromOption(values.category),
                 subcategory: getValuesArrayFromOptions(values.subcategory),
                 format: getValueFromOption(values.format),
                 language: getValuesArrayFromOptions(values.language),
-                // currency:[ ""],
             }
 
             const { data: resultData, error } = await supabase.from('events').upsert(!eventInfo.id ? data : { ...data, id: eventInfo.id }, { onConflict: "id" }).select()
 
             if (error) handleError()
+            if (!resultData) return console.log('resultData null');
 
+            const { data: image, error: error2 } = await supabase
+                .storage
+                .from('event_images')
+                .upload(encodeURIComponent(`${resultData[0].id}/${resultData[0].id}`), values.image as any, {
+                    upsert: true
+                })
+            if (error2 || !image) return handleError()
             dispatch(setEventInfo({
                 id: resultData ? resultData[0].id : null,
+                image: values.image ? URL.createObjectURL((values.image) as Blob | MediaSource) : (process.env.NEXT_PUBLIC_SUPABASE_STORAGE_PUBLIC_URL + image.path),
                 name: values.title,
                 description: values.summary,
                 text: values.about,
                 author_id: user.id,
                 location: values.isOnline ? 'online' : values.location,
-                // price: "",
                 startDate: values.startDate,
                 startTime: values.startTime,
                 endDate: values.endDate,
@@ -99,37 +95,34 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                 subcategory: getValuesArrayFromOptions(values.subcategory),
                 format: getValueFromOption(values.format),
                 language: getValuesArrayFromOptions(values.language),
-                // currency:[ ""],
+                publish: resultData ? resultData[0].publish : false,
             }))
 
-            if (!image || !resultData) return console.log('resultData null');
-
-            const { data: data2, error: error2 } = await supabase
-                .storage
-                .from('event_images')
-                .upload(encodeURIComponent(`${resultData[0].id}/${image.name}`), image, {
-                    upsert: true
-                })
-
-            if (error2) handleError()
-
-
             dispatch(toogleStepsStatus({ general: true }))
-            dispatch(toogleEventStatus(true))
             Swal.fire({
                 icon: "success",
                 timer: 2000,
+                title: "You have created an event!",
+                text: "Let's move on!",
             }).then(() => goToNextStep(1))
         }
     }
-
     const validate = async (values: GeneralFormState) => {
         const errors: any = {};
+        if (!values.image && !eventInfo.image) {
+            errors.image = true;
+        }
         if (isClearField(values.title) || isClearField(values.summary)) {
             errors.overview = true;
         }
         if (isClearField(values.startDate) || isClearField(values.startTime) || isClearField(values.endDate) || isClearField(values.endTime) || !(!!values.isOnline || !isClearField(values.location))) {
             errors.dateAndLocation = true;
+        }
+        const timeStart = dayjs(`${values.startDate}${values.startTime}`).format('YYYY-MM-DD HH:mm:ss z')
+        const timeEnd = dayjs(`${values.endDate}${values.endTime}`).format('YYYY-MM-DD HH:mm:ss z')
+        if (dayjs(timeStart).unix() > dayjs(timeEnd).unix()) {
+            errors.dateAndLocation = true;
+            errors.invalidTime = true;
         }
         if (isClearField(getValueFromOption(values.category)) || isClearField(getValueFromOption(values.format)) || isClearField(getValuesArrayFromOptions(values.language))) {
             errors.categories = true;
@@ -139,10 +132,9 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
         }
         return errors;
     };
-
-    const getComponent = (step: number | null, isOpened: GeneralFormState['isOpened'], errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
+    const getComponent = (step: number | null, isOpened: GeneralFormState['isOpened'], values: GeneralFormState, errors: ValidationErrors, touched: { [key: string]: boolean; } | undefined) => {
         switch (step) {
-            case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} image={image} changeImage={changeImage} />
+            case 0: return <GeneralInfo isOpened={isOpened} categories={categories} touched={touched} errors={errors} values={values} />
             case 1: return <CreateTickets goToNextStep={goToNextStep} />
             case 2: return <Preview />
             default: return <></>
@@ -150,6 +142,12 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     }
     console.log('render');
     const { domLoaded } = useWindowSize();
+
+    useEffect(() => {
+        if (!eventInfo.id || eventInfo.id.length === 0) dispatch(toogleEventStatus(false))
+        else dispatch(toogleEventStatus(true))
+    }, [eventInfo.id])
+
     if (!domLoaded) return <></>
     return (
         <div className='editor_wrapper'>
@@ -161,12 +159,12 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                     <form onSubmit={handleSubmit}>
                         <div className='editor_container'>
                             <div className='editor_body'>
-                                {getComponent(activeStep, values.isOpened, errors, touched)}
+                                {getComponent(activeStep, values.isOpened, values, errors, touched)}
                             </div >
                             {page === 'general' &&
                                 <div className='editor_footer'>
                                     <button type='submit'>
-                                        <OrangeButton className='editor_button' text="Save and continue" />
+                                        <OrangeButton className='editor_button' text="Save and continue" onClick={handleSubmit} />
                                     </button>
                                 </div>}
                         </div>

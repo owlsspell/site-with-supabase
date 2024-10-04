@@ -13,11 +13,9 @@ export default function EventsList() {
     const [eventCards, setEventCards] = useState<EventType[] | []>([])
     const pathname = usePathname()
 
-    let query = supabase.from("events").select('*').order('timeStart', { ascending: true }).limit(6)
+    let query = supabase.from("events").select('*').order('timeStart', { ascending: true }).limit(6).eq("publish", true)
 
     async function getEvents(activeFilter: string) {
-        let query = supabase.from("events").select('*').order('timeStart', { ascending: true }).limit(6)
-
         const setDayStart = dayjs().set('hour', 0).set('minute', 0).set('second', 0)
         const setDayEnd = dayjs().set('hour', 23).set('minute', 59).set('second', 59)
 

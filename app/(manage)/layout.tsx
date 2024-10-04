@@ -20,8 +20,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={lato.className}>
-                <DashboardHeaderServer />
-                <StoreProvider>{children}</StoreProvider>
+                <StoreProvider>
+                    <DashboardHeaderServer />
+                    {children}
+                </StoreProvider>
             </body>
         </html>
     );
