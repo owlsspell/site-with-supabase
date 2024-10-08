@@ -8,12 +8,12 @@ async function getCategories() {
   return data
 }
 
-export default async function EventsPage() {
-
+export default async function EventsPage({ searchParams }: { searchParams: { filter: string } }) {
   const categories = await getCategories()
+
   return (
     <main>
-      <AllEvents categories={categories} />
+      <AllEvents categories={categories} searchParams={searchParams}/>
     </main>
   );
 }

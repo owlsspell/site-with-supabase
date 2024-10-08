@@ -12,6 +12,8 @@ export default function EventsList() {
     const filters = useAppSelector((state: RootState) => state.events.filters)
     const [eventCards, setEventCards] = useState<EventType[] | []>([])
     const pathname = usePathname()
+    console.log('activeFilter', activeFilter);
+    console.log('filters', filters);
 
     let query = supabase.from("events").select('*').order('timeStart', { ascending: true }).limit(6).eq("publish", true)
 

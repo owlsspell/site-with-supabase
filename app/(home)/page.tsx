@@ -1,6 +1,6 @@
 import FullbleedBanner from "../components/homepage/fullbleed-banner"
 import IconCategories from "../components/homepage/categories/icon-categories";
-import EventsList from "../components/events/events-list-server";
+import EventsListServer from "../components/events/homepage-events/events-list-server";
 import { createClient } from "@/utils/supabase/server";
 
 async function getCategories() {
@@ -17,7 +17,7 @@ export default async function Home() {
     <main>
       <FullbleedBanner />
       <IconCategories categories={categories} />
-      <EventsList />
+      <EventsListServer />
     </main>
   );
 }

@@ -1,9 +1,10 @@
+'use server'
 import React from 'react'
 import FilterPanel from './filters/filter-panel'
-import EventsList from '../events/event-list'
 import FilterHeader from '../events/filter-header'
+import EventsListServer from '../events/search-events-page/events-list-server'
 
-export default function AllEvents({ categories }: { categories: CategoryType[] }) {
+export default async function AllEvents({ categories, searchParams }: { categories: CategoryType[], searchParams: { filter: string } }) {
 
     return (
         <div className='search_container'>
@@ -15,7 +16,7 @@ export default function AllEvents({ categories }: { categories: CategoryType[] }
                 <FilterPanel categories={categories} />
                 <div className='search_results'>
                     <FilterHeader />
-                    <EventsList />
+                    <EventsListServer searchParams={searchParams} />
                 </div>
             </div>
         </div>
