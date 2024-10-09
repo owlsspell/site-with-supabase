@@ -3,8 +3,9 @@ import React from 'react'
 import FilterPanel from './filters/filter-panel'
 import FilterHeader from '../events/filter-header'
 import EventsListServer from '../events/search-events-page/events-list-server'
+import { FiltersType } from '@/lib/features/eventsFiltersSlice'
 
-export default async function AllEvents({ categories, searchParams }: { categories: CategoryType[], searchParams: { filter: string } }) {
+export default async function AllEvents({ categories, searchParams }: { categories: CategoryType[], searchParams: FiltersType }) {
 
     return (
         <div className='search_container'>

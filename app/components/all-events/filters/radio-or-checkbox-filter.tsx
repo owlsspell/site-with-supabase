@@ -1,5 +1,5 @@
 'use client'
-import { changeFilter } from '@/lib/features/eventsFiltersSlice'
+import { FiltersType, changeFilter } from '@/lib/features/eventsFiltersSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { RootState } from '@/lib/store'
 import React, { useMemo, useState } from 'react'
@@ -45,7 +45,8 @@ const CustomField = ({ option, type, title }: { option: string, type: string, ti
         dispatch(changeFilter({ name: title, value: option }))
     }
 
-    const checked = type === 'checkbox' ? filters[title as keyof typeof filters].includes(option)
+    const checked = type === 'checkbox'
+        ? ((filters[title as keyof FiltersType] as string[]) || []).includes(option)
         : filters[title as keyof typeof filters] === option
 
     return (
@@ -60,6 +61,6 @@ const CustomField = ({ option, type, title }: { option: string, type: string, ti
             <span>{option}</span>
         </label>
     )
-}
 
+}
 const MemoizedField = React.memo(CustomField)
