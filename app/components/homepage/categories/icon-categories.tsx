@@ -1,17 +1,16 @@
 'use client'
 import React from 'react'
 import getIconCategory from '../../utils/categories/get-icon-category'
-import { changeFilter } from '@/lib/features/eventsFiltersSlice'
-import { useAppDispatch } from '@/lib/hooks'
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 export default function IconCategories({ categories }: { categories: CategoryType[] }) {
-    const dispatch = useAppDispatch()
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const params = new URLSearchParams(searchParams);
 
     const handleClick = (name: string) => {
-        dispatch(changeFilter({ name: "category", value: name }))
-        router.push('/events')
+        params.set("category", name.toString());
+        router.push(`/events?${params.toString()}`);
     }
     return (
         <section className='categories_container'>

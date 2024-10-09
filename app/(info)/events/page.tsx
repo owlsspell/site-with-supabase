@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import AllEvents from "../../components/all-events/all-events";
+import { FiltersType } from "@/lib/features/eventsFiltersSlice";
 
 async function getCategories() {
   const supabase = createClient()
@@ -8,12 +9,12 @@ async function getCategories() {
   return data
 }
 
-export default async function EventsPage() {
-
+export default async function EventsPage({ searchParams }: { searchParams: FiltersType }) {
   const categories = await getCategories()
+
   return (
     <main>
-      <AllEvents categories={categories} />
+      <AllEvents categories={categories} searchParams={searchParams} />
     </main>
   );
 }

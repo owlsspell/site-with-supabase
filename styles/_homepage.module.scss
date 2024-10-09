@@ -238,7 +238,12 @@
 
         .event_no_image {
             background-color: v.$gray_100;
-            height: 150px;
+            margin: 10px auto;
+            min-height: 150px;
+            max-height: 230px;
+            min-width: 200px;
+            max-width: 230px;
+            height: auto;
             width: auto;
             display: flex;
             align-items: center;

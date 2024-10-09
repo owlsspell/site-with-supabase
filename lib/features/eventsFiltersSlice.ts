@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-interface FiltersType {
-  category: string;
-  subcategory: string[];
-  date: string;
-  price: string;
-  format: string;
-  language: string[];
-  currency: string;
+export interface FiltersType {
+  category?: string;
+  subcategory?: string | string[];
+  date?: string;
+  price?: string;
+  format?: string;
+  language?: string | string[];
+  currency?: string;
 }
 interface EventsState {
   activeTab: string | null;

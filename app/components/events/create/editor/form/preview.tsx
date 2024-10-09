@@ -19,26 +19,7 @@ dayjs.extend(timezone)
 
 export default function Preview() {
     const { image, startDate, startTime, endDate, endTime, name, description, location, text } = useAppSelector((state) => state.createdEventInfo.eventInfo)
-    // {
-    //     name: 'Reimagining Relationships Workshop 2: Taking attachment further',
-    //     description: 'A thought-provoking, expert-led workshop series designed to help you explore and clarify the way you want your close relationships to look',
-    //     text: 'The way we pursue intimate relationships has changed enormously over the last few decades, and that change only seems to be accelerating.\n' +
-    //       '\n' +
-    //       'Where previously there had been a defined set of shared cultural ideas about what people were looking for in relationships, and a clear path (the so-called “relationship escalator”) that everyone was expected to follow - from dating; to sexual exclusivity and moving in together; to marriage, mortgage and, kids - all of that is now, more than ever, being called into question.\n' +
-    //       '\n' +
-    //       'As the old model is increasingly contested, people are having to grapple with a whole set of complex questions about intimate relationships that have far-reaching implications for how they live their lives.\n' +
-    //       '\n',
-    //     author_id: '8217fd7d-0e58-4277-8c4d-24213a58623d',
-    //     location: 'Online',
-    //     price: '£11.55',
-    //     timeStart: '2024-07-01T07:30:58+00:00',
-    //     timeEnd: '2024-07-04T07:00:04+00:00',
-    //     category: 'Family & Education',
-    //     format: 'Class',
-    //     language: [ 'English' ],
-    //     currency: 'U.S. Dollar',
-    //     subcategory: [ 'Education' ],
-    //   }
+
     const eventId = useAppSelector((state) => state.createdEventInfo.eventInfo.id)
     const isPublic = useAppSelector((state) => state.createdEventInfo.eventInfo.publish)
     const dispatch = useAppDispatch()
