@@ -1,3 +1,4 @@
+'use server'
 import React from 'react'
 import EventsList from './event-list';
 import { createClient } from '@/utils/supabase/server';
@@ -54,6 +55,7 @@ async function getEvents(filters: FiltersType) {
         const { data } = await query
         return data
     }
+
     if (filters.category) result = await getEventsByField("category", filters.category as string)
     if (filters.subcategory) result = await getEventsByContainsValueInArray("subcategory", filters.subcategory as string)
     if (filters.date) result = await getEventsByDate(filters.date as string)
@@ -65,6 +67,7 @@ async function getEvents(filters: FiltersType) {
         const { data } = await query;
         return result = data
     }
+
     return result ?? []
 }
 

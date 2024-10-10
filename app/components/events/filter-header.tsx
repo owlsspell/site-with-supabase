@@ -11,16 +11,17 @@ export default function FilterHeader() {
     const filterCounts = useMemo(() => Object.values(filters).filter((value) => value.length > 0).length, [filters])
     const filtersName = useMemo(() => Object.values(filters).filter((value) => value.length > 0), [filters])
     const searchParams = useSearchParams()
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams.toString());
     const router = useRouter();
     const pathname = usePathname()
 
     const handleClick = (name: string) => {
         const filterName = Object.keys(filters).filter(filter => filters[filter as keyof typeof filters] === name)
-        dispatch(clearFilter(filterName))
+        dispatch(clearFilter(filterName[0]))
         if (filterName[0] === 'category') dispatch(changeFilter({ name: "subcategory", value: [] }))
         params.delete(filterName[0]);
         router.push(`${pathname}?${params.toString()}`);
+        router.refresh()
     }
 
     const getButtonText = (text: string | string[]) => {
