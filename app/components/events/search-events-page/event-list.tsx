@@ -1,10 +1,7 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useAppSelector } from '@/lib/hooks';
-import { RootState } from '@/lib/store';
-import supabase from '@/utils/supabase/client-supabase';
 import EventCard from '../event-card';
-import dayjs from 'dayjs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FiltersType } from '@/lib/features/eventsFiltersSlice';
 
@@ -16,7 +13,6 @@ export default function EventsList({ events }: { events: EventType[] | null }) {
     const router = useRouter();
 
     useEffect(() => {
-        if (!filters) return
         if (Object.values(filters).some((item: string) => item.length > 0)) {
             Object.keys(filters).forEach(filterName => {
                 const filterValue = filters[filterName as keyof FiltersType];
