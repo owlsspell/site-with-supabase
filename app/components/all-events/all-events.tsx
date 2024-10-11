@@ -1,7 +1,7 @@
 'use server'
 import React from 'react'
 import FilterPanel from './filters/filter-panel'
-import FilterHeader from '../events/filter-header'
+import FilterHeader from '../dashboard/filter-header'
 import EventsListServer from '../events/search-events-page/events-list-server'
 import { FiltersType } from '@/lib/features/eventsFiltersSlice'
 

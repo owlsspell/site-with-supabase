@@ -20,12 +20,13 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
     }
     const drawerLinks: LinkType[][] = [
         [
-            { id: 1, text: "Find Events" },
+            { id: 1, text: "Find Events", url: "/events" },
             {
                 id: 2, text: "Create Events", url: "/manage/events/create",
                 handleClick: () => dispatch(clearEventData())
             },
-            { id: 3, text: "Help Centre" },
+            { id: 3, text: "Manage my events", url: "/organizations/home" },
+            { id: 4, text: "Help Centre" },
         ],
         [
             { id: 1, text: "Log out", handleClick: onLogOut },
@@ -33,7 +34,7 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
     ]
     const linksIfAnonymus: LinkType[][] = [
         [
-            { id: 1, text: "Find Events" },
+            { id: 1, text: "Find Events", url: "/events" },
             {
                 id: 2, text: "Create Events", url: "/manage/events/create",
                 handleClick: () => dispatch(clearEventData())

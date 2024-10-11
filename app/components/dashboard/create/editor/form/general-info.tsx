@@ -1,10 +1,10 @@
 import React from 'react'
 import ContainerHoc from '../container-hoc'
-import SwiperGalery from '.././sections/swiper-galery';
-import EventTitle from '.././sections/event-title';
-import EventDateAndLocation from '.././sections/event-date-and-location';
-import AboutEvent from '.././sections/about-event';
-import EventCategory from '.././sections/event-category';
+import SwiperGalery from '../sections/swiper-galery';
+import EventTitle from '../sections/event-title';
+import EventDateAndLocation from '../sections/event-date-and-location';
+import AboutEvent from '../sections/about-event';
+import EventCategory from '../sections/event-category';
 import { ValidationErrors } from 'final-form';
 import { EventState } from '@/types/custom-types';
 interface GeneralInfoTypes {

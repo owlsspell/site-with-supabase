@@ -26,7 +26,7 @@
     }
 
     .event_details-wrapper {
-        padding-top: 50px;
+        padding: 50px 30px;
         margin: 0 auto;
         position: relative;
         display: flex;
@@ -34,8 +34,9 @@
 
         .event_mainContent {
             max-width: 720px;
+            width: auto;
             white-space: pre-wrap;
-            margin-bottom: 50px;
+            padding-right: 30px;
 
             p {
                 font-size: v.$font_size + 4;
@@ -92,6 +93,13 @@
             }
         }
 
+        @media screen and (max-width:960px) {
+            margin-bottom: 100px;
+
+            .event_mainContent {
+                padding-right: 0;
+            }
+        }
     }
 
     .event_aside {
@@ -155,10 +163,41 @@
             }
         }
 
+        @media screen and (max-width:960px) {
+            position: fixed;
+            bottom: 0px;
+            padding-bottom: 20px;
+            width: 100%;
+            max-width: 100%;
+            padding-top: 30px;
+            background-color: v.$white;
+            width: calc(100% - 66px);
+
+            .event_ticket {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+
+                .event_price {
+                    margin-top: 0;
+                }
+            }
+        }
+
+        @media screen and (max-width:420px) {
+            .event_ticket {
+                display: block;
+            }
+        }
+
         .reserve-button {
             width: 100%;
             max-width: 360px;
             padding: 12px 0;
+
+            @media screen and (max-width:960px) {
+                float: right;
+            }
         }
     }
 }

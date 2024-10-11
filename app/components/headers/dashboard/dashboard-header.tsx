@@ -24,10 +24,10 @@ export default function DashboardHeader({ full_name, avatar_url }: { full_name?:
         router.push('/')
     };
     const drawerLinks: LinkType[] = [
-        { id: 1, text: "Find Events" },
+        { id: 1, text: "Find Events", url: "/events" },
         {
             id: 2, text: "Create Events", url: "/manage/events/create",
-            handleClick: () => dispatch(clearEventData()) 
+            handleClick: () => dispatch(clearEventData())
         },
         { id: 3, text: "Log out", handleClick: onLogOut },
     ]

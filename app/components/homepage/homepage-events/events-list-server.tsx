@@ -1,5 +1,5 @@
 import React from 'react'
-import EventsCategories from '../events-categories'
+import EventsCategories from '../../events/events-categories'
 import EventsList from './event-list';
 import { createClient } from '@/utils/supabase/server';
 import dayjs from 'dayjs';
