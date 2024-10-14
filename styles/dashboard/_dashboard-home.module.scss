@@ -1,0 +1,69 @@
+@use '_variables' as v;
+
+@mixin gray-border {
+    border: 1px solid v.$gray_200;
+    border-radius: 8px;
+}
+
+.dashboard_home-container {
+    @include gray-border;
+    padding: 24px;
+
+    h3 {
+        font-size: v.$font_size * 1.8;
+        margin-bottom: 32px;
+    }
+
+    .help_center-container {
+        display: flex;
+        gap: 20px;
+
+        .help_center-item {
+            @include gray-border;
+            min-height: 124px;
+            min-width: 200px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: v.$text_color;
+
+            &:hover,
+            &:focus {
+                background-color: rgba(54, 89, 227, .039);
+                outline: 2px solid v.$blue;
+                text-decoration: none;
+
+                .help_center-icon-container {
+                    background-color: rgba(54, 89, 227, .302);
+                }
+            }
+
+            h4 {
+                font-size: v.$font_size + 2;
+            }
+
+            .help_center-icon-container {
+                background-color: v.$light_blue;
+                border-radius: 100%;
+                height: -webkit-min-content;
+                height: -moz-min-content;
+                height: min-content;
+                width: -webkit-min-content;
+                width: -moz-min-content;
+                width: min-content;
+                margin: 10px 0;
+                padding: 8px;
+                display: flex;
+                justify-content: center;
+
+                svg {
+                    fill: v.$blue;
+                    height: 35px;
+                    width: 35px;
+                }
+            }
+        }
+    }
+}
