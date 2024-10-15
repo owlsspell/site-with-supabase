@@ -6,6 +6,7 @@
 @use '_events-page.module';
 @use '_event-details.module';
 @use '_manage-create-page.module';
-@use 'dashboard/_dashboard-navbar.module';
-@use 'dashboard/_dashboard-events.module';
-@use 'dashboard/_dashboard-home.module';
+@use 'dashboard/_navbar.module';
+@use 'dashboard/_events.module';
+@use 'dashboard/_home.module';
+@use 'dashboard/_settings.module';

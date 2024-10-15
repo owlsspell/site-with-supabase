@@ -18,7 +18,7 @@ export default function NewComment({ eventId }: { eventId: string }) {
     return (
         <form action={addComment} className='newcomment' >
             <textarea name="comment" />
-            <GrayButton text="Add comment" />
+            <GrayButton type="button" text="Add comment" />
         </form>
     )
 }
