@@ -1,17 +1,23 @@
 import React from 'react'
 import OrangeButton from '../../buttons/orange-button'
 import { createClient } from '@/utils/supabase/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
+import ModalMessage from '../../modal/modal-message';
+import { redirect } from 'next/navigation';
 
-export default function UserSettings({ user }: { user: UserProfile }) {
+export default function UserSettings({ user, searchParams }: { user: UserProfile, searchParams: Record<string, string> | null | undefined; }) {
+    const show = searchParams?.status;
+
     const updateUserData = async (formData: FormData) => {
         'use server'
         const name = String(formData.get('name'))
         const username = String(formData.get('username'))
         const supabase = createClient()
-        await supabase.from('profiles').update({ name, username }).eq("id", user.id)
-        revalidatePath("/organizations/settings")
+        const { error } = await supabase.from('profiles').update({ name, username }).eq("id", user.id)
+        if (error) redirect('settings?status=error')
+        redirect('settings?status=success')
     }
+
     return (
         <div className='settings_section'>
             <form action={updateUserData} >
@@ -25,6 +31,7 @@ export default function UserSettings({ user }: { user: UserProfile }) {
                     <input type='text' name="username" defaultValue={user.username ?? ''} />
                 </label>
                 <OrangeButton type="button" text="Save" className='settings_section-btn' />
+                {show && <ModalMessage />}
             </form>
         </div>
     )

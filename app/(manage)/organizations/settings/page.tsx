@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import React from 'react'
 
-export default async function DashboardSettings() {
+export default async function DashboardSettings({ searchParams }: { searchParams: Record<string, string> | null | undefined; }) {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return redirect('/')
@@ -12,7 +12,7 @@ export default async function DashboardSettings() {
     if (error) return redirect('/')
     return (
         <DashboardLayout title="Account Settings" subtitle={data[0].name}>
-            <UserSettings user={data[0]} />
+            <UserSettings user={data[0]} searchParams={searchParams} />
         </DashboardLayout>
     )
 }
