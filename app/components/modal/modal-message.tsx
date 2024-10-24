@@ -2,18 +2,14 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { useFormStatus } from "react-dom";
 import Swal from "sweetalert2";
 
 export default function ModalMessage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const status = searchParams.get('status')
-    const { pending } = useFormStatus()
+
     useEffect(() => {
-        if (pending) {
-            Swal.showLoading();
-        }
         if (status === 'success')
             Swal.fire({
                 icon: "success",

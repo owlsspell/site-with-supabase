@@ -109,6 +109,7 @@
         top: 60px;
         right: -10px;
         max-width: 500px;
+        min-width: 170px;
         width: -webkit-max-content;
         width: -moz-max-content;
         width: max-content;
@@ -126,6 +127,11 @@
             display: none;
         }
 
+        .nav_list-group {
+            border-bottom: 2px solid v.$gray_200;
+            gap: 15px;
+        }
+
         .nav_list-item {
             padding: 16px 24px;
             font-weight: 600;
@@ -135,6 +141,10 @@
 
             &:hover {
                 background-color: v.$gray_100;
+            }
+
+            &.nav_list-item-disabled {
+                cursor: not-allowed
             }
 
             a {

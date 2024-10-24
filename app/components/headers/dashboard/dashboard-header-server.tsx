@@ -13,7 +13,7 @@ export default async function DashboardHeaderServer() {
     return (
         <div className='header_container'>
             <div className='header_logo'><Link href="/">eventbrite </Link></div>
-            {!!user && <DashboardHeader {...{ full_name: data[0].name, avatar_url: data[0].avatar_url }} />}
+            {user && user.email && <DashboardHeader email={user.email} full_name={data[0]?.name} avatar_url={data[0]?.avatar_url} />}
         </div>
     )
 }
