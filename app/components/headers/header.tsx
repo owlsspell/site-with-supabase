@@ -14,9 +14,9 @@ export default function Header() {
                 <Image src={searchIcon} alt="" height={15} width={15} />
                 <span>Search</span></div>
             <nav className='header_nav'>
-                <GrayButton text="Find Events" />
+                <GrayButton text="Find Events" href="/events" />
                 <GrayButton text="Create Events" href="/manage/events/create" isClearEventData={true} />
-                <GrayButton text="Help Centre" />
+                {/* <GrayButton text="Help Centre" /> */}
             </nav>
             <AuthButtonServer />
         </div>

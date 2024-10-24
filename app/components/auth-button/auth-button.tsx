@@ -27,7 +27,7 @@ export default function AuthButton({ session }: { session: Session | null }) {
             {session ?
                 <>
                     <div className="header_nav">
-                        <Link href="/manage/events/home" className="header_user_image">
+                        <Link href="/organizations/home" className="header_user_image">
                             {session?.user?.user_metadata.avatar_url ?
                                 <img src={session?.user?.user_metadata.avatar_url} alt="" />
                                 : <i className="ri-user-3-line"></i>}

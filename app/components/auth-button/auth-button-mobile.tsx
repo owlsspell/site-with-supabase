@@ -20,12 +20,13 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
     }
     const drawerLinks: LinkType[][] = [
         [
-            { id: 1, text: "Find Events" },
+            { id: 1, text: "Find Events", url: "/events" },
             {
                 id: 2, text: "Create Events", url: "/manage/events/create",
                 handleClick: () => dispatch(clearEventData())
             },
-            { id: 3, text: "Help Centre" },
+            { id: 3, text: "Manage my events", url: "/organizations/home" },
+            { id: 4, text: "Account settings", url: "/organizations/settings" },
         ],
         [
             { id: 1, text: "Log out", handleClick: onLogOut },
@@ -33,12 +34,12 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
     ]
     const linksIfAnonymus: LinkType[][] = [
         [
-            { id: 1, text: "Find Events" },
+            { id: 1, text: "Find Events", url: "/events" },
             {
                 id: 2, text: "Create Events", url: "/manage/events/create",
                 handleClick: () => dispatch(clearEventData())
             },
-            { id: 3, text: "Help Centre" },
+            // { id: 3, text: "Help Centre" },
         ],
     ]
     const list = useMemo(() => {
@@ -62,7 +63,7 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
                 direction='right'
                 customIdSuffix="right-drawer"
                 enableOverlay={false}
-                style={{ height: 'max-content', minHeight: 100, top: 60 }}
+                style={{ height: 'max-content', width: '200px', minHeight: 100, top: 60 }}
             >
                 <div className='mobile_header-sidebar-content'>
                     <div onClick={toggleDrawer} className='mobile_header-sidebar-close-btn'><i className="ri-close-line ri-lg"></i></div>

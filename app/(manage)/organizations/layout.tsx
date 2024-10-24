@@ -1,4 +1,4 @@
-import NavbarDashboard from "@/app/components/events/create/navbar";
+import NavbarDashboard from "@/app/components/dashboard/create/navbar";
 
 export default function Layout({
     children,

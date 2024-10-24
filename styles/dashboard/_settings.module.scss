@@ -1,0 +1,23 @@
+@use '_variables' as v;
+
+.settings_section {
+    h3 {
+        font-size: v.$font_size + 10;
+    }
+
+    label {
+        display: flex;
+        flex-direction: column;
+        margin: 20px 0;
+
+        input {
+            max-width: 250px;
+            margin-top: 5px;
+        }
+    }
+
+    .settings_section-btn {
+        border-radius: 4px;
+        min-width: 100px;
+    }
+}

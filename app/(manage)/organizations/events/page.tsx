@@ -1,5 +1,6 @@
-import ResultsSection from '@/app/components/events/dashboard-all-events/results-section';
-import SearchPanel from '@/app/components/events/dashboard-all-events/search-panel';
+import ResultsSection from '@/app/components/dashboard/dashboard-all-events/results-section';
+import SearchPanel from '@/app/components/dashboard/dashboard-all-events/search-panel';
+import DashboardLayout from '@/app/components/layouts/dashboard-layout';
 import { createClient } from '@/utils/supabase/server';
 import dayjs from 'dayjs';
 
@@ -23,12 +24,9 @@ async function getUserEvents(filter: string) {
 export default async function AllEventsPage({ searchParams }: { searchParams: { filter: string } }) {
     const events = await getUserEvents(searchParams.filter)
     return (
-        <div className='dashboard_container'>
-            <div className="dashboard_workspace events_page">
-                <h1 className='dashboard_workspace-title'>Events</h1>
-                <SearchPanel />
-                <ResultsSection events={events} />
-            </div>
-        </div>
+        <DashboardLayout title="Events">
+            <SearchPanel />
+            <ResultsSection events={events} />
+        </DashboardLayout>
     )
 }

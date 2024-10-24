@@ -1,9 +1,9 @@
 import React from 'react'
 import { createClient } from '@/utils/supabase/server'
 import dynamic from 'next/dynamic'
-const DrawerClient = dynamic(() => import('@/app/components/events/create/drawer/drawer-client'), { ssr: false })
-const EventEditor = dynamic(() => import('@/app/components/events/create/editor/editor'), { ssr: false })
-const DrawerHeader = dynamic(() => import('@/app/components/events/create/drawer/drawer-header'), { ssr: false })
+const DrawerClient = dynamic(() => import('@/app/components/dashboard/create/drawer/drawer-client'), { ssr: false })
+const EventEditor = dynamic(() => import('@/app/components/dashboard/create/editor/editor'), { ssr: false })
+const DrawerHeader = dynamic(() => import('@/app/components/dashboard/create/drawer/drawer-header'), { ssr: false })
 
 async function getCategories() {
     const supabase = createClient()

@@ -23,8 +23,18 @@
         .dashboard_workspace-title {
             font-size: v.$font_size * 3;
             font-weight: 800;
+            letter-spacing: .5px;
             line-height: 4rem;
             margin-bottom: 35px;
+        }
+
+        .dashboard_workspace-subtitle {
+            font-size: v.$font_size + 6;
+            color: v.$gray;
+            font-weight: 800;
+            letter-spacing: .5px;
+            line-height: 40px;
+            text-transform: uppercase;
         }
     }
 }
@@ -156,7 +166,7 @@
                 text-decoration: none;
                 font-size: v.$font_size + 2;
                 color: v.$text_color;
-                padding: 0 20px;
+                padding: 10px 20px;
             }
         }
 

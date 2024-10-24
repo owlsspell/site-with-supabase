@@ -177,9 +177,10 @@
     }
 
     .events_list {
-        padding-top: 24px;
+        padding-top: 40px;
         width: 100%;
         display: grid;
+        gap: 30px;
         grid-template-columns: repeat(4, 1fr);
 
         @media screen and (max-width: 1200px) {
@@ -204,7 +205,6 @@
 }
 
 .event_card {
-    margin: 16px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -238,21 +238,27 @@
 
         .event_no_image {
             background-color: v.$gray_100;
-            margin: 10px auto;
+            margin: auto;
             min-height: 150px;
             max-height: 230px;
             min-width: 200px;
-            max-width: 230px;
             height: auto;
             width: auto;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 4px;
+            overflow: hidden;
+            margin: 16px 0;
         }
 
         @media screen and (max-width: 620px) {
-            min-height: 230px
+
+            img,
+            .event_no_image {
+                min-height: 230px;
+                width: 100%;
+            }
         }
 
         img {

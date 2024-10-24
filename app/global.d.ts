@@ -6,6 +6,7 @@ type EventRow = DB["public"]["Tables"]["events"]["Row"];
 type CategoryRow = DB["public"]["Tables"]["categories"]["Row"];
 declare global {
   type Database = DB;
+  type UserProfile = ProfileRow;
   type CommentWithAuthor = CommentRow & { author: ProfileRow };
   type EventType = EventRow;
   type EventWithAuthor = EventRow & {

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAppSelector } from '@/lib/hooks';
 import { RootState } from '@/lib/store';
-import EventCard from '../event-card';
+import EventCard from '../../events/event-card';
 import { usePathname } from 'next/navigation';
 
 export default function EventsList({ events, getEvents }: { events: EventType[], getEvents: (activeFilter: string) => Promise<EventType[]> }) {

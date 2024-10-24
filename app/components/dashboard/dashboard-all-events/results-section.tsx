@@ -1,5 +1,5 @@
 import React from 'react'
-import EventCard from '../event-card';
+import EventCard from '../../events/event-card';
 
 import BlueEditButton from '../../buttons/blue-edit-button';
 
