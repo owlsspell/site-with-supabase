@@ -24,6 +24,7 @@
     }
 
     .navbar_item {
+        position: relative;
         color: v.$gray;
         padding: 8px;
         margin: 0 8px 24px;
@@ -33,6 +34,10 @@
         &:hover {
             color: v.$blue;
             background-color: v.$white;
+
+            .navbar_item-popup {
+                display: inline-block;
+            }
         }
 
         &.navbar_item-active {
@@ -41,6 +46,19 @@
             path {
                 stroke: v.$white;
             }
+        }
+
+        .navbar_item-popup {
+            display: none;
+            text-transform: capitalize;
+            position: absolute;
+            left: 50px;
+            top: 10%;
+            background-color: v.$white;
+            color: v.$text_color;
+            padding: 10px 15px;
+            border-radius: 4px;
+            box-shadow: 0 1px 17px 0 rgba(40, 44, 53, .1), 0 2px 4px 0 rgba(40, 44, 53, .1);
         }
     }
 }

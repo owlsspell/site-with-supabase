@@ -1,9 +1,9 @@
 import DashboardLayout from '@/app/components/layouts/dashboard-layout'
 import React from 'react'
 
-export default function Orders() {
+export default function Reporting() {
     return (
-        <DashboardLayout title="Orders">
+        <DashboardLayout title="Reporting">
             <></>
         </DashboardLayout>
     )
