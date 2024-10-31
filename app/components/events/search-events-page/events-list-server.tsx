@@ -5,7 +5,7 @@ import { createClient } from '@/utils/supabase/server';
 import dayjs from 'dayjs';
 import { FiltersType } from '@/lib/features/eventsFiltersSlice';
 
-async function getEvents(filters: FiltersType) {
+async function getEvents(filters: FiltersType & { search?: string }) {
     'use server'
     const supabase = createClient()
     let query = supabase.from("events").select('*').order('timeStart', { ascending: true }).limit(6).eq("publish", true)
@@ -55,7 +55,13 @@ async function getEvents(filters: FiltersType) {
         const { data } = await query
         return data
     }
+    const getEventsByName = async () => {
+        query = query.ilike('name', `%${filters.search}%`)
+        const { data } = await query
+        return data
+    }
 
+    if (filters.search) result = await getEventsByName()
     if (filters.category) result = await getEventsByField("category", filters.category as string)
     if (filters.subcategory) result = await getEventsByContainsValueInArray("subcategory", filters.subcategory as string)
     if (filters.date) result = await getEventsByDate(filters.date as string)

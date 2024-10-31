@@ -21,6 +21,9 @@ export default function NavbarDashboard() {
                 <Link href={"/organizations/" + item.path} key={item.name}>
                     <div className={`navbar_item${adress === item.path || item.active?.includes(pathname) ? ' navbar_item-active' : ""}`}>
                         {getIconNavbar(item.name)}
+                        <div className='navbar_item-popup'>
+                            {item.path}
+                        </div>
                     </div>
                 </Link>
             )}
