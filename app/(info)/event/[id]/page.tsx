@@ -32,5 +32,5 @@ export default async function EventDetailPage({ params }: { params: { id: string
 export async function generateStaticParams() {
   const { data } = await supabase.from("events").select('*').order('created_at', { ascending: false }).limit(5);
   if (!data) throw new Error('Failed to fetch data')
-  return data.map(event => ({ id: event.id, }))
+  return data.map(event => ({ id: event.id }))
 }
