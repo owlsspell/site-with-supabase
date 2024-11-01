@@ -1,10 +1,11 @@
 'use client'
-import { useEffect, useState } from 'react';
-import Select from 'react-select';
+import { useEffect, useId, useState } from 'react';
 import OrangeButton from '../../buttons/orange-button';
 import { clearEventData } from '@/lib/features/createEventSlice';
 import { useAppDispatch } from '@/lib/hooks';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
+const Select = dynamic(() => import('react-select'))
 
 export default function SearchPanel() {
     const [selectedOption, setSelectedOption] = useState<{ value: string; label: string; } | null>({ value: "all", label: "All events" });
@@ -55,9 +56,10 @@ export default function SearchPanel() {
                     <i className="ri-search-line events_page-search-icon" onClick={findEvent}></i>
                 </div>
                 <Select
+                    id={useId()}
                     className="events_page-select"
                     defaultValue={selectedOption}
-                    onChange={setSelectedOption}
+                    onChange={(newValue) => setSelectedOption(newValue as { value: string; label: string; } | null)}
                     options={options}
                     styles={customSlyles}
                 />

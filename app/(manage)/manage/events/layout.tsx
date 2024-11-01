@@ -1,4 +1,6 @@
 import NavbarDashboard from "@/app/components/dashboard/create/navbar";
+import { Suspense } from "react";
+import Loading from "../../loading";
 
 export default function Layout({
     children,
@@ -6,6 +8,10 @@ export default function Layout({
     children: React.ReactNode;
 }>) {
     return (
-        <div> <NavbarDashboard />{children}</div>
+        <div> <NavbarDashboard />
+            <Suspense fallback={<Loading />}>
+                {children}
+            </Suspense>
+        </div>
     );
 }

@@ -5,6 +5,7 @@ import Header from "../components/headers/header";
 import StoreProvider from "../StoreProvider";
 import 'remixicon/fonts/remixicon.css'
 import { Suspense } from "react";
+import Loading from "./loading";
 
 const lato = Lato({ subsets: ["latin"], weight: "400" });
 
@@ -22,10 +23,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={lato.className}>
         <StoreProvider>
-          <Suspense >
+          <Suspense fallback={<Loading />} >
             <Header />
           </Suspense>
-          {children}
+          <Suspense fallback={<Loading />} >
+            {children}
+          </Suspense>
         </StoreProvider>
       </body>
     </html>

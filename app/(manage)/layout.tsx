@@ -4,6 +4,8 @@ import "../../styles/global.scss";
 import StoreProvider from "../StoreProvider";
 import DashboardHeaderServer from "../components/headers/dashboard/dashboard-header-server";
 import 'remixicon/fonts/remixicon.css'
+import { Suspense } from "react";
+import Loading from "../(home)/loading";
 
 const lato = Lato({ subsets: ["latin"], weight: ['100', '400', '700', '900'] });
 
@@ -22,7 +24,9 @@ export default function RootLayout({
             <body className={lato.className}>
                 <StoreProvider>
                     <DashboardHeaderServer />
-                    {children}
+                    <Suspense fallback={<Loading />}>
+                        {children}
+                    </Suspense>
                 </StoreProvider>
             </body>
         </html>
