@@ -1,0 +1,18 @@
+@use "variables" as v;
+
+.dashboard_orders-search {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+
+    label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        span {
+            color: v.$gray;
+            font-size: v.$font_size - 1;
+        }
+    }
+}

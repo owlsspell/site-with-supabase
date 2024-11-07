@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import React from 'react'
-import GrayButton from '../buttons/gray-button'
+import GrayButton from '../custom/buttons/gray-button'
 
 export default function NewComment({ eventId }: { eventId: string }) {
     const addComment = async (formData: FormData) => {

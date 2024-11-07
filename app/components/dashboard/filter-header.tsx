@@ -1,7 +1,7 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import React, { useEffect, useMemo } from 'react'
-import DarkGrayButton from '../buttons/dark-gray-button'
+import DarkGrayButton from '../custom/buttons/dark-gray-button'
 import { changeFilter, clearFilter } from '@/lib/features/eventsFiltersSlice'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 

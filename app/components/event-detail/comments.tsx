@@ -2,7 +2,7 @@
 import supabase from "@/utils/supabase/client-supabase";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import GrayButton from "../buttons/gray-button";
+import GrayButton from "../custom/buttons/gray-button";
 import { User } from "@supabase/supabase-js";
 
 export default function Comments({

@@ -3,7 +3,7 @@ import { Field } from 'react-final-form'
 import Drawer from 'react-modern-drawer'
 import Select from 'react-select';
 import { currency as currencyConstants } from '@/lib/constants'
-import GrayButton from '@/app/components/buttons/gray-button';
+import GrayButton from '@/app/components/custom/buttons/gray-button';
 
 export default function TicketModal({ isFree = false, isOpen, toggleDrawer, saveTickets, disable }: { isFree: boolean | null, isOpen: boolean, toggleDrawer: () => void, saveTickets: () => void, disable?: boolean }): JSX.Element {
     const currency = currencyConstants.map(item => ({ value: item, label: item }))

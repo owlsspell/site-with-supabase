@@ -8,7 +8,7 @@ import eventTime from "@/images/icons/event-time.svg"
 import DOMPurify from 'dompurify';
 import timezone from 'dayjs/plugin/timezone'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
-import OrangeButton from '@/app/components/buttons/orange-button';
+import OrangeButton from '@/app/components/custom/buttons/orange-button';
 import supabase from '@/utils/supabase/client-supabase';
 import { handleError } from '@/lib/functions';
 import { tooglePublicEventStatus } from '@/lib/features/createEventSlice';

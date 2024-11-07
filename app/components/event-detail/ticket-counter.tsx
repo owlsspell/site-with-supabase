@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import info from '@/images/icons/info.svg'
-import OrangeButton from '../buttons/orange-button'
+import OrangeButton from '../custom/buttons/orange-button'
 import Image from 'next/image'
 import supabase from '@/utils/supabase/client-supabase'
 import Swal from 'sweetalert2'

@@ -1,5 +1,5 @@
 import React from 'react'
-import OrangeButton from '../../buttons/orange-button'
+import OrangeButton from '../../custom/buttons/orange-button'
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import ModalMessage from '../../modal/modal-message';

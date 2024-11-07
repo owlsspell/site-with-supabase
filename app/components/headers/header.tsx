@@ -1,5 +1,5 @@
 import React from 'react'
-import GrayButton from '../buttons/gray-button'
+import GrayButton from '../custom/buttons/gray-button'
 import AuthButtonServer from '../auth-button/auth-button-server'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'

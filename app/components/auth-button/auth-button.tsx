@@ -2,7 +2,7 @@
 import supabase from "@/utils/supabase/client-supabase"
 import { Session } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
-import GrayButton from "../buttons/gray-button"
+import GrayButton from "../custom/buttons/gray-button"
 import Link from "next/link"
 import AuthButtonMobile from "./auth-button-mobile"
 
