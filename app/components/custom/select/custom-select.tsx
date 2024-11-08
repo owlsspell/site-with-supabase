@@ -11,7 +11,7 @@ type Props = {
 export default function CustomSelect({ options, className, defaultValue }: Props) {
     return (
         <Select
-            id={useId()}
+            instanceId={useId()}
             options={options}
             className={className}
             defaultValue={defaultValue}

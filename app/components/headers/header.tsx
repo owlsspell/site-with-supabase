@@ -16,7 +16,7 @@ export default function Header() {
 
     return (
         <div className='header_container'>
-            <div className='header_logo'><Link href="/">eventbrite </Link></div>
+            <div className='header_logo'><Link href="/">eventbite</Link></div>
             <form action={findEvents} className='header_input'>
                 <HeaderInput />
             </form>

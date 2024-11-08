@@ -78,6 +78,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                             {({ input }) => (
                                 <Select
                                     {...input}
+                                    id="format"
                                     value={input.value.value ? input.value : ''}
                                     options={formatsArray}
                                 />
@@ -90,6 +91,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                             {({ input }) => (
                                 <Select
                                     {...input}
+                                    id="language"
                                     options={languageArray}
                                     isMulti
                                 />

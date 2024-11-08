@@ -56,6 +56,7 @@ export default function TicketModal({ isFree = false, isOpen, toggleDrawer, save
                                             options={currency}
                                             menuPlacement="auto"
                                             className='drawer_tickets-cost-select'
+                                            id='drawer_tickets-cost-select'
                                             defaultValue={{ label: "U.S. Dollar", value: "U.S. Dollar" }}
                                         />
                                     )}
