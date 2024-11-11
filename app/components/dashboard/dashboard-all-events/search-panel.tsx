@@ -32,7 +32,7 @@ export default function SearchPanel() {
             <div className='events_page-filters'>
                 <SearchInput placeholder='Search events' />
                 <Select
-                    id={useId()}
+                    instanceId={useId()}
                     className="events_page-select"
                     defaultValue={selectedOption}
                     onChange={(newValue) => setSelectedOption(newValue as { value: string; label: string; } | null)}
