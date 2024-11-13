@@ -5,17 +5,17 @@ import Select from 'react-select';
 type Props = {
     options: { value: string, label: string }[],
     className?: string,
-    defaultValue?: { label: string, value: string },
+    selectedValue?: { label: string, value: string },
     handleChange: (newValue: any) => void,
 }
 
-export default function CustomSelect({ options, className, defaultValue, handleChange }: Props) {
+export default function CustomSelect({ options, className, selectedValue, handleChange }: Props) {
     return (
         <Select
             instanceId={useId()}
             options={options}
             className={className}
-            defaultValue={defaultValue}
+            value={selectedValue}
             onChange={(newValue) => handleChange(newValue)}
         />
     )
