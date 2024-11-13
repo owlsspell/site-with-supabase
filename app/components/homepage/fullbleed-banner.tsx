@@ -1,7 +1,7 @@
 import React from 'react'
 import banner from "@/images/banner.webp"
 import Image from 'next/image'
-import OrangeButton from '../buttons/orange-button'
+import OrangeButton from '../custom/buttons/orange-button'
 
 export default function FullbleedBanner() {
     return (

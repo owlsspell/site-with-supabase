@@ -1,5 +1,5 @@
 import React from 'react'
-import GrayButton from '../buttons/gray-button'
+import GrayButton from '../custom/buttons/gray-button'
 import AuthButtonServer from '../auth-button/auth-button-server'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -16,7 +16,7 @@ export default function Header() {
 
     return (
         <div className='header_container'>
-            <div className='header_logo'><Link href="/">eventbrite </Link></div>
+            <div className='header_logo'><Link href="/">eventbite</Link></div>
             <form action={findEvents} className='header_input'>
                 <HeaderInput />
             </form>

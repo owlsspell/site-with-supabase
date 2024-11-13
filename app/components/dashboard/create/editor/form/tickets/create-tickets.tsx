@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { ReactComponent as Arrow_down } from "@/images/icons/arrow-down.svg"
 import TicketModal from './ticket-modal';
 import { useField, useForm } from 'react-final-form';
-import GrayButton from '@/app/components/buttons/gray-button';
-import OrangeButton from '@/app/components/buttons/orange-button';
+import GrayButton from '@/app/components/custom/buttons/gray-button';
+import OrangeButton from '@/app/components/custom/buttons/orange-button';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { toogleStepsStatus } from '@/lib/features/drawerStepsSlice';
 import supabase from '@/utils/supabase/client-supabase';

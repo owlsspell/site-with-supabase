@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect } from 'react'
-import OrangeButton from '@/app/components/buttons/orange-button';
+import OrangeButton from '@/app/components/custom/buttons/orange-button';
 import supabase from '@/utils/supabase/client-supabase';
 import { Form } from 'react-final-form';
 import { EventState } from '@/types/custom-types';

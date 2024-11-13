@@ -14,24 +14,6 @@
             flex-wrap: wrap;
         }
 
-        .events_page-search {
-            position: relative;
-
-            .events_page-search-input {
-                padding-left: 45px;
-                border-radius: 0;
-            }
-
-            .events_page-search-icon {
-                position: absolute;
-                top: 12px;
-                left: 10px;
-                font-size: v.$font_size * 2;
-                color: v.$gray;
-                cursor: pointer;
-            }
-        }
-
         .events_page-select {
             min-width: 120px;
 
