@@ -59,5 +59,13 @@
             transform: scaleX(1);
         }
     }
+}
 
+.dashboard_orders-notfound {
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+    font-size: v.$font_size + 4;
+    color: v.$gray_800;
+    font-weight: 600;
 }

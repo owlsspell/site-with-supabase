@@ -66,7 +66,10 @@ export default async function OrdersPage({ searchParams }: { searchParams: Searc
                 <SearchInput placeholder="Search order number, email or name" className="orders_page" />
                 <OrdersSelect />
             </div>
-            <OrdersTable orders={orders} searchParams={searchParams} />
+            {!orders || orders.length === 0 ?
+                <div className='dashboard_orders-notfound'>No orders to show</div>
+                :
+                <OrdersTable orders={orders} searchParams={searchParams} />}
         </DashboardLayout>
     )
 }
