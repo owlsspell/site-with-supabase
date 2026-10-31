@@ -23,7 +23,6 @@ export default function OrdersLine({ orders }: { orders: PropsType }) {
         ],
     };
 
-    // To make configuration
     const options = {
         scales: {
             y: {

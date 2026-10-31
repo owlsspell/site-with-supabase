@@ -1,6 +1,5 @@
 import SearchInput from '@/app/components/custom/inputs/search-input'
 import OrdersSelect from '@/app/components/dashboard/orders/orders-select';
-// import OrdersTable from '@/app/components/dashboard/orders/orders-table';
 const OrdersTable = dynamic(() => import('@/app/components/dashboard/orders/orders-table'))
 import DashboardLayout from '@/app/components/layouts/dashboard-layout'
 import { createClient } from '@/utils/supabase/server';

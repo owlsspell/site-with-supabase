@@ -123,10 +123,7 @@ export default function OrdersTable({ orders, searchParams }: OrderWithEvent & {
     }, [searchParams.table])
 
     const defaultColDef = useMemo(() => {
-        return {
-            // flex: 1,
-            // sortable: true,
-        };
+        return {};
     }, []);
 
     useEffect(() => setRowData(orders), [orders])

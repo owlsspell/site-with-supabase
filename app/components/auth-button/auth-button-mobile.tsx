@@ -39,7 +39,6 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
                 id: 2, text: "Create Events", url: "/manage/events/create",
                 handleClick: () => dispatch(clearEventData())
             },
-            // { id: 3, text: "Help Centre" },
         ],
     ]
     const list = useMemo(() => {
