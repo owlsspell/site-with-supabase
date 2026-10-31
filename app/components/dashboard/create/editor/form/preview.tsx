@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import dayjs from 'dayjs';
 import Image from 'next/image'
-import React, { useMemo } from 'react'
+import React from 'react'
 import calendar from "@/images/icons/calendar.svg"
 import locationIcon from "@/images/icons/location-event.svg"
 import eventTime from "@/images/icons/event-time.svg"
@@ -10,7 +10,7 @@ import timezone from 'dayjs/plugin/timezone'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import Button from '@/app/components/custom/buttons/button';
 import supabase from '@/utils/supabase/client-supabase';
-import { handleError } from '@/lib/functions';
+import { formatEventDuration, handleError } from '@/lib/functions';
 import { setPublicEventStatus } from '@/lib/features/createEventSlice';
 import Swal from 'sweetalert2';
 
@@ -24,21 +24,10 @@ export default function Preview() {
     const isPublic = useAppSelector((state) => state.createdEventInfo.eventInfo.publish)
     const dispatch = useAppDispatch()
 
-    const durationEvent = useMemo(() => {
-        if (!startDate || !startTime || !endDate || !endTime) return null
-        const timeStart = dayjs(startDate + startTime).format('ddd, D MMM YYYY H:mm')
-        const timeEnd = dayjs(endDate + endTime).format('ddd, D MMM YYYY H:mm')
-        const ms = dayjs(timeEnd).diff(dayjs(timeStart))
-        const days = dayjs(timeEnd).diff(dayjs(timeStart), "d")
-        if (days === 1) return '1 day'
-        const minutes = Math.round(ms / 1000 / 60)
-        const hours = Math.round(minutes / 60)
-        if (minutes === 60) return '1 hour'
-        if (hours >= 24) return `${days} days`
-        if (minutes < 60) return `${minutes} min`
-        if (minutes % 60 === 0) return `${hours} hour`
-        return `${hours} hour ${minutes % 60} min`
-    }, [startDate, startTime, endDate, endTime,])
+    const durationEvent = formatEventDuration(
+        startDate && startTime ? `${startDate}T${startTime}` : null,
+        endDate && endTime ? `${endDate}T${endTime}` : null,
+    )
 
     function createMarkup(html: any) {
         return {
