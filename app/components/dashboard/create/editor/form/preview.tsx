@@ -11,7 +11,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat'
 import Button from '@/app/components/custom/buttons/button';
 import supabase from '@/utils/supabase/client-supabase';
 import { handleError } from '@/lib/functions';
-import { tooglePublicEventStatus } from '@/lib/features/createEventSlice';
+import { setPublicEventStatus } from '@/lib/features/createEventSlice';
 import Swal from 'sweetalert2';
 
 dayjs.extend(advancedFormat)
@@ -48,7 +48,7 @@ export default function Preview() {
     const publishEvent = async () => {
         const { error } = await supabase.from('events').update({ publish: !isPublic }).eq("id", eventId)
         if (error) return handleError()
-        dispatch(tooglePublicEventStatus(!isPublic))
+        dispatch(setPublicEventStatus(!isPublic))
         Swal.fire({
             icon: "success",
             title: "Good job!",

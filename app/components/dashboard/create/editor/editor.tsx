@@ -9,7 +9,7 @@ import { setActiveStep, toogleStepsStatus } from '@/lib/features/drawerStepsSlic
 import GeneralInfo from './form/general-info';
 import CreateTickets from './form/tickets/create-tickets';
 import { ValidationErrors } from 'final-form';
-import { setEventInfo, toogleEventStatus } from '@/lib/features/createEventSlice';
+import { setEventInfo, setEventCreated } from '@/lib/features/createEventSlice';
 import useWindowSize from '@/hooks/useWindowSizes';
 import { useSearchParams } from 'next/navigation';
 import { getMultiOptionsFromValue, getOptionFromValue, getValueFromOption, getValuesArrayFromOptions, handleError, isClearField } from '@/lib/functions';
@@ -144,8 +144,8 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
     const { domLoaded } = useWindowSize();
 
     useEffect(() => {
-        if (!eventInfo.id || eventInfo.id.length === 0) dispatch(toogleEventStatus(false))
-        else dispatch(toogleEventStatus(true))
+        if (!eventInfo.id || eventInfo.id.length === 0) dispatch(setEventCreated(false))
+        else dispatch(setEventCreated(true))
     }, [eventInfo.id])
 
     if (!domLoaded) return <></>

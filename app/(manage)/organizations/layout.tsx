@@ -8,10 +8,10 @@ export default function Layout({
     children: React.ReactNode;
 }>) {
     return (
-        <div> <NavbarDashboard />
+        <> <NavbarDashboard />
             <Suspense fallback={<Loading />}>
                 {children}
             </Suspense>
-        </div>
+        </>
     );
 }
