@@ -2,7 +2,7 @@
 import supabase from "@/utils/supabase/client-supabase";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import GrayButton from "../buttons/gray-button";
+import Button from "../custom/buttons/button";
 import { User } from "@supabase/supabase-js";
 
 export default function Comments({
@@ -38,7 +38,7 @@ export default function Comments({
             {comment.author.username}
           </div>
           {!user ? "" :
-            <GrayButton onClick={() => deleteComment(comment.id)} text="Delete" />
+            <Button variant="gray" onClick={() => deleteComment(comment.id)} text="Delete" />
           }
         </div>
         <p>{comment.text}</p>

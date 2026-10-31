@@ -30,7 +30,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
 
     const categoriesList = useMemo(() => categories.map(category => ({ value: category.name, label: category.name })), [categories])
 
-    const subCategories = useMemo(() => {
+    const subcategories = useMemo(() => {
         if (!category.input.value) return []
         const result = getSubcategories(category.input.value)
         if (!result) return []
@@ -58,7 +58,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                             )}
                         </Field>
                     </div>
-                    {subCategories.length ? <div>
+                    {subcategories.length ? <div>
                         <h5>Subcategory</h5>
                         <Field name="subcategory">
                             {({ input }) => (
@@ -66,7 +66,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                                     {...input}
                                     id='subcategory'
                                     onChange={handleChangeSubcategory}
-                                    options={subCategories}
+                                    options={subcategories}
                                     isMulti
                                 />
                             )}
@@ -78,6 +78,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                             {({ input }) => (
                                 <Select
                                     {...input}
+                                    id="format"
                                     value={input.value.value ? input.value : ''}
                                     options={formatsArray}
                                 />
@@ -90,6 +91,7 @@ export default function EventCategory({ isOpened, categories }: { isOpened: bool
                             {({ input }) => (
                                 <Select
                                     {...input}
+                                    id="language"
                                     options={languageArray}
                                     isMulti
                                 />

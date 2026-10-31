@@ -1,7 +1,7 @@
 import React from 'react'
 import EventCard from '../../events/event-card';
 
-import BlueEditButton from '../../buttons/blue-edit-button';
+import BlueEditButton from '../../custom/buttons/blue-edit-button';
 
 export default function ResultsSection({ events }: { events: EventType[] | null }) {
     return (

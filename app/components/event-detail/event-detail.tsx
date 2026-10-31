@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import dayjs from 'dayjs'
 import calendar from "@/images/icons/calendar.svg"
@@ -10,22 +10,12 @@ import TicketCounter from './ticket-counter'
 import { createClient } from '@/utils/supabase/server'
 import Comments from './comments'
 import NewComment from './new-comment'
+import { formatEventDuration } from '@/lib/functions'
 dayjs.extend(advancedFormat)
 dayjs.extend(timezone)
 
 export default async function EventDetail({ event, images }: { event: EventWithAuthor, images: string[] }) {
-    const durationEvent = useMemo(() => {
-        const ms = dayjs(event.timeEnd).diff(dayjs(event.timeStart))
-        const days = dayjs(event.timeEnd).diff(dayjs(event.timeStart), "d")
-        if (days === 1) return '1 day'
-        const minutes = Math.round(ms / 1000 / 60)
-        const hours = Math.round(minutes / 60)
-        if (minutes === 60) return '1 hour'
-        if (hours >= 24) return `${days} days`
-        if (minutes < 60) return `${minutes} min`
-        if (minutes % 60 === 0) return `${hours} hour`
-        return `${hours} hour ${minutes % 60} min`
-    }, [event.timeStart, event.timeEnd])
+    const durationEvent = formatEventDuration(event.timeStart, event.timeEnd)
 
     const supabase = createClient()
     const { data } = await supabase.from("comments").select('*, author: profiles(*)').eq("event_id", event.id).order('created_at', { ascending: false });

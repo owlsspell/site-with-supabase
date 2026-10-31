@@ -2,7 +2,7 @@
 import supabase from "@/utils/supabase/client-supabase"
 import { Session } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
-import GrayButton from "../buttons/gray-button"
+import Button from "../custom/buttons/button"
 import Link from "next/link"
 import AuthButtonMobile from "./auth-button-mobile"
 
@@ -32,11 +32,11 @@ export default function AuthButton({ session }: { session: Session | null }) {
                                 <img src={session?.user?.user_metadata.avatar_url} alt="" />
                                 : <i className="ri-user-3-line"></i>}
                         </Link>
-                        <GrayButton text="Log out" onClick={onLogOut} />
+                        <Button variant="gray" text="Log out" onClick={onLogOut} />
                     </div>
                 </>
                 :
-                <GrayButton text="Log In" onClick={signInWithGithub} />}
+                <Button variant="gray" text="Log In" onClick={signInWithGithub} />}
             <AuthButtonMobile avatar={session?.user?.user_metadata.avatar_url} session={session} onLogOut={onLogOut} />
         </>
     )

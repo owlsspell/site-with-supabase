@@ -32,21 +32,20 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
             { id: 1, text: "Log out", handleClick: onLogOut },
         ]
     ]
-    const linksIfAnonymus: LinkType[][] = [
+    const linksIfAnonymous: LinkType[][] = [
         [
             { id: 1, text: "Find Events", url: "/events" },
             {
                 id: 2, text: "Create Events", url: "/manage/events/create",
                 handleClick: () => dispatch(clearEventData())
             },
-            // { id: 3, text: "Help Centre" },
         ],
     ]
     const list = useMemo(() => {
         if (session?.user?.id) {
             return drawerLinks
         }
-        return linksIfAnonymus
+        return linksIfAnonymous
     }, [session])
     return (
         <div className='mobile_header'>
