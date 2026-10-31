@@ -32,7 +32,7 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
             { id: 1, text: "Log out", handleClick: onLogOut },
         ]
     ]
-    const linksIfAnonymus: LinkType[][] = [
+    const linksIfAnonymous: LinkType[][] = [
         [
             { id: 1, text: "Find Events", url: "/events" },
             {
@@ -45,7 +45,7 @@ export default function AuthButtonMobile({ avatar, session, onLogOut }: { avatar
         if (session?.user?.id) {
             return drawerLinks
         }
-        return linksIfAnonymus
+        return linksIfAnonymous
     }, [session])
     return (
         <div className='mobile_header'>

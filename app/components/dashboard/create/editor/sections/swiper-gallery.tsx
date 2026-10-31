@@ -13,7 +13,7 @@ import { ChangeEvent, useMemo } from 'react';
 import { useForm } from 'react-final-form';
 import { useAppSelector } from '@/lib/hooks';
 
-export default function SwiperGalery({ image }: { image: null | File }) {
+export default function SwiperGallery({ image }: { image: null | File }) {
     const slides = [image1, image2, image3]
     const url = useMemo(() => !image ? null : URL.createObjectURL(image as Blob | MediaSource), [image])
     const form = useForm();

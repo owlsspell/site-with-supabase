@@ -36,7 +36,7 @@ async function getOrders(searchParams: SearchParams) {
             query = query.gte('created_at', setDayStart.subtract(Number(filter), 'month'))
     }
 
-    const getTikets = async () => {
+    const getTickets = async () => {
         const { data, error } = await query;
         if (error) throw new Error('Could not find event')
         return transformArray(data)
@@ -49,10 +49,10 @@ async function getOrders(searchParams: SearchParams) {
 
     switch (table) {
         case 'tickets':
-            return await getTikets()
+            return await getTickets()
         case 'orders':
             return await getOrders()
-        default: return getTikets()
+        default: return getTickets()
     }
 }
 export default async function OrdersPage({ searchParams }: { searchParams: SearchParams }) {
