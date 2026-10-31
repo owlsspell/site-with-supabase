@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect } from 'react'
-import OrangeButton from '@/app/components/custom/buttons/orange-button';
+import Button from '@/app/components/custom/buttons/button';
 import supabase from '@/utils/supabase/client-supabase';
 import { Form } from 'react-final-form';
 import { EventState } from '@/types/custom-types';
@@ -164,7 +164,7 @@ export default function EventEditor({ categories }: { categories: CategoryType[]
                             {page === 'general' &&
                                 <div className='editor_footer'>
                                     <button type='submit'>
-                                        <OrangeButton className='editor_button' text="Save and continue" onClick={handleSubmit} />
+                                        <Button variant="orange" className='editor_button' text="Save and continue" onClick={handleSubmit} />
                                     </button>
                                 </div>}
                         </div>

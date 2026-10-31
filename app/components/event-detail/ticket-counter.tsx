@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import info from '@/images/icons/info.svg'
-import OrangeButton from '../custom/buttons/orange-button'
+import Button from '../custom/buttons/button'
 import Image from 'next/image'
 import supabase from '@/utils/supabase/client-supabase'
 import Swal from 'sweetalert2'
@@ -50,7 +50,7 @@ export default function TicketCounter({ eventId }: { eventId: string }) {
                         <div className="event_price-icon"><Image src={info} width={24} height={24} alt=""></Image></div>
                     </div>
                 </div>
-                <OrangeButton text="Reserve a spot" className='reserve-button' onClick={reserveSpot} />
+                <Button variant="orange" text="Reserve a spot" className='reserve-button' onClick={reserveSpot} />
             </div>
         </div>
     )

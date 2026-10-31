@@ -1,7 +1,7 @@
 'use client'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import React, { useEffect, useMemo } from 'react'
-import DarkGrayButton from '../custom/buttons/dark-gray-button'
+import Button from '../custom/buttons/button'
 import { changeFilter, clearFilter } from '@/lib/features/eventsFiltersSlice'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
@@ -41,7 +41,7 @@ export default function FilterHeader() {
             {filterCounts === 0 ? "" : <>
                 <div className='filter_header-container'>
                     <span>{filterCounts}  filter applied</span>
-                    {filtersName.map(name => <DarkGrayButton text={getButtonText(name)} key={name} onClick={() => handleClick(name)} />)}
+                    {filtersName.map(name => <Button variant="dark-gray" text={getButtonText(name)} key={name} onClick={() => handleClick(name)} />)}
                 </div>
                 <hr />
             </>}

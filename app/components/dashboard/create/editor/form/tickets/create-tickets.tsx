@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 import { ReactComponent as Arrow_down } from "@/images/icons/arrow-down.svg"
 import TicketModal from './ticket-modal';
 import { useField, useForm } from 'react-final-form';
-import GrayButton from '@/app/components/custom/buttons/gray-button';
-import OrangeButton from '@/app/components/custom/buttons/orange-button';
+import Button from '@/app/components/custom/buttons/button';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { toogleStepsStatus } from '@/lib/features/drawerStepsSlice';
 import supabase from '@/utils/supabase/client-supabase';
@@ -79,8 +78,8 @@ export default function CreateTickets({ goToNextStep }: { goToNextStep: (step: n
                 <div className="ticket_list">
                     <TicketsInfo isFree={isFree.input.value || ticketsInfo?.isFree} ticketCount={ticketCount.input.value || ticketsInfo?.ticketCount} ticketCost={ticketCost.input.value || ticketsInfo?.ticketCost} ticketCurrency={ticketCurrency.input.value.value || ticketsInfo?.ticketCurrency} handleDrawer={handleDrawer} />
                     <div className='ticket_list-buttons-container'>
-                        <GrayButton text="Change tickets" onClick={clearTickets} className='btn_action-gray' />
-                        <OrangeButton text="Go next" onClick={handleClick} />
+                        <Button variant="gray" text="Change tickets" onClick={clearTickets} className='btn_action-gray' />
+                        <Button variant="orange" text="Go next" onClick={handleClick} />
                     </div>
                 </div >
                 : <div className="ticket_list">

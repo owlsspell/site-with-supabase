@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useId, useState } from 'react';
-import OrangeButton from '../../custom/buttons/orange-button';
+import Button from '../../custom/buttons/button';
 import { clearEventData } from '@/lib/features/createEventSlice';
 import { useAppDispatch } from '@/lib/hooks';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -40,7 +40,7 @@ export default function SearchPanel() {
                     styles={customSlyles}
                 />
             </div>
-            <OrangeButton text='Create Event' href="/manage/events/create" onClick={() => dispatch(clearEventData())} className="events_page-btn" />
+            <Button variant="orange" text='Create Event' href="/manage/events/create" onClick={() => dispatch(clearEventData())} className="events_page-btn" />
         </div>
     )
 }

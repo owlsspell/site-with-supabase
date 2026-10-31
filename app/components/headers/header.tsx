@@ -1,5 +1,5 @@
 import React from 'react'
-import GrayButton from '../custom/buttons/gray-button'
+import Button from '../custom/buttons/button'
 import AuthButtonServer from '../auth-button/auth-button-server'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -22,9 +22,9 @@ export default function Header() {
             </form>
             <div className='header_right'>
                 <nav className='header_nav'>
-                    <GrayButton text="Find Events" href="/events" />
-                    <GrayButton text="Create Events" href="/manage/events/create" isClearEventData={true} />
-                    {/* <GrayButton text="Help Centre" /> */}
+                    <Button variant="gray" text="Find Events" href="/events" />
+                    <Button variant="gray" text="Create Events" href="/manage/events/create" isClearEventData={true} />
+                    {/* <Button variant="gray" text="Help Centre" /> */}
                 </nav>
                 <AuthButtonServer />
             </div>

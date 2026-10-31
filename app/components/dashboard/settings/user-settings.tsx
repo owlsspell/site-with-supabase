@@ -1,5 +1,5 @@
 import React from 'react'
-import OrangeButton from '../../custom/buttons/orange-button'
+import Button from '../../custom/buttons/button'
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import ModalMessage from '../../modal/modal-message';
@@ -30,7 +30,7 @@ export default function UserSettings({ user, searchParams }: { user: UserProfile
                     <span>Username</span>
                     <input type='text' name="username" defaultValue={user.username ?? ''} />
                 </label>
-                <OrangeButton type="button" text="Save" className='settings_section-btn' />
+                <Button variant="orange" type="button" text="Save" className='settings_section-btn' />
                 {show && <ModalMessage />}
             </form>
         </div>
