@@ -1,6 +1,6 @@
 import React from 'react'
 import EditorSection from '../editor-section'
-import SwiperGalery from '../sections/swiper-galery';
+import SwiperGallery from '../sections/swiper-gallery';
 import EventTitle from '../sections/event-title';
 import EventDateAndLocation from '../sections/event-date-and-location';
 import AboutEvent from '../sections/about-event';
@@ -25,7 +25,7 @@ export default function GeneralInfo({ isOpened, categories, values, touched, err
     return (
         <>
             <EditorSection classes="editor_picture" field="image" touched={touched?.image} errors={errors?.image} image={values.image}  >
-                <SwiperGalery image={values.image} />
+                <SwiperGallery image={values.image} />
             </EditorSection>
             <EditorSection isOpened={isOpened.overview} field="overview" touched={touched?.title || touched?.summary} errors={errors?.overview} >
                 <EventTitle isOpened={isOpened.overview} />
