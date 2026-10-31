@@ -4,6 +4,8 @@ type CommentRow = DB["public"]["Tables"]["comments"]["Row"];
 type ProfileRow = DB["public"]["Tables"]["profiles"]["Row"];
 type EventRow = DB["public"]["Tables"]["events"]["Row"];
 type CategoryRow = DB["public"]["Tables"]["categories"]["Row"];
+type OrderRow = DB["public"]["Tables"]["orders"]["Row"];
+
 declare global {
   type Database = DB;
   type UserProfile = ProfileRow;
@@ -13,4 +15,7 @@ declare global {
     author: { username: string | null; avatar_url: string } | null;
   };
   type CategoryType = CategoryRow;
+  type OrderWithEvent = OrderRow & {
+    event: { name: string; price: string; currency: string };
+  };
 }

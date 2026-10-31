@@ -1,0 +1,26 @@
+@use "variables" as v;
+
+.search_input-container {
+    position: relative;
+
+    .search_input {
+        padding-left: 45px;
+        border-radius: 0;
+    }
+
+    .search_icon {
+        position: absolute;
+        top: 12px;
+        left: 10px;
+        font-size: v.$font_size * 2;
+        color: v.$gray;
+        cursor: pointer;
+    }
+
+    &.orders_page {
+        .search_input {
+            width: 33%;
+            min-width: 330px;
+        }
+    }
+}

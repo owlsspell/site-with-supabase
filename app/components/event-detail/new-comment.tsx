@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import React from 'react'
-import GrayButton from '../buttons/gray-button'
+import Button from '../custom/buttons/button'
 
 export default function NewComment({ eventId }: { eventId: string }) {
     const addComment = async (formData: FormData) => {
@@ -18,7 +18,7 @@ export default function NewComment({ eventId }: { eventId: string }) {
     return (
         <form action={addComment} className='newcomment' >
             <textarea name="comment" />
-            <GrayButton type="button" text="Add comment" />
+            <Button variant="gray" type="submit" text="Add comment" />
         </form>
     )
 }

@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node init && next dev",
+    "build": "node init && next build",
+    "start": "node init && next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -15,6 +15,8 @@
     "@types/dompurify": "^3.0.5",
     "@types/draftjs-to-html": "^0.8.4",
     "@types/react-draft-wysiwyg": "^1.13.8",
+    "ag-grid-react": "^32.3.2",
+    "chart.js": "^4.4.6",
     "dayjs": "^1.11.11",
     "dompurify": "^3.1.6",
     "draft-js": "^0.11.7",
@@ -22,6 +24,7 @@
     "final-form": "^4.20.10",
     "next": "14.2.3",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-draft-wysiwyg": "^1.15.0",
     "react-final-form": "^6.5.9",

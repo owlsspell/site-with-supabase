@@ -73,7 +73,6 @@ async function getEvents(filters: FiltersType & { search?: string }) {
         const { data } = await query;
         return result = data
     }
-
     return result ?? []
 }
 

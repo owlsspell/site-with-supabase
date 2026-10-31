@@ -1,4 +1,21 @@
+import dayjs from "dayjs";
 import Swal from "sweetalert2";
+
+export const formatEventDuration = (start: string | null | undefined, end: string | null | undefined) => {
+  if (!start || !end) return "";
+
+  const ms = dayjs(end).diff(dayjs(start));
+  const days = dayjs(end).diff(dayjs(start), "day");
+  if (days === 1) return "1 day";
+
+  const minutes = Math.round(ms / 1000 / 60);
+  const hours = Math.round(minutes / 60);
+  if (minutes === 60) return "1 hour";
+  if (hours >= 24) return `${days} days`;
+  if (minutes < 60) return `${minutes} min`;
+  if (minutes % 60 === 0) return `${hours} hour`;
+  return `${hours} hour ${minutes % 60} min`;
+};
 
 export const isSomeFieldFull = (event: any) => {
   if (!event) return;

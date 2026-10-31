@@ -12,7 +12,7 @@ type PropsData = {
     image?: null | File
 }
 
-export default function ContainerHoc({ children, isOpened, classes, errors, touched, field, image }: PropsData) {
+export default function EditorSection({ children, isOpened, classes, errors, touched, field, image }: PropsData) {
     const form = useForm();
     const eventImage = useAppSelector((state) => state.createdEventInfo.eventInfo.image)
     const handleClick = () => {

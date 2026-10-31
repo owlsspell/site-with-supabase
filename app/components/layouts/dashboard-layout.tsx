@@ -4,7 +4,7 @@ export default function DashboardLayout({ children, title, subtitle }: { childre
     return (
         <div className='dashboard_container'>
             <div className="dashboard_workspace events_page">
-                <div className="dashboard_workspace-subtitle">{subtitle}</div>
+                {subtitle && <div className="dashboard_workspace-subtitle">{subtitle}</div>}
                 <h1 className='dashboard_workspace-title'>{title}</h1>
                 {children}
             </div>

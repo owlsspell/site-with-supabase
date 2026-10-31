@@ -13,13 +13,13 @@ export default function NavbarDashboard() {
         { "name": "Finance", "path": "finance" },
         { "name": "Settings", "path": "settings" }]
     const pathname = usePathname()
-    const adress = useMemo(() => pathname.split('/').pop(), [pathname])
+    const address = useMemo(() => pathname.split('/').pop(), [pathname])
     return (
         <aside className='navbar-left'>
             <div className='navbar_logo navbar_item'><Link href="/">e</Link></div>
             {navbar.map(item =>
                 <Link href={"/organizations/" + item.path} key={item.name}>
-                    <div className={`navbar_item${adress === item.path || item.active?.includes(pathname) ? ' navbar_item-active' : ""}`}>
+                    <div className={`navbar_item${address === item.path || item.active?.includes(pathname) ? ' navbar_item-active' : ""}`}>
                         {getIconNavbar(item.name)}
                         <div className='navbar_item-popup'>
                             {item.path}
