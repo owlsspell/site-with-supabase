@@ -1,5 +1,5 @@
 'use client'
-import { setEventInfo, setEventTicketsInfo, toogleEventStatus } from '@/lib/features/createEventSlice'
+import { setEventInfo, setEventTicketsInfo } from '@/lib/features/createEventSlice'
 import { useAppDispatch } from '@/lib/hooks'
 import supabase from '@/utils/supabase/client-supabase'
 import dayjs from 'dayjs'

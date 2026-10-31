@@ -1,8 +1,10 @@
 import ResultsSection from '@/app/components/dashboard/dashboard-all-events/results-section';
 import SearchPanel from '@/app/components/dashboard/dashboard-all-events/search-panel';
 import DashboardLayout from '@/app/components/layouts/dashboard-layout';
+import Loading from '@/app/(home)/loading';
 import { createClient } from '@/utils/supabase/server';
 import dayjs from 'dayjs';
+import { Suspense } from 'react';
 
 async function getUserEvents(searchParams: { filter: string, search: string }) {
     const { filter, search } = searchParams
@@ -30,8 +32,12 @@ export default async function AllEventsPage({ searchParams }: { searchParams: { 
     const events = await getUserEvents(searchParams)
     return (
         <DashboardLayout title="Events">
-            <SearchPanel />
-            <ResultsSection events={events} />
+            <Suspense fallback={<Loading />}>
+                <SearchPanel />
+            </Suspense>
+            <Suspense fallback={<Loading />}>
+                <ResultsSection events={events} />
+            </Suspense>
         </DashboardLayout>
     )
 }

@@ -12,12 +12,12 @@ export default function EventTitle({ isOpened }: { isOpened: boolean }) {
         <div className='editor_title' >
             <div className={isOpened ? 'show' : 'hidden'}>
                 <h1>Event overview</h1>
-                <h3>Event title</h3>
+                <label htmlFor="event-title"><h3>Event title</h3></label>
                 <p>Be clear and descriptive with a title that tells people what your event is about.</p>
-                <Field name="title" component="input" />
-                <h3>Summary</h3>
+                <Field id="event-title" name="title" component="input" />
+                <label htmlFor="event-summary"><h3>Summary</h3></label>
                 <p>{"Grab people's attention with a short description about your event. Attendees will see this at the top of your event page."}</p>
-                <Field name="summary" component="input" />
+                <Field id="event-summary" name="summary" component="input" />
             </div>
             <div className={isOpened ? 'hidden' : 'show'}>
                 {isSomeFieldFull([eventInfo?.name, eventInfo?.description, title.input.value, summary.input.value]) ?

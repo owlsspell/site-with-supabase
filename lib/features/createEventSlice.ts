@@ -39,10 +39,10 @@ export const createEventSlice = createSlice({
     setEventTicketsInfo: (state, data) => {
       state.ticketsInfo = data.payload;
     },
-    toogleEventStatus: (state, data) => {
+    setEventCreated: (state, data) => {
       state.isEventCreated = data.payload;
     },
-    tooglePublicEventStatus: (state, data) => {
+    setPublicEventStatus: (state, data) => {
       state.eventInfo.publish = data.payload;
     },
     clearEventData: (state) => {
@@ -71,8 +71,8 @@ export const createEventSlice = createSlice({
 export const {
   setEventInfo,
   setEventTicketsInfo,
-  toogleEventStatus,
-  tooglePublicEventStatus,
+  setEventCreated,
+  setPublicEventStatus,
   clearEventData
 } = createEventSlice.actions;
 export default createEventSlice.reducer;

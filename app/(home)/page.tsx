@@ -4,10 +4,20 @@ import EventsListServer from "../components/homepage/homepage-events/events-list
 import { createClient } from "@/utils/supabase/server";
 
 async function getCategories() {
-  const supabase = createClient()
-  const { data, error } = await supabase.from("categories").select('*').order('id')
-  if (error) throw new Error('Could not find event')
-  return data
+  try {
+    const supabase = createClient()
+    const { data, error } = await supabase.from("categories").select('*').order('id')
+
+    if (error) {
+      console.error('Error loading categories:', error.message)
+      return []
+    }
+
+    return data ?? []
+  } catch (e) {
+    console.error('Supabase error:', e)
+    return []
+  }
 }
 
 export default async function Home() {
@@ -16,7 +26,7 @@ export default async function Home() {
   return (
     <main>
       <FullbleedBanner />
-      <IconCategories categories={categories} />
+      {categories.length > 0 && <IconCategories categories={categories} />}
       <EventsListServer />
     </main>
   );
